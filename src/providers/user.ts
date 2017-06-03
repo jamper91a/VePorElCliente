@@ -1,39 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Api } from './api';
+import { Util } from './util';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-/**
- * Most apps have the concept of a User. This is a simple provider
- * with stubs for login/signup/etc.
- *
- * This User provider makes calls to our API at the `login` and `signup` endpoints.
- *
- * By default, it expects `login` and `signup` to return a JSON object of the shape:
- *
- * ```json
- * {
- *   status: 'success',
- *   user: {
- *     // User fields your app needs, like "id", "name", "email", etc.
- *   }
- * }
- * ```
- *
- * If the `status` field is not `success`, then an error is detected and returned.
- */
+
 @Injectable()
 export class User {
   _user: any;
 
-  constructor(public http: Http, public api: Api) {
+  constructor(public http: Http, public api: Api, public util: Util) {
   }
 
-  /**
-   * Send a POST request to our login endpoint with the data
-   * the user entered on the form.
-   */
   login(accountInfo: any) {
     let seq = this.api.post('login', accountInfo).share();
 
@@ -41,7 +20,7 @@ export class User {
       .map(res => res.json())
       .subscribe(res => {
         // If the API returned a successful response, mark the user as logged in
-        if (res.status == 'success') {
+        if (res!=null) {
           this._loggedIn(res);
         } else {
         }
@@ -52,10 +31,6 @@ export class User {
     return seq;
   }
 
-  /**
-   * Send a POST request to our signup endpoint with the data
-   * the user entered on the form.
-   */
   signup(accountInfo: any) {
     let seq = this.api.post('signup', accountInfo).share();
 
@@ -73,17 +48,15 @@ export class User {
     return seq;
   }
 
-  /**
-   * Log the user out, which forgets the session
-   */
   logout() {
     this._user = null;
   }
 
-  /**
-   * Process a login/signup response to store user data
-   */
   _loggedIn(resp) {
-    this._user = resp.user;
+    this.util.savePreference(this.util.constants.logged, true);
+    this.util.savePreference(this.util.constants.user, JSON.stringify(resp.user));
+    this.util.savePreference(this.util.constants.token, resp.token);
   }
+
+
 }

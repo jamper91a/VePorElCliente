@@ -11,14 +11,19 @@
 
   "MAP_TITLE": "Mapa",
 
-  "TUTORIAL_SLIDE1_TITLE": "Bienvenido/a al Ionic Super Starter",
-  "TUTORIAL_SLIDE1_DESCRIPTION": "El <b>Ionic Super Starter</b> es un starter de Ionic completo con muchas páginas preconstruidas y mejores prácticas.",
+  "TUTORIAL_SKIP_BUTTON" : "Omitir",
+  "TUTORIAL_CONTINUE_BUTTON" : "Continuar",
+
+  "TUTORIAL_SLIDE1_TITLE": "Bienvenido/a VePorEl",
+  "TUTORIAL_SLIDE1_DESCRIPTION": "En esta aplicación podrás xxxxxxxx.",
 
   "TUTORIAL_SLIDE2_TITLE": "Cómo usar el Super Starter",
   "TUTORIAL_SLIDE2_DESCRIPTION": "Monta los varios tipos de página que quieras y quita los que no. Hemos incluido muchas estructuras de página comunes en apps móviles, como páginas de inicio de sesión y registro, pestañas, y esta página de tutorial.",
 
   "TUTORIAL_SLIDE3_TITLE": "Empezando",
   "TUTORIAL_SLIDE3_DESCRIPTION": "¿Necesitas ayuda? Échale un vistazo al README del Super Starter para ver el tutorial completo.",
+
+  "WELCOME_INTRO" : "Aquí podras iniciar tu camino para disfrutar de todos los beneficios",
 
   "SETTINGS_TITLE": "Ajustes",
   "SETTINGS_OPTION1": "Opción 1",

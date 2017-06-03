@@ -5,6 +5,7 @@ import { ItemCreatePage } from '../item-create/item-create';
 import { ItemDetailPage } from '../item-detail/item-detail';
 
 import { Items } from '../../providers/providers';
+import { User } from '../../providers/providers';
 
 import { Item } from '../../models/item';
 
@@ -15,7 +16,7 @@ import { Item } from '../../models/item';
 export class ListMasterPage {
   currentItems: Item[];
 
-  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public items: Items, public user: User,public modalCtrl: ModalController) {
     this.currentItems = this.items.query();
   }
 
@@ -23,6 +24,7 @@ export class ListMasterPage {
    * The view loaded, let's query our items for the list
    */
   ionViewDidLoad() {
+    var aux = localStorage;
   }
 
   /**
