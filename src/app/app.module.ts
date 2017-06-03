@@ -20,12 +20,14 @@ import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
+import { HomePage } from '../pages/home/home';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
 import { User } from '../providers/user';
 import { Util } from '../providers/util';
+import { VePorEl } from '../providers/veporel';
 
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
@@ -77,7 +79,8 @@ let pages = [
   SignupPage,
   TabsPage,
   TutorialPage,
-  WelcomePage
+  WelcomePage,
+  HomePage
 ];
 
 export function declarations() {
@@ -98,6 +101,7 @@ export function providers() {
     SplashScreen,
     StatusBar,
     Util,
+    VePorEl,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
