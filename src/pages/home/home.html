@@ -10,7 +10,7 @@
 	<ion-grid>
 		<ion-row>
 			<ion-col col-12 text-center>
-				
+
 			</ion-col>
 		</ion-row>
 		<ion-row>
@@ -22,7 +22,7 @@
 			<ion-col text-center>
 				<ion-list>
 					<ion-item>
-						<ion-input type="text" readonly value="{{address}}" placeholder="{{'obteniendo_direccion' | translate}}" text-center></ion-input>
+						<ion-input (click)="change_address()" readonly type="text" value="{{address}}" placeholder="{{'obteniendo_direccion' | translate}}" text-center></ion-input>
 					</ion-item>
 
 				</ion-list>
@@ -62,5 +62,5 @@
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-	
+
 </ion-content>
