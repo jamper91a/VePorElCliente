@@ -27,8 +27,10 @@ import { Util } from './util';
        // a search field set in options.
        options.search = !options.search && p || options.search;
      }
-
-     return this.http.get(this.util.url + endpoint, options);
+     if(endpoint.includes("http"))
+       return this.http.get(endpoint, options);
+     else
+       return this.http.get(this.util.url + endpoint, options);
    }
 
    post(endpoint: string, body: any, options?: RequestOptions) {
@@ -42,20 +44,31 @@ import { Util } from './util';
        headers.append('Authorization', 'Bearer '+token);
        options.headers = headers;
      }
-     
-     return this.http.post(this.util.url + endpoint, body, options);
+     if(endpoint.includes("http:"))
+       return this.http.get(endpoint, options);
+     else
+       return this.http.post(this.util.url + endpoint, body, options);
    }
 
    put(endpoint: string, body: any, options?: RequestOptions) {
-     return this.http.put(this.util.url + endpoint, body, options);
+     if(endpoint.includes("http:"))
+       return this.http.get(endpoint, options);
+     else
+       return this.http.put(this.util.url + endpoint, body, options);
    }
 
    delete(endpoint: string, options?: RequestOptions) {
-     return this.http.delete(this.util.url + endpoint, options);
+     if(endpoint.includes("http:"))
+       return this.http.get(endpoint, options);
+     else
+       return this.http.delete(this.util.url + endpoint, options);
    }
 
    patch(endpoint: string, body: any, options?: RequestOptions) {
-     return this.http.put(this.util.url + endpoint, body, options);
+     if(endpoint.includes("http:"))
+       return this.http.get(endpoint, options);
+     else
+       return this.http.put(this.util.url + endpoint, body, options);
    }
 
  }

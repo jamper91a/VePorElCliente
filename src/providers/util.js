@@ -9,7 +9,8 @@ var Util = (function () {
             user: 'user',
             token: 'token'
         };
-        this.url = "http://localhost:1337";
+        this.url = "http://localhost:1337/";
+        this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
     }
     Util.prototype.savePreference = function (key, value) {
         localStorage.setItem(key, value);

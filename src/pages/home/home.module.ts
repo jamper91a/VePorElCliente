@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { HomePage } from './home';
+import { Geolocation } from '@ionic-native/geolocation'
 
 @NgModule({
   declarations: [
@@ -11,6 +12,9 @@ import { HomePage } from './home';
   ],
   exports: [
     HomePage
+  ],
+  providers:[
+  	Geolocation
   ]
 })
 export class HomePageModule {}

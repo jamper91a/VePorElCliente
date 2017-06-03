@@ -11,6 +11,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
+import { Util } from '../../providers/providers';
+import { Geolocation } from '@ionic-native/geolocation';
 /**
  * Generated class for the HomePage page.
  *
@@ -18,13 +20,16 @@ import { VePorEl } from '../../providers/providers';
  * on Ionic pages and navigation.
  */
 var HomePage = (function () {
-    function HomePage(navCtrl, navParams, translateService, veporel) {
+    function HomePage(navCtrl, navParams, translateService, veporel, util, geolocation) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.translateService = translateService;
         this.veporel = veporel;
+        this.util = util;
+        this.geolocation = geolocation;
+        this.address = "";
         var self = this;
-        //Obtentgo los banners
+        //Obtengo los banners
         this.veporel.get_banners('Bogotá').subscribe(function (result) {
             var body = result._body;
             if (body != null) {
@@ -36,7 +41,20 @@ var HomePage = (function () {
         });
     }
     HomePage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad HomePage');
+        var self = this;
+        this.geolocation.getCurrentPosition().then(function (resp) {
+            console.log(resp);
+            self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(function (result) {
+                if (result != null) {
+                    var body = JSON.parse(result._body);
+                    self.address = body.results[0].formatted_address;
+                    console.log(body.results[0].);
+                }
+            }, function (error) {
+            });
+        }).catch(function (error) {
+            console.log('Error getting location', error);
+        });
     };
     return HomePage;
 }());
@@ -49,7 +67,9 @@ HomePage = __decorate([
     __metadata("design:paramtypes", [NavController,
         NavParams,
         TranslateService,
-        VePorEl])
+        VePorEl,
+        Util,
+        Geolocation])
 ], HomePage);
 export { HomePage };
 //# sourceMappingURL=home.js.map

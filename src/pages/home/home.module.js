@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { HomePage } from './home';
+import { Geolocation } from '@ionic-native/geolocation';
 var HomePageModule = (function () {
     function HomePageModule() {
     }
@@ -22,6 +23,9 @@ HomePageModule = __decorate([
         ],
         exports: [
             HomePage
+        ],
+        providers: [
+            Geolocation
         ]
     })
 ], HomePageModule);

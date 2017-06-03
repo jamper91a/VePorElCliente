@@ -33,7 +33,10 @@ var Api = (function () {
             // a search field set in options.
             options.search = !options.search && p || options.search;
         }
-        return this.http.get(this.url + '/' + endpoint, options);
+        if (endpoint.includes("http"))
+            return this.http.get(endpoint, options);
+        else
+            return this.http.get(this.util.url + endpoint, options);
     };
     Api.prototype.post = function (endpoint, body, options) {
         var token = this.util.getPreference(this.util.constants.token);
@@ -45,16 +48,28 @@ var Api = (function () {
             headers.append('Authorization', 'Bearer ' + token);
             options.headers = headers;
         }
-        return this.http.post(this.url + '/' + endpoint, body, options);
+        if (endpoint.includes("http:"))
+            return this.http.get(endpoint, options);
+        else
+            return this.http.post(this.util.url + endpoint, body, options);
     };
     Api.prototype.put = function (endpoint, body, options) {
-        return this.http.put(this.url + '/' + endpoint, body, options);
+        if (endpoint.includes("http:"))
+            return this.http.get(endpoint, options);
+        else
+            return this.http.put(this.util.url + endpoint, body, options);
     };
     Api.prototype.delete = function (endpoint, options) {
-        return this.http.delete(this.url + '/' + endpoint, options);
+        if (endpoint.includes("http:"))
+            return this.http.get(endpoint, options);
+        else
+            return this.http.delete(this.util.url + endpoint, options);
     };
     Api.prototype.patch = function (endpoint, body, options) {
-        return this.http.put(this.url + '/' + endpoint, body, options);
+        if (endpoint.includes("http:"))
+            return this.http.get(endpoint, options);
+        else
+            return this.http.put(this.util.url + endpoint, body, options);
     };
     return Api;
 }());
