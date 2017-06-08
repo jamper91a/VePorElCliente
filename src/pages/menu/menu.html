@@ -1,11 +1,63 @@
 <ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+    <ion-list inset *ngIf="isLogged==true">
+      <button ion-item (click)="openPage(homePage)">
+        <ion-icon name="home"></ion-icon>
+        {{'inicio' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="paper"></ion-icon>
+        {{'paute_con_nosotros' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="mail"></ion-icon>
+        {{'help' | translate}}
+      </button>
+      <button ion-item (click)="closeMenu()">
+        <ion-icon name="help-circle"></ion-icon>
+        {{'como_funciona_text' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="information-circle"></ion-icon>
+        {{'legal_text' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="log-out"></ion-icon>
+        {{'logout' | translate}}
+      </button>
+    </ion-list>
+    <ion-list *ngIf="isLogged==false">
+      <button ion-item (click)="openPage(homePage)">
+        <ion-icon name="home"></ion-icon>
+        {{'inicio' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="log-in"></ion-icon>
+        {{'login' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="person-add"></ion-icon>
+        {{'registrar' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="paper"></ion-icon>
+        {{'paute_con_nosotros' | translate}}
+      </button>
+      <button ion-item (click)="closeMenu()">
+        <ion-icon name="help-circle"></ion-icon>
+        {{'como_funciona_text' | translate}}
+      </button>
+      <button ion-item >
+        <ion-icon name="information-circle"></ion-icon>
+        {{'legal_text' | translate}}
       </button>
     </ion-list>
   </ion-content>
 </ion-menu>
 
-<ion-nav #content [root]="rootPage"></ion-nav>
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

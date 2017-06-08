@@ -1,0 +1,66 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle icon-only>
+			<ion-icon name='menu'></ion-icon>
+		</button>
+		<img src="assets/img/logo_horizontal.png" height="40" class="center" />
+	</ion-navbar>
+</ion-header>
+<ion-content padding>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12 text-center>
+
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col text-center>
+				{{'estoy_en' | translate}}
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col text-center>
+				<ion-list>
+					<ion-item>
+            <ion-label> <ion-icon name="locate"></ion-icon></ion-label>
+						<ion-input (click)="change_address()" readonly type="text" value="{{address}}" placeholder="{{'obteniendo_direccion' | translate}}" text-center></ion-input>
+					</ion-item>
+          <ion-item>
+            <button ion-button block>
+              {{'cambiar_direccion' | translate}}
+            </button>
+          </ion-item>
+				</ion-list>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12>
+				<ion-slides pager>
+					<ion-slide *ngFor="let banner of banners">
+						<img src="{{util.url}}{{banner.url_photo}}" class="slide-image"/>
+					</ion-slide>
+				</ion-slides>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6-auto>
+				<button ion-button block>
+					{{'buscar_promociones' | translate}}
+				</button>
+			</ion-col>
+			<ion-col col-6-auto>
+				<button ion-button block>
+					{{'busqueda_manual' | translate}}
+				</button>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6-auto>
+				<button ion-button block>
+					{{'directorio_negocios' | translate}}
+				</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

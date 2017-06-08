@@ -5,6 +5,8 @@
 export class Util{
 
   public constants;
+  public url:string;
+  public google_api_key:string;
 
   constructor() {
     this.constants = {
@@ -13,6 +15,8 @@ export class Util{
       user: 'user',
       token: 'token'
     }
+    this.url = "http://localhost:1337/";
+    this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 
   public savePreference(key:string, value:any)
