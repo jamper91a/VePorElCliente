@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
 import { MapPage } from '../map/map';
+import { FindPromotiosPage } from '../find-promotios/find-promotios';
 /**
  * Generated class for the HomePage page.
  *
@@ -22,13 +23,16 @@ import { MapPage } from '../map/map';
    private url:string;
    private address:string="";
    private addres_for_another_place:boolean=false;
+   private latitude:number;
+   private longitude:number;
    constructor(
      public navCtrl: NavController,
      public navParams: NavParams,
-     public translateService: TranslateService,
      public veporel:VePorEl,
      public util:Util,
      private geolocation: Geolocation,
+     private translateService: TranslateService,
+     public toastCtrl: ToastController,
      ) {
 
 
@@ -39,12 +43,18 @@ import { MapPage } from '../map/map';
      let self = this;
      try {
        this.address = this.navParams.get('address');
-       if(this.address)
+       if(this.address){
          this.addres_for_another_place = true;
+         this.latitude = this.navParams.get('latitude');
+         this.longitude = this.navParams.get('longitude');
+       }
+
      } catch (e) {
      }
      if (!this.addres_for_another_place) {
        this.geolocation.getCurrentPosition().then((resp) => {
+         self.latitude = resp.coords.latitude;
+         self.longitude = resp.coords.longitude;
          self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
            (result: any) => {
              if (result != null) {
@@ -84,8 +94,29 @@ import { MapPage } from '../map/map';
      );
    }
 
-   private change_address(){
+  public change_address(){
      this.navCtrl.push(MapPage);
+   }
+
+   public find_promotios(){
+     let self = this;
+     if(this.address){
+       this.navCtrl.setRoot(FindPromotiosPage, {
+         "type_find_promotio": self.util.constants.find_promotio_by_location,
+         "latitude" : self.latitude,
+         "longitude" : self.longitude
+       });
+     }else{
+       this.translateService.get("error_9").subscribe((res) => {
+         let toast = self.toastCtrl.create({
+           message: res,
+           duration: 3000,
+           position: 'top'
+         });
+         toast.present();
+       })
+
+     }
    }
 
  }

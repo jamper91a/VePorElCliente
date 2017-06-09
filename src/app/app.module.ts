@@ -21,6 +21,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomePage } from '../pages/home/home';
+import { FindPromotiosPage } from '../pages/find-promotios/find-promotios';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -37,6 +38,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Geolocation } from '@ionic-native/geolocation';
+
+import { IonicImageLoader } from 'ionic-image-loader';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -81,7 +84,8 @@ let pages = [
   TabsPage,
   TutorialPage,
   WelcomePage,
-  HomePage
+  HomePage,
+  FindPromotiosPage
 ];
 
 export function declarations() {
@@ -123,7 +127,8 @@ export function providers() {
       }
     }),
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    IonicImageLoader.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: entryComponents(),

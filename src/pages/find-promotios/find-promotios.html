@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!--<ion-list>-->
+    <!--<ion-item >-->
+      <ion-card *ngFor="let promotio of promotions">
+        <!--<img src="{{util.url}}{{promotio.url_photo}}"/>-->
+        <img-loader src="{{util.url}}{{promotio.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        <ion-card-content>
+          <ion-card-title>
+            {{promotio.name}}
+          </ion-card-title>
+          <p>
+            {{promotio.description}}
+          </p>
+        </ion-card-content>
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small  icon-left disabled>
+              <ion-icon name="map"></ion-icon>
+              {{transform_distance(promotio.distance)}}
+            </button>
+          </ion-col>
+          <ion-col text-center>
+            <button ion-button clear small  icon-left disabled>
+              <ion-icon name='logo-usd'></ion-icon>
+              {{promotio.price | currency:'USD':false:'1.0-0'}}
+            </button>
+          </ion-col>
+          <ion-col text-right>
+            <button ion-button clear small  icon-left>
+              <ion-icon name='share-alt'></ion-icon>
+              VePorEl
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+
+
+      <!--<ion-thumbnail item-start>-->
+        <!--<img src="{{util.url}}{{promotio.url_photo}}">-->
+      <!--</ion-thumbnail>-->
+      <!--<h2>{{promotio.name}}</h2>-->
+      <!--<p>{{promotio.description}}</p>-->
+      <!--<p>{{transform_distance(promotio.distance)}}</p>-->
+      <!--<button ion-button clear item-end>Ve Por El</button>-->
+    <!--</ion-item>-->
+  <!--</ion-list>-->
+
+</ion-content>

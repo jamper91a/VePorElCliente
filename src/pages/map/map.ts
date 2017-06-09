@@ -17,7 +17,9 @@ export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('txt_adress') txt_adress;
 
-  address:string;
+  private address:string;
+  private latitude:number;
+  private longitude:number;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
     private geolocation: Geolocation,
@@ -73,8 +75,8 @@ export class MapPage {
 
   private get_address(latitude:number, longitude:number){
     let self = this;
-    console.log("latitude: "+latitude);
-    console.log("longitude: "+longitude);
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.veporel.get_address(latitude,longitude).subscribe(
       (result:any)=>{
         if(result!=null){
@@ -88,7 +90,9 @@ export class MapPage {
 
   private return_new_address(){
     this.navCtrl.push(HomePage, {
-      address: this.address
+      address: this.address,
+      latitude: this.latitude,
+      longitude: this.longitude
     });
   }
 }
