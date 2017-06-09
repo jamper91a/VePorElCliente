@@ -17,7 +17,8 @@ export class Util{
       latitude: 'latitude',
       longitude: 'longitude',
       type_find_promotio: 'type_find_promotio',
-      find_promotio_by_location: 'find_promotio_by_location'
+      find_promotio_by_location: 'find_promotio_by_location',
+      category_id: 'category_id'
     }
     this.url = "http://localhost:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

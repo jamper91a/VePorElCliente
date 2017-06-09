@@ -1,7 +1,7 @@
 
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle icon-only>
+    <button ion-button menuToggle icon-only end>
       <ion-icon name='menu'></ion-icon>
     </button>
     <img src="assets/img/logo_horizontal.png" height="40" class="center" />
@@ -9,7 +9,7 @@
 </ion-header>
 <ion-content class="card-background-page">
 
-  <ion-card *ngFor="let category of categories">
+  <ion-card *ngFor="let category of categories" (click)="find_subcategories(category.id)">
     <img-loader src="{{util.url}}{{category.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
     <div class="card-title">{{category.name}}</div>
   </ion-card>

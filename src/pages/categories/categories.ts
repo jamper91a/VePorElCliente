@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
+import { SubcategoriesPage } from '../subcategories/subcategories';
 
 /**
  * Generated class for the CategoriesPage page.
@@ -39,6 +40,12 @@ export class CategoriesPage {
 
   ionViewDidLoad() {
 
+  }
+
+  public find_subcategories(category_id:number){
+    this.navCtrl.push(SubcategoriesPage,{
+      category_id: category_id
+    })
   }
 
 }

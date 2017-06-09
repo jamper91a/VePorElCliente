@@ -79,5 +79,19 @@ export class VePorEl {
     return seq;
   }
 
+  get_subcategories(category_id:number){
+    let seq = this.api.get('subcategories', {category_id: category_id}).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
 
 }

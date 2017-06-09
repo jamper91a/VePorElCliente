@@ -101,7 +101,7 @@ import { CategoriesPage } from '../categories/categories';
    public find_promotios(){
      let self = this;
      if(this.address){
-       this.navCtrl.setRoot(FindPromotiosPage, {
+       this.navCtrl.push(FindPromotiosPage, {
          "type_find_promotio": self.util.constants.find_promotio_by_location,
          "latitude" : self.latitude,
          "longitude" : self.longitude
@@ -120,7 +120,7 @@ import { CategoriesPage } from '../categories/categories';
    }
 
    public find_categories(){
-     this.navCtrl.setRoot(CategoriesPage);
+     this.navCtrl.push(CategoriesPage);
    }
 
  }
