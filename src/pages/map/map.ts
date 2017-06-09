@@ -20,6 +20,7 @@ export class MapPage {
   private address:string;
   private latitude:number;
   private longitude:number;
+  private city_name:string;
 
   constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
     private geolocation: Geolocation,
@@ -82,6 +83,7 @@ export class MapPage {
         if(result!=null){
           let body = JSON.parse(result._body);
           var aux = body.results[0].formatted_address;
+          self.city_name = body.results[0].address_components[5].short_name;
           self.address = aux;
           self.txt_adress.setFocus();
         } }
@@ -89,10 +91,13 @@ export class MapPage {
   }
 
   public return_new_address(){
-    this.navCtrl.push(HomePage, {
+    let parameters = {
       address: this.address,
       latitude: this.latitude,
-      longitude: this.longitude
-    });
+      longitude: this.longitude,
+      city_name: this.city_name
+    }
+    console.log(parameters);
+    this.navCtrl.push(HomePage, parameters);
   }
 }

@@ -18,9 +18,11 @@ export class Util{
       longitude: 'longitude',
       type_find_promotio: 'type_find_promotio',
       find_promotio_by_location: 'find_promotio_by_location',
-      category_id: 'category_id'
+      category_id: 'category_id',
+      city_name: 'city_name',
+      address: 'address'
     }
-    this.url = "http://localhost:1337/";
+    this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 
