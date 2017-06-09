@@ -42,6 +42,18 @@ export class FindPromotiosPage {
 
           }
         );
+      }else if (this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_subcategory){
+        let subcategory_id = this.navParams.get(this.util.constants.subcategory_id);
+        self.veporel.get_offers_by_subcategory(subcategory_id).subscribe(
+          (result: any) => {
+            if (result != null) {
+              self.promotions = JSON.parse(result._body);
+            }
+          },
+          error => {
+
+          }
+        );
       }
 
     } catch (e) {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
+import {FindPromotiosPage} from "../find-promotios/find-promotios";
 
 /**
  * Generated class for the SubcategoriesPage page.
@@ -45,7 +46,11 @@ export class SubcategoriesPage {
 
   }
 
-  ionViewDidLoad() {
+  public get_offers(subcategory_id:number){
+    this.navCtrl.push(FindPromotiosPage,{
+      "type_find_promotio": this.util.constants.find_promotion_by_subcategory,
+      "subcategory_id": subcategory_id
+    })
   }
 
 }

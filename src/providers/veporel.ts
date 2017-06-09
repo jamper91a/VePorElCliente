@@ -93,5 +93,25 @@ export class VePorEl {
     return seq;
   }
 
+  get_offers_by_subcategory(subcategory_id:number){
+    let body ={
+      latitude : this.util.getPreference(this.util.constants.latitude),
+      longitude : this.util.getPreference(this.util.constants.longitude),
+      city_name : this.util.getPreference(this.util.constants.city_name),
+      subcategory_id : subcategory_id,
+    };
+    let seq = this.api.post('offers/find_by_subcategorie', body).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
 
 }
