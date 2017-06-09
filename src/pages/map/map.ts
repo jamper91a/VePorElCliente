@@ -88,7 +88,7 @@ export class MapPage {
     );
   }
 
-  private return_new_address(){
+  public return_new_address(){
     this.navCtrl.push(HomePage, {
       address: this.address,
       latitude: this.latitude,

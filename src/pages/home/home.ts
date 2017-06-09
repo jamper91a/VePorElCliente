@@ -6,6 +6,7 @@ import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
 import { MapPage } from '../map/map';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
+import { CategoriesPage } from '../categories/categories';
 /**
  * Generated class for the HomePage page.
  *
@@ -20,7 +21,6 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
  export class HomePage {
 
    private banners:any;
-   private url:string;
    private address:string="";
    private addres_for_another_place:boolean=false;
    private latitude:number;
@@ -117,6 +117,10 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
        })
 
      }
+   }
+
+   public find_categories(){
+     this.navCtrl.setRoot(CategoriesPage);
    }
 
  }
