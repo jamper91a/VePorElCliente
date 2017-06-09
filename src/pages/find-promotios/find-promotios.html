@@ -29,8 +29,7 @@
           </ion-col>
           <ion-col text-center>
             <button ion-button clear small  icon-left disabled>
-              <ion-icon name='logo-usd'></ion-icon>
-              {{promotio.price | currency:'USD':false:'1.0-0'}}
+              {{promotio.price | currency:'USD':true:'1.0-0'}}
             </button>
           </ion-col>
           <ion-col text-right>
