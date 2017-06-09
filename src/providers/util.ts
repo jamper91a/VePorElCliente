@@ -13,7 +13,11 @@ export class Util{
       logged: 'logged',
       tutorial: 'tutorial',
       user: 'user',
-      token: 'token'
+      token: 'token',
+      latitude: 'latitude',
+      longitude: 'longitude',
+      type_find_promotio: 'type_find_promotio',
+      find_promotio_by_location: 'find_promotio_by_location'
     }
     this.url = "http://localhost:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

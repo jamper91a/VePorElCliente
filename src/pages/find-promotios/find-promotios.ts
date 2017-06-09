@@ -1,0 +1,61 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { VePorEl } from '../../providers/providers';
+import { Util } from '../../providers/providers';
+
+/**
+ * Generated class for the FindPromotiosPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+@IonicPage()
+@Component({
+  selector: 'page-find-promotios',
+  templateUrl: 'find-promotios.html',
+})
+export class FindPromotiosPage {
+  private type_find_promotion;
+  private promotions:any[];
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public veporel:VePorEl,
+    public util:Util,
+  ) {
+  }
+
+  ionViewDidLoad() {
+    let self = this;
+    try {
+      this.type_find_promotion = this.navParams.get(this.util.constants.type_find_promotio);
+      if(this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotio_by_location){
+        let latitude = this.navParams.get(this.util.constants.latitude);
+        let longitude = this.navParams.get(this.util.constants.longitude);
+        self.veporel.get_promotions_by_location(latitude, longitude).subscribe(
+          (result: any) => {
+            if (result != null) {
+              self.promotions = JSON.parse(result._body);
+            }
+          },
+          error => {
+
+          }
+        );
+      }
+
+    } catch (e) {
+    }
+  }
+
+  public transform_distance(distance:number){
+    let d:number= parseInt((distance*100).toFixed(0));
+    if(d<1000){
+      return d+ " Mts";
+    }else{
+      return (d/1000).toFixed(0)+ " Kms"
+    }
+  }
+
+
+}
