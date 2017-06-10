@@ -73,4 +73,8 @@ export class OfferPage {
     return days+hours+minutes;
   }
 
+  public go_back(){
+    this.navCtrl.pop();
+  }
+
 }

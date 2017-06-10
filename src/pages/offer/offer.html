@@ -10,6 +10,7 @@
   <div *ngIf="offer">
     <h2 text-center>{{'producto_encotrado' | translate}}</h2>
     <p text-center>{{offer.id}}</p>
+    <img-loader src="{{util.url}}{{offer.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
     <ion-list >
       <ion-item>
         <b>{{'nombre' | translate}}</b>
@@ -45,4 +46,18 @@
       </ion-item>
     </ion-list>
   </div>
+  <ion-grid *ngIf="!offers_user">
+    <ion-row>
+      <ion-col col-6-auto>
+        <button ion-button block>
+          {{'app_name' | translate}}
+        </button>
+      </ion-col>
+      <ion-col col-6-auto>
+        <button ion-button block (click)="go_back()">
+          {{'nueva_busqueda' | translate}}
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
