@@ -9,7 +9,6 @@ import { Util } from '../../providers/providers';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-find-promotios',
   templateUrl: 'find-promotios.html',
@@ -33,6 +32,18 @@ export class FindPromotiosPage {
         let latitude = this.navParams.get(this.util.constants.latitude);
         let longitude = this.navParams.get(this.util.constants.longitude);
         self.veporel.get_promotions_by_location(latitude, longitude).subscribe(
+          (result: any) => {
+            if (result != null) {
+              self.promotions = JSON.parse(result._body);
+            }
+          },
+          error => {
+
+          }
+        );
+      }else if (this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_subcategory){
+        let subcategory_id = this.navParams.get(this.util.constants.subcategory_id);
+        self.veporel.get_offers_by_subcategory(subcategory_id).subscribe(
           (result: any) => {
             if (result != null) {
               self.promotions = JSON.parse(result._body);

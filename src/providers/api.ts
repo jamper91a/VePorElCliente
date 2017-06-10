@@ -17,6 +17,13 @@ import { Util } from './util';
        options = new RequestOptions();
      }
 
+     var token = this.util.getPreference(this.util.constants.token);
+     if (token) {
+       let headers = new Headers();
+       headers.append('Authorization', 'Bearer ' + token);
+       options.headers = headers;
+     }
+
      // Support easy query params for GET requests
      if (params) {
        let p = new URLSearchParams();

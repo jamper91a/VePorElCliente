@@ -22,6 +22,8 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { HomePage } from '../pages/home/home';
 import { FindPromotiosPage } from '../pages/find-promotios/find-promotios';
+import { CategoriesPage } from '../pages/categories/categories';
+import { SubcategoriesPage } from '../pages/subcategories/subcategories';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -85,7 +87,9 @@ let pages = [
   TutorialPage,
   WelcomePage,
   HomePage,
-  FindPromotiosPage
+  FindPromotiosPage,
+  CategoriesPage,
+  SubcategoriesPage
 ];
 
 export function declarations() {
