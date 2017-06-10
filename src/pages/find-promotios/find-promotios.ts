@@ -9,7 +9,6 @@ import { Util } from '../../providers/providers';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-find-promotios',
   templateUrl: 'find-promotios.html',

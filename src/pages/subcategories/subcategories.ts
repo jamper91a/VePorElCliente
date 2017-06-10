@@ -10,7 +10,6 @@ import {FindPromotiosPage} from "../find-promotios/find-promotios";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-subcategories',
   templateUrl: 'subcategories.html',
