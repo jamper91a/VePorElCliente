@@ -34,11 +34,14 @@
       </ion-item>
       <ion-item>
         <b>{{'tiempo_oferta' | translate}}</b>
-        <p item-end> {{calculate_time(offer.finish)}} </p>
+        <div item-end>
+          <p>{{calculate_time(offer.finish)}}</p>
+        </div>
       </ion-item>
       <ion-item>
         <b>{{'calificacion_negocio' | translate}}</b>
-        <p item-end> {{offer.calification}} </p>
+        <rating item-end [(ngModel)]="offer.calification" readOnly="true">
+        </rating>
       </ion-item>
     </ion-list>
   </div>

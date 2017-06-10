@@ -43,6 +43,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { IonicImageLoader } from 'ionic-image-loader';
+import { MomentModule } from 'angular2-moment';
+import { Ionic2RatingModule } from 'ionic2-rating';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -134,7 +136,9 @@ export function providers() {
     }),
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    IonicImageLoader.forRoot()
+    IonicImageLoader.forRoot(),
+    MomentModule,
+    Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: entryComponents(),
