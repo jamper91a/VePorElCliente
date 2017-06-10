@@ -113,5 +113,22 @@ export class VePorEl {
     return seq;
   }
 
+  get_offer_by_id(offer_id:number){
+    let body ={
+      id : offer_id
+    };
+    let seq = this.api.post('offers/find_by_id', body).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
 
 }

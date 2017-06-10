@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+  <div *ngIf="offer">
+    <h2 text-center>{{'producto_encotrado' | translate}}</h2>
+    <p text-center>{{offer.id}}</p>
+    <ion-list >
+      <ion-item>
+        <b>{{'nombre' | translate}}</b>
+        <p item-end>{{offer.name}}</p>
+      </ion-item>
+      <ion-item>
+        <b>{{'producto' | translate}}</b>
+        <p item-end>{{offer.product_name}} </p>
+      </ion-item>
+      <ion-item>
+        <b>{{'precio_normal' | translate}}</b>
+        <p item-end>{{offer.regular_price | currency:'USD':true:'1.0-0'}}</p>
+      </ion-item>
+      <ion-item>
+        <b>{{'precio_veporel' | translate}}</b>
+        <p item-end>{{offer.price | currency:'USD':true:'1.0-0'}}</p>
+
+      </ion-item>
+      <ion-item>
+        <b>{{'ahorro' | translate}}</b>
+        <p item-end> {{calculate_saving(offer.regular_price,offer.price) | currency:'USD':true:'1.0-0'}} </p>
+      </ion-item>
+      <ion-item>
+        <b>{{'tiempo_oferta' | translate}}</b>
+        <p item-end> {{calculate_time(offer.finish)}} </p>
+      </ion-item>
+      <ion-item>
+        <b>{{'calificacion_negocio' | translate}}</b>
+        <p item-end> {{offer.calification}} </p>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

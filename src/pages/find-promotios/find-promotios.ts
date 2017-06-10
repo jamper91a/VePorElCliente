@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
+import { OfferPage } from '../offer/offer';
 
 /**
  * Generated class for the FindPromotiosPage page.
@@ -66,6 +67,12 @@ export class FindPromotiosPage {
     }else{
       return (d/1000).toFixed(0)+ " Kms"
     }
+  }
+
+  public go_to_offer(offer_id:number){
+    this.navCtrl.push(OfferPage,{
+      offer_id: offer_id
+    })
   }
 
 

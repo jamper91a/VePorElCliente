@@ -7,26 +7,26 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-      <ion-card *ngFor="let promotio of promotions">
-        <img-loader src="{{util.url}}{{promotio.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id)">
+        <img-loader src="{{util.url}}{{promotion.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
         <ion-card-content>
           <ion-card-title>
-            {{promotio.name}}
+            {{promotion.name}}
           </ion-card-title>
           <p>
-            {{promotio.description}}
+            {{promotion.description}}
           </p>
         </ion-card-content>
         <ion-row no-padding>
           <ion-col>
             <button ion-button clear small  icon-left disabled>
               <ion-icon name="map"></ion-icon>
-              {{transform_distance(promotio.distance)}}
+              {{transform_distance(promotion.distance)}}
             </button>
           </ion-col>
           <ion-col text-center>
             <button ion-button clear small  icon-left disabled>
-              {{promotio.price | currency:'USD':true:'1.0-0'}}
+              {{promotion.price | currency:'USD':true:'1.0-0'}}
             </button>
           </ion-col>
           <ion-col text-right>
