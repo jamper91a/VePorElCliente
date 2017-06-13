@@ -1,14 +1,13 @@
 /**
  * Created by Usuario on 02/06/2017.
  */
-
 export class Util{
 
   public constants;
   public url:string;
   public google_api_key:string;
-
-  constructor() {
+  constructor(
+  ) {
     this.constants = {
       logged: 'logged',
       tutorial: 'tutorial',
@@ -24,7 +23,7 @@ export class Util{
       address: 'address',
       subcategory_id: 'subcategory_id',
       offer_id: 'offer_id'
-    }
+    };
     this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }

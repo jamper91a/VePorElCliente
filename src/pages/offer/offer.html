@@ -46,11 +46,14 @@
       </ion-item>
     </ion-list>
   </div>
-  <ion-grid *ngIf="!offers_user">
+  <ion-grid >
     <ion-row>
       <ion-col col-6-auto>
-        <button ion-button block>
+        <button ion-button block (click)="take_offer()" *ngIf="!offers_user">
           {{'app_name' | translate}}
+        </button>
+        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user">
+          {{'reclamar' | translate}}
         </button>
       </ion-col>
       <ion-col col-6-auto>

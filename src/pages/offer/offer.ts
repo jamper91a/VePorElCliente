@@ -1,25 +1,30 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
+import { MapOfferPage } from '../map-offer/map-offer';
 import moment from 'moment';
+import { LoadingController } from 'ionic-angular';
 @Component({
   selector: 'page-offer',
   templateUrl: 'offer.html',
 })
 export class OfferPage {
 
+  private offer_id:number;
   public offer:any[];
   public  offers_user:any[];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public veporel:VePorEl,
-    public util:Util
+    public util:Util,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
   ) {
     let self = this;
-    let offer_id = this.navParams.get(this.util.constants.offer_id);
-    self.veporel.get_offer_by_id(offer_id).subscribe(
+    this.offer_id = this.navParams.get(this.util.constants.offer_id);
+    self.veporel.get_offer_by_id(this.offer_id).subscribe(
       (result: any) => {
         if (result != null) {
           let body = JSON.parse(result._body);
@@ -76,5 +81,43 @@ export class OfferPage {
   public go_back(){
     this.navCtrl.pop();
   }
+
+  public take_offer(){
+    let self=this;
+    let loader = this.loadingCtrl.create({
+      content: "Reservando ..."
+    });
+    loader.present();
+
+    self.veporel.take_offer(this.offer_id).subscribe(
+      (result: any) => {
+        if (result != null) {
+          loader.dismiss();
+          self.go_to_offer();
+        }
+      },
+      error => {
+        let body = JSON.parse(error._body);
+        loader.dismiss();
+        let toast = self.toastCtrl.create({
+          message: body.message,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+        self.go_back();
+
+      }
+    );
+  }
+
+  public go_to_offer()
+  {
+    let self = this;
+    this.navCtrl.push(MapOfferPage,{
+      offer_id: self.offer_id
+    });
+  }
+
 
 }
