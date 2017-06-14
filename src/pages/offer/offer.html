@@ -9,7 +9,7 @@
 <ion-content padding >
   <div *ngIf="offer">
     <h2 text-center>{{'producto_encotrado' | translate}}</h2>
-    <p text-center>{{offer.id}}</p>
+    <p text-center *ngIf="offers_user">{{'codigo_oferta' | translate}} CO-{{offers_user.id}}</p>
     <img-loader src="{{util.url}}{{offer.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
     <ion-list >
       <ion-item>
@@ -49,10 +49,10 @@
   <ion-grid >
     <ion-row>
       <ion-col col-6-auto>
-        <button ion-button block (click)="take_offer()" *ngIf="!offers_user">
+        <button ion-button block (click)="take_offer()" *ngIf="!offers_user"  [disabled]="cantidad>0">
           {{'app_name' | translate}}
         </button>
-        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="cantidad>0">
+        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user">
           {{'reclamar' | translate}}
         </button>
       </ion-col>

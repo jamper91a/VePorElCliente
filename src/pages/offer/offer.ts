@@ -37,7 +37,7 @@ export class OfferPage {
           self.offer = body.offer;
           self.offers_user = body.offers_user;
           self.cantidad = body.cantidad;
-          if(self.cantidad>0){
+          if(self.cantidad>0 && !self.offers_user){
             this.translate.get(["opciones",
               "uso_bloqueado",
               "aceptar",
