@@ -25,7 +25,7 @@ export class FindPromotiosPage {
   ) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     let self = this;
     try {
       this.type_find_promotion = this.navParams.get(this.util.constants.type_find_promotio);

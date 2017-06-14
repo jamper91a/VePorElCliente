@@ -14,14 +14,8 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-list>
-      <ion-item>
-        <ion-label stacked>{{'address' | translate}}</ion-label>
-        <ion-input #txt_adress type="text" [(ngModel)]="address" placeholder="{{'obteniendo_direccion' | translate}}" text-center autofocus></ion-input>
-      </ion-item>
-    </ion-list>
-    <button ion-button block (click)="return_new_address()">
-      {{'aceptar' | translate}}
+    <button ion-button block (click)="show_options()">
+      {{'opciones' | translate}}
     </button>
   </ion-toolbar>
 </ion-footer>

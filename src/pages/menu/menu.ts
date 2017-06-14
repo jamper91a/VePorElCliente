@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Util } from '../../providers/util';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the MenuPage page.
@@ -15,6 +16,8 @@ import { Util } from '../../providers/util';
 })
 export class MenuPage {
   private rootPage;
+  private loginPage;
+  private homePage;
   private isLogged = false;
   constructor(
     public navCtrl: NavController,
@@ -22,6 +25,8 @@ export class MenuPage {
     public util: Util
   ) {
     this.rootPage = HomePage;
+    this.loginPage = LoginPage;
+    this.homePage = HomePage;
   }
 
   ionViewDidLoad() {
@@ -31,7 +36,7 @@ export class MenuPage {
   }
 
   openPage(p){
-
+    this.rootPage = p;
   }
 
 }

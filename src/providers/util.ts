@@ -23,7 +23,9 @@ export class Util{
       address: 'address',
       subcategory_id: 'subcategory_id',
       offer_id: 'offer_id',
-      branch_id: 'branch_id'
+      branch_id: 'branch_id',
+      offers_user: 'offers_user',
+      offer: 'offer',
     };
     this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

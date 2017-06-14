@@ -10,7 +10,7 @@
         <ion-icon name="home"></ion-icon>
         {{'inicio' | translate}}
       </button>
-      <button ion-item >
+      <button ion-item  (click)="openPage(loginPage)">
         <ion-icon name="paper"></ion-icon>
         {{'paute_con_nosotros' | translate}}
       </button>
@@ -18,7 +18,7 @@
         <ion-icon name="mail"></ion-icon>
         {{'help' | translate}}
       </button>
-      <button ion-item (click)="closeMenu()">
+      <button ion-item>
         <ion-icon name="help-circle"></ion-icon>
         {{'como_funciona_text' | translate}}
       </button>
@@ -36,8 +36,8 @@
         <ion-icon name="home"></ion-icon>
         {{'inicio' | translate}}
       </button>
-      <button ion-item >
-        <ion-icon name="log-in"></ion-icon>
+      <button ion-item (click)="openPage(loginPage)">
+        <ion-icon name="log-in" ></ion-icon>
         {{'login' | translate}}
       </button>
       <button ion-item >
@@ -48,7 +48,7 @@
         <ion-icon name="paper"></ion-icon>
         {{'paute_con_nosotros' | translate}}
       </button>
-      <button ion-item (click)="closeMenu()">
+      <button ion-item >
         <ion-icon name="help-circle"></ion-icon>
         {{'como_funciona_text' | translate}}
       </button>

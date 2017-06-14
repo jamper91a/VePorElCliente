@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 
-import { MainPage } from '../../pages/pages';
+import { HomePage } from '../home/home';
 
 import { User } from '../../providers/user';
 
@@ -38,7 +38,7 @@ export class LoginPage {
         this.serverErrorString = values.SERVER_ERROR;
       })
     }else{
-      this.navCtrl.push(MainPage);
+      this.navCtrl.push(HomePage);
     }
   }
 
@@ -47,7 +47,7 @@ export class LoginPage {
   doLogin() {
     this.user.login(this.account).subscribe((resp) => {
       this.util.savePreference(this.util.constants.logged, true);
-      this.navCtrl.push(MainPage);
+      this.navCtrl.push(HomePage);
     }, (err) => {
       try {
         let body = JSON.parse(err._body);

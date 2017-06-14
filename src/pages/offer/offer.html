@@ -52,7 +52,7 @@
         <button ion-button block (click)="take_offer()" *ngIf="!offers_user">
           {{'app_name' | translate}}
         </button>
-        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user">
+        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="cantidad>0">
           {{'reclamar' | translate}}
         </button>
       </ion-col>

@@ -5,6 +5,8 @@ import { Util } from '../../providers/providers';
 import { MapOfferPage } from '../map-offer/map-offer';
 import moment from 'moment';
 import { LoadingController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'page-offer',
   templateUrl: 'offer.html',
@@ -13,6 +15,7 @@ export class OfferPage {
 
   private offer_id:number;
   private branch_id:number;
+  private cantidad:number;
   public offer:any[];
   public  offers_user:any[];
   constructor(
@@ -22,6 +25,7 @@ export class OfferPage {
     public util:Util,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
+    public translate: TranslateService,
   ) {
     let self = this;
     this.offer_id = this.navParams.get(this.util.constants.offer_id);
@@ -32,6 +36,23 @@ export class OfferPage {
           let body = JSON.parse(result._body);
           self.offer = body.offer;
           self.offers_user = body.offers_user;
+          self.cantidad = body.cantidad;
+          if(self.cantidad>0){
+            this.translate.get(["opciones",
+              "uso_bloqueado",
+              "aceptar",
+            ]).subscribe(
+              (values) => {
+                let toast = this.toastCtrl.create({
+                  message: values.uso_bloqueado,
+                  position: 'bottom',
+                  duration: 3000
+                });
+
+                toast.present();
+              });
+
+          }
         }
       },
       error => {
@@ -117,7 +138,8 @@ export class OfferPage {
   {
     let self = this;
     this.navCtrl.push(MapOfferPage,{
-      offer_id: self.offer_id
+      offers_user: self.offers_user,
+      offer: self.offer
     });
   }
 
