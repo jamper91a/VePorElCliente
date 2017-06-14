@@ -62,6 +62,7 @@
   "error_7": "No hay subcategorías disponibles",
   "error_8": "No hay promociones disponibles",
   "error_9": "Debes obtener tu ubicación",
+  "error_10": "No se pudo enviarla calificación, por favor intentalo mas tarde",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",
@@ -149,7 +150,7 @@
   "ayuda": "Ayuda",
   "no_encontramos_datos": "No encontramos datos con esa información",
   "subcategorias": "Productos",
-  "muchas_gracias": "¡ Muchas gracias !</string",
+  "muchas_gracias": "¡ Muchas gracias !",
   "razon_por_no_reclamar": "Ingresa por favor la razón por la cual no has podido reclamar tu producto o servicio",
   "deseas_calificar": "¿Deseas calificar el negocio",
   "enviar_calificacion": "Enviar calificación",
@@ -174,11 +175,13 @@
   "uso_bloqueado": "No puedes reclamar otra oferta hasta que finalizes la anterior",
   "help": "Ayuda",
   "waze": "Waze",
-  "info_calificar": "        La calificación promedio de los negocios aparecerá en cada nueva venta, con el fin de informar        al usuario y mejorar siempre la calidad de todos lo productos y servicios ofrecidos    </string",
+  "info_calificar": "        La calificación promedio de los negocios aparecerá en cada nueva venta, con el fin de informar        al usuario y mejorar siempre la calidad de todos lo productos y servicios ofrecidos",
   "info_legal": "\n1.LA CALIDAD, SERIEDAD, CUMPLIMIENTO Y GARANTÍA DE TODOS LOS PRODUCTOS Y SERVICIOS ANUNCIADOS A TRAVÉS DE LA PLATAFORMA TECNOLÓGICA VEPOREL, ES RESPONSABILIDAD EXCLUSIVA DE CADA UNO DE LOS ANUNCIANTES.  VEPOREL SOLO OPERA COMO UN INTERMEDIARIO Y MEDIO PUBLICITARIO ENTRE LA OFERTA Y LA DEMANDA DE ESTOS PRODUCTOS Y SERVICIOS.        \n2.COPYRIGHT 2017, VEPOREL COLOMBIA SAS. Prohibida su reproducción total o parcial, así como su traducción a cualquier idioma sin autorización escrita de su titular. VEPOREL.COM, La forma más rápida y eficiente de GANAR y COMPRAR AL MEJOR PRECIO sus productos y servicios",
   "legal_text": "Legal",
   "reclamar": "Reclamar",
   "opciones": "Opciones",
-  "codigo_oferta": "Código de la oferta: "
+  "codigo_oferta": "Código de la oferta: ",
+  "calificacion_exitosa": "La calificación se ha realizado con éxito",
+  "oferta_ya_reclamada": "Esta oferta ya fue reclamada"
 
 }

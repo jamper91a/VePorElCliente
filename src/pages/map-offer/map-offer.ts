@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
+import { CalificationPage } from '../calification/calification';
 
 declare var google: any;
 @Component({
@@ -87,6 +88,7 @@ export class MapOfferPage {
   }
 
   public show_options() {
+    let self=this;
     this.translate.get(["opciones",
       "google_maps",
       "ver_mi_oferta",
@@ -108,12 +110,21 @@ export class MapOfferPage {
               icon: !this.platform.is('ios') ? 'happy' : null,
               text: values.lo_reclame,
               handler: () => {
+                self.navCtrl.push(CalificationPage,{
+                  reclamed: 1,
+                  id: self.offer.id
+                });
               }
             },
             {
               text: values.no_lo_reclame,
               icon: !this.platform.is('ios') ? 'sad' : null,
-              handler: () => { }
+              handler: () => {
+                self.navCtrl.push(CalificationPage,{
+                  reclamed: 2,
+                  id: self.offer.id
+                });
+              }
             },
             {
               text: values.google_maps,

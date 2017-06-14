@@ -159,6 +159,20 @@ export class VePorEl {
 
     return seq;
   }
+  send_calification(body:any)
+  {
+    let seq = this.api.post('offers/qualification', body).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
 
 
 }

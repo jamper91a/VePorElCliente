@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+  <h2 text-center>{{'muchas_gracias' | translate}}</h2>
+  <div *ngIf="body.reclamed==2">
+    <ion-list>
+        <ion-item>
+          <ion-textarea [(ngModel)]="body.reason" placeholder="{{'razon_por_no_reclamar' | translate}}" clearInput></ion-textarea>
+        </ion-item>
+    </ion-list>
+  </div>
+
+  <p text-center>{{'deseas_calificar' | translate}}</p>
+  <rating text-center [(ngModel)]="body.calification"></rating>
+  <p text-center>{{'info_calificar' | translate}}</p>
+
+    <button ion-button block (click)="send_calification()">
+      {{'enviar_calificacion' | translate}}
+    </button>
+</ion-content>

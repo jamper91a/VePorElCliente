@@ -16,8 +16,8 @@ export class OfferPage {
   private offer_id:number;
   private branch_id:number;
   private cantidad:number;
-  public offer:any[];
-  public  offers_user:any[];
+  public offer:any;
+  public  offers_user:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -39,8 +39,7 @@ export class OfferPage {
           self.cantidad = body.cantidad;
           if(self.cantidad>0 && !self.offers_user){
             this.translate.get(["opciones",
-              "uso_bloqueado",
-              "aceptar",
+              "uso_bloqueado"
             ]).subscribe(
               (values) => {
                 let toast = this.toastCtrl.create({
@@ -52,6 +51,19 @@ export class OfferPage {
                 toast.present();
               });
 
+          }else if(self.offers_user && self.offers_user.state>0){
+            this.translate.get(["opciones",
+              "oferta_ya_reclamada"
+            ]).subscribe(
+              (values) => {
+                let toast = this.toastCtrl.create({
+                  message: values.oferta_ya_reclamada,
+                  position: 'bottom',
+                  duration: 3000
+                });
+
+                toast.present();
+              });
           }
         }
       },

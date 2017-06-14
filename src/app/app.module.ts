@@ -26,6 +26,7 @@ import { CategoriesPage } from '../pages/categories/categories';
 import { SubcategoriesPage } from '../pages/subcategories/subcategories';
 import { OfferPage } from '../pages/offer/offer';
 import { MapOfferPage } from '../pages/map-offer/map-offer';
+import { CalificationPage } from '../pages/calification/calification';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -95,7 +96,8 @@ let pages = [
   CategoriesPage,
   SubcategoriesPage,
   OfferPage,
-  MapOfferPage
+  MapOfferPage,
+  CalificationPage
 ];
 
 export function declarations() {
