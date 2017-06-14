@@ -22,7 +22,8 @@ export class Util{
       city_name: 'city_name',
       address: 'address',
       subcategory_id: 'subcategory_id',
-      offer_id: 'offer_id'
+      offer_id: 'offer_id',
+      branch_id: 'branch_id'
     };
     this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

@@ -142,9 +142,10 @@ export class VePorEl {
     return seq;
   }
 
-  take_offer(offer_id:number){
+  take_offer(offer_id:number, branch_id:number){
     let body ={
-      id : offer_id
+      offer_id : offer_id,
+      branch_id: branch_id
     };
     let seq = this.api.post('offers/reserve', body).share();
 
