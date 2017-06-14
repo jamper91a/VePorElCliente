@@ -25,8 +25,8 @@ export class VePorEl {
     let body ={
       city_name : city_name
     };
-    let seq = this.api.post('banners/get', body).share();
 
+    let seq = this.api.post('banners/get', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -34,7 +34,6 @@ export class VePorEl {
       }, err => {
         console.error('ERROR', err);
       });
-
     return seq;
   }
 
@@ -43,8 +42,8 @@ export class VePorEl {
     url = url.replace("$lat", latitude + "");
     url = url.replace("$lon", longitude + "");
     url = url.replace("API_KEY", this.util.google_api_key);
-    let seq = this.api.get(url).share();
 
+    let seq = this.api.get(url).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -63,8 +62,8 @@ export class VePorEl {
       latitude : latitude,
       longitude : longitude,
     };
-    let seq = this.api.post('offers/find_by_location', body).share();
 
+    let seq = this.api.post('offers/find_by_location', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -79,7 +78,6 @@ export class VePorEl {
 
   get_categories(){
     let seq = this.api.get('categories').share();
-
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -93,7 +91,6 @@ export class VePorEl {
 
   get_subcategories(category_id:number){
     let seq = this.api.get('subcategories', {category_id: category_id}).share();
-
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -112,8 +109,8 @@ export class VePorEl {
       city_name : this.util.getPreference(this.util.constants.city_name),
       subcategory_id : subcategory_id,
     };
-    let seq = this.api.post('offers/find_by_subcategorie', body).share();
 
+    let seq = this.api.post('offers/find_by_subcategorie', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -129,8 +126,8 @@ export class VePorEl {
     let body ={
       id : offer_id
     };
-    let seq = this.api.post('offers/find_by_id', body).share();
 
+    let seq = this.api.post('offers/find_by_id', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -147,8 +144,8 @@ export class VePorEl {
       offer_id : offer_id,
       branch_id: branch_id
     };
-    let seq = this.api.post('offers/reserve', body).share();
 
+    let seq = this.api.post('offers/reserve', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -162,7 +159,22 @@ export class VePorEl {
   send_calification(body:any)
   {
     let seq = this.api.post('offers/qualification', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
 
+    return seq;
+  }
+  send_message(message:string){
+    let body = {
+      message: message
+    };
+
+    let seq = this.api.post('messages', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {

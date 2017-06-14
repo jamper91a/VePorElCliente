@@ -4,7 +4,7 @@ import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
 import { Util } from '../../providers/util';
-import { MainPage } from '../../pages/pages';
+import {MenuPage} from "../menu/menu";
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -24,7 +24,7 @@ export class WelcomePage {
   ) {
     if (!this.util.getPreference(this.util.constants.logged)) {
     }else{
-      this.navCtrl.push(MainPage);
+      this.navCtrl.setRoot(MenuPage);
     }
 
   }

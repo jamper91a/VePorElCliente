@@ -5,7 +5,7 @@ import { WelcomePage } from '../welcome/welcome';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Util } from '../../providers/util';
-import {MainPage} from "../pages";
+import { HomePage } from '../home/home';
 
 
 
@@ -59,7 +59,7 @@ export class TutorialPage {
           });
       }else{
         if (this.util.getPreference(this.util.constants.logged)) {
-          this.navCtrl.setRoot(MainPage, {}, {
+          this.navCtrl.setRoot(HomePage, {}, {
             animate: true,
             direction: 'forward'
           });
