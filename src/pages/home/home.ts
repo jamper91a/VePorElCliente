@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';

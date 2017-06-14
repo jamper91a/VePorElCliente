@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id)">
+      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id, promotion.bid)">
         <img-loader src="{{util.url}}{{promotion.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
         <ion-card-content>
           <ion-card-title>

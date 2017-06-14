@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div #map id="map"></div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button block (click)="show_options()">
+      {{'opciones' | translate}}
+    </button>
+  </ion-toolbar>
+</ion-footer>

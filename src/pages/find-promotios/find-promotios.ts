@@ -25,7 +25,7 @@ export class FindPromotiosPage {
   ) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     let self = this;
     try {
       this.type_find_promotion = this.navParams.get(this.util.constants.type_find_promotio);
@@ -69,9 +69,10 @@ export class FindPromotiosPage {
     }
   }
 
-  public go_to_offer(offer_id:number){
+  go_to_offer(offer_id:any, bid:any){
     this.navCtrl.push(OfferPage,{
-      offer_id: offer_id
+      offer_id: offer_id,
+      branch_id: bid
     })
   }
 

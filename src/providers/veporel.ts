@@ -6,13 +6,22 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
 
+
 @Injectable()
 export class VePorEl {
 
-  constructor(public http: Http, public api: Api, public util: Util) {
+
+  constructor(
+    public http: Http,
+    public api: Api,
+    public util: Util,
+
+  ) {
+
   }
 
   get_banners(city_name:string) {
+
     let body ={
       city_name : city_name
     };
@@ -47,6 +56,8 @@ export class VePorEl {
     return seq;
   }
 
+
+
   get_promotions_by_location(latitude:number, longitude:number){
     let body ={
       latitude : latitude,
@@ -63,6 +74,7 @@ export class VePorEl {
       });
 
     return seq;
+
   }
 
   get_categories(){
@@ -118,6 +130,38 @@ export class VePorEl {
       id : offer_id
     };
     let seq = this.api.post('offers/find_by_id', body).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
+  take_offer(offer_id:number, branch_id:number){
+    let body ={
+      offer_id : offer_id,
+      branch_id: branch_id
+    };
+    let seq = this.api.post('offers/reserve', body).share();
+
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+  send_calification(body:any)
+  {
+    let seq = this.api.post('offers/qualification', body).share();
 
     seq
       .map(res => res.json())
