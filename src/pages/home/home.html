@@ -37,7 +37,9 @@
 			<ion-col col-12>
 				<ion-slides pager>
 					<ion-slide *ngFor="let banner of banners">
-            <img-loader src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            <a href="{{banner.url_destination}}" target="_blank">
+              <img-loader src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            </a>
 					</ion-slide>
 				</ion-slides>
 			</ion-col>
