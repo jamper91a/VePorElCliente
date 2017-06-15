@@ -64,7 +64,6 @@ import { CategoriesPage } from '../categories/categories';
          }else{
            //Obtengo las coordenadas actuales
            this.geolocation.getCurrentPosition().then((resp) => {
-             console.log(resp);
              self.latitude = resp.coords.latitude;
              self.longitude = resp.coords.longitude;
 

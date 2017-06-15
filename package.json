@@ -22,12 +22,14 @@
         "@angular/platform-browser-dynamic": "4.1.2",
         "@ionic-native/camera": "3.11.0",
         "@ionic-native/core": "3.10.2",
+        "@ionic-native/facebook": "^3.12.1",
         "@ionic-native/file": "^3.12.1",
         "@ionic-native/geolocation": "^3.11.0",
         "@ionic-native/google-maps": "3.11.0",
         "@ionic-native/splash-screen": "3.10.2",
         "@ionic-native/status-bar": "3.10.2",
         "@ionic-native/transfer": "^3.12.1",
+        "@ionic/cloud-angular": "^0.12.0",
         "@ionic/storage": "2.0.1",
         "@ngx-translate/core": "6.0.1",
         "@ngx-translate/http-loader": "0.0.3",
@@ -36,6 +38,7 @@
         "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.7",
         "cordova-plugin-device": "^1.1.6",
+        "cordova-plugin-facebook4": "^1.9.1",
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-file-transfer": "^1.6.3",
         "cordova-plugin-geolocation": "^2.4.3",
@@ -47,6 +50,7 @@
         "ionic-angular": "3.3.0",
         "ionic-image-loader": "^3.2.1",
         "ionic-plugin-keyboard": "^2.2.1",
+        "ionic2-date-picker": "^1.0.5",
         "ionic2-rating": "^1.2.2",
         "ionicons": "3.0.0",
         "moment": "^2.18.1",
@@ -77,7 +81,11 @@
             "cordova-plugin-geolocation": {},
             "cordova-plugin-file": {},
             "cordova-plugin-file-transfer": {},
-            "cordova-plugin-inappbrowser": {}
+            "cordova-plugin-inappbrowser": {},
+            "cordova-plugin-facebook4": {
+                "APP_ID": "1705823306382928",
+                "APP_NAME": "Ve por el"
+            }
         },
         "platforms": [
             "android"

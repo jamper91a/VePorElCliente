@@ -7,7 +7,7 @@ import { User } from '../../providers/user';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Util } from '../../providers/util';
-
+import { Facebook } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-login',
@@ -30,7 +30,9 @@ export class LoginPage {
     public user: User,
     public toastCtrl: ToastController,
     public util: Util,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private fb: Facebook,
+  ) {
 
     if (!this.util.getPreference(this.util.constants.logged)) {
       this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
@@ -69,5 +71,31 @@ export class LoginPage {
       }
 
     });
+  }
+
+  public facebook_login(){
+    let self=this;
+    this.fb.login(['public_profile', 'email'])
+      .then(
+        (res: any) => {
+          //Getting name and gender properties
+          let userId = res.authResponse.userID;
+          let params = new Array<string>();
+          self.fb.api("/me?fields=id,first_name,last_name,email,gender, birthday", params)
+            .then(function(user) {
+              user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+              console.log(user.name);
+              console.log(user.email);
+            });
+          // console.log('Logged into Facebook!', res.data.email);
+        })
+      .catch(
+        e => {
+          console.log('Error logging into Facebook', e)
+        });
+  }
+
+  facebook_loggout(){
+    this.fb.logout();
   }
 }

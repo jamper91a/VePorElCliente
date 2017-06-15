@@ -185,6 +185,31 @@ export class VePorEl {
 
     return seq;
   }
+  get_countries(){
 
+    let seq = this.api.get('countries', {}).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+  get_cities_by_country(country_code:string){
+
+    let seq = this.api.get('cities', {country_code:country_code}).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
 
 }

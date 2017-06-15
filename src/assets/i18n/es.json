@@ -186,6 +186,10 @@
   "oferta_ya_reclamada": "Esta oferta ya fue reclamada",
   "en_que_podriamos_ayudarte": "¿En que podríamos ayudarte?",
   "enviar": "Enviar",
-  "mensaje_enviado_exito": "Mensaje enviado con éxito"
+  "mensaje_enviado_exito": "Mensaje enviado con éxito",
+  "escoger_un_pais": "Escoge tu país",
+  "escoger_una_ciudad": "Escoge tu ciudad",
+  "escoger_sexo": "Escoge tu sexo",
+  "escoger_tus_productos_favoritos": "Escoge tu productos favoritos"
 
 }
