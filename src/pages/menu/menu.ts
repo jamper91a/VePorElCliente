@@ -55,8 +55,10 @@ export class MenuPage {
   }
 
   logout(){
+
     this.util.clearAllData();
     this.rootPage = WelcomePage;
+    this.menuCtrl.close();
   }
 
 }

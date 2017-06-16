@@ -35,7 +35,7 @@
 
       <ion-item>
         <ion-label stacked>{{ 'fecha_nacimiento' | translate }}</ion-label>
-        <ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()"></ion-input>
+        <ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>
       </ion-item>
 
       <ion-item>
@@ -47,7 +47,7 @@
       </ion-item>
       <ion-item>
         <ion-label stacked>{{ 'celular' | translate }}</ion-label>
-        <ion-input placeholder="{{'celular' | translate}}" type="cellphone" [(ngModel)]="account.cellphone" name="cellphone"></ion-input>
+        <ion-input placeholder="{{'celular' | translate}}" type="number" [(ngModel)]="account.cellphone" name="cellphone"></ion-input>
       </ion-item>
 
       <ion-item>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController,NavParams } from 'ionic-angular';
 
-import { HomePage } from '../home/home';
+
 import { User } from '../../providers/user';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
@@ -32,6 +32,7 @@ export class SignupPage {
     subcategories: number[],
     city_id: number,
     country_id: string,
+    r_password: string
   }={
     username: "",
     password: "",
@@ -45,6 +46,7 @@ export class SignupPage {
     subcategories: [],
     city_id: 0,
     country_id: "",
+    r_password: ""
   };
 
   // Our translated text strings
@@ -54,10 +56,12 @@ export class SignupPage {
   private subcategories:any;
   private city_name="";
   private country_name="";
+  private messages:any;
 
   constructor(
     public navCtrl: NavController,
     public user: User,
+    public navParams: NavParams,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
     public datePicker: DatePicker,
@@ -68,8 +72,15 @@ export class SignupPage {
   ) {
 
     let self=this;
-    this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
-      this.signupErrorString = value;
+
+    this.account.username = this.navParams.get('username');
+    this.account.password = this.navParams.get('password');
+    this.account.r_password = this.navParams.get('password');
+    this.account.names = this.navParams.get('names');
+    this.account.last_name = this.navParams.get('last_name');
+
+    this.translateService.get(['SIGNUP_ERROR', 'error_3']).subscribe((value) => {
+      this.messages = value;
     });
 
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -97,9 +108,7 @@ export class SignupPage {
         }
       );
     }).catch((error) => {
-      console.log('Error getting location', error);
     });
-
 
     this.datePicker.onDateSelected.subscribe(
       (date) => {
@@ -116,21 +125,32 @@ export class SignupPage {
   }
 
   doSignup() {
+    if(this.account.r_password == this.account.password)
+    {
+      this.user.signup(this.account).subscribe((resp) => {
+        this.navCtrl.push(LoginPage);
+      }, (err) => {
 
-    this.user.signup(this.account).subscribe((resp) => {
-      this.navCtrl.push(LoginPage);
-    }, (err) => {
+        //this.navCtrl.push(HomePage); // TODO: Remove this when you add your signup endpoint
 
-      //this.navCtrl.push(HomePage); // TODO: Remove this when you add your signup endpoint
-
+        // Unable to sign up
+        let toast = this.toastCtrl.create({
+          message: this.signupErrorString,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      });
+    }else{
       // Unable to sign up
       let toast = this.toastCtrl.create({
-        message: this.signupErrorString,
+        message: this.messages.error_3,
         duration: 3000,
         position: 'top'
       });
       toast.present();
-    });
+    }
+
   }
   public showCalendar(){
     this.datePicker.showCalendar();

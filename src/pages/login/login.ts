@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, NavParams } from 'ionic-angular';
 
-import { HomePage } from '../home/home';
+import { MenuPage } from '../menu/menu';
 
 import { User } from '../../providers/user';
 
@@ -26,30 +26,37 @@ export class LoginPage {
   private loginErrorString: string;
   private serverErrorString: string;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public user: User,
+    public navParams: NavParams,
     public toastCtrl: ToastController,
     public util: Util,
     public translateService: TranslateService,
     private fb: Facebook,
   ) {
 
+    this.account.username = this.navParams.get('username');
+    this.account.password = this.navParams.get('password');
     if (!this.util.getPreference(this.util.constants.logged)) {
       this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
         this.loginErrorString = values.LOGIN_ERROR;
         this.serverErrorString = values.SERVER_ERROR;
-      })
+      });
+      this.account.username = this.navParams.get('username');
+      this.account.password = this.navParams.get('password');
     }else{
-      this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(MenuPage);
     }
   }
 
 
   // Attempt to login in through our User service
   doLogin() {
+    let self=this;
     this.user.login(this.account).subscribe((resp) => {
-      this.util.savePreference(this.util.constants.logged, true);
-      this.navCtrl.push(HomePage);
+      self.util.savePreference(self.util.constants.logged, true);
+      self.navCtrl.setRoot(MenuPage);
     }, (err) => {
       try {
         let body = JSON.parse(err._body);
@@ -65,7 +72,7 @@ export class LoginPage {
         let toast = this.toastCtrl.create({
           message: this.serverErrorString,
           duration: 3000,
-          position: 'top'
+          position: 'bottom'
         });
         toast.present();
       }
@@ -73,29 +80,5 @@ export class LoginPage {
     });
   }
 
-  public facebook_login(){
-    let self=this;
-    this.fb.login(['public_profile', 'email'])
-      .then(
-        (res: any) => {
-          //Getting name and gender properties
-          let userId = res.authResponse.userID;
-          let params = new Array<string>();
-          self.fb.api("/me?fields=id,first_name,last_name,email,gender, birthday", params)
-            .then(function(user) {
-              user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-              console.log(user.name);
-              console.log(user.email);
-            });
-          // console.log('Logged into Facebook!', res.data.email);
-        })
-      .catch(
-        e => {
-          console.log('Error logging into Facebook', e)
-        });
-  }
 
-  facebook_loggout(){
-    this.fb.logout();
-  }
 }
