@@ -44,6 +44,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
 import { Facebook } from '@ionic-native/facebook';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 
 
 // The translate loader needs to know where to load i18n files
@@ -101,6 +103,7 @@ export function providers() {
     VePorEl,
     Geolocation,
     Facebook,
+    SocialSharing,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

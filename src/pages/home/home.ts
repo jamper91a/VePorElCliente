@@ -7,6 +7,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MapPage } from '../map/map';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
 import { CategoriesPage } from '../categories/categories';
+import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the HomePage page.
  *
@@ -33,10 +34,12 @@ import { CategoriesPage } from '../categories/categories';
      private geolocation: Geolocation,
      private translateService: TranslateService,
      public toastCtrl: ToastController,
-     menu: MenuController,
-     ) {
+     public menu: MenuController,
+     public socialSharing: SocialSharing
+     )
+   {
+      menu.enable(true);
 
-    menu.enable(true);
 
    }
 
@@ -144,6 +147,16 @@ import { CategoriesPage } from '../categories/categories';
 
    public find_categories(){
      this.navCtrl.push(CategoriesPage);
+   }
+
+   public share(){
+     this.translateService.get('mensaje_compartir').subscribe((res) => {
+       this.socialSharing.share(res, 'VePorEl', 'http://veporel.com/images/logo.png', 'http://veporel.com/').then(() => {
+
+       }).catch(() => {
+       });
+     })
+
    }
 
  }
