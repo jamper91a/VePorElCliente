@@ -58,9 +58,17 @@ export class VePorEl {
 
 
   get_promotions_by_location(latitude:number, longitude:number){
+    let options= JSON.parse(this.util.getPreference("options"));
+    if(!options){
+      options={
+        notifications:false,
+        range : 2
+      }
+    }
     let body ={
       latitude : latitude,
       longitude : longitude,
+      range: options.range
     };
     let dialog = this.util.show_dialog('Obteniendo las ofertas');
     let seq = this.api.post('offers/find_by_location', body).share();
