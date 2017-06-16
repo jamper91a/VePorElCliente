@@ -16,7 +16,7 @@ import {FindPromotiosPage} from "../find-promotios/find-promotios";
 })
 export class SubcategoriesPage {
 
-  private subcategories:any[]
+  private subcategories:any[];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,6 +31,10 @@ export class SubcategoriesPage {
           (result: any) => {
             if (result != null) {
               self.subcategories = JSON.parse(result._body);
+              if(self.subcategories.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
             }
           },
           error => {

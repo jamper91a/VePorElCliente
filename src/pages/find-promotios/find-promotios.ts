@@ -36,6 +36,10 @@ export class FindPromotiosPage {
           (result: any) => {
             if (result != null) {
               self.promotions = JSON.parse(result._body);
+              if(self.promotions.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
             }
           },
           error => {

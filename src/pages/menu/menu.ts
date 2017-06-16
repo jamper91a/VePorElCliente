@@ -5,6 +5,7 @@ import { Util } from '../../providers/util';
 import { LoginPage } from '../login/login';
 import { WelcomePage } from "../welcome/welcome";
 import { HelpPage } from "../help/help";
+import { OptionsPage } from "../options/options";
 import { InformationPage } from "../information/information";
 import { MenuController } from 'ionic-angular';
 
@@ -24,6 +25,7 @@ export class MenuPage {
   private homePage;
   private informationPage;
   private helpPage;
+  private optionsPage;
   private isLogged = false;
   constructor(
     public navCtrl: NavController,
@@ -33,9 +35,10 @@ export class MenuPage {
   ) {
     this.rootPage = HomePage;
     this.loginPage = LoginPage;
-    this.homePage = HomePage;
+    this.homePage = MenuPage;
     this.informationPage = InformationPage;
     this.helpPage = HelpPage;
+    this.optionsPage = OptionsPage;
   }
 
   ionViewDidLoad() {
@@ -45,6 +48,7 @@ export class MenuPage {
   }
 
   public pushPage(p){
+
     this.menuCtrl.close();
     this.navCtrl.push(p);
   }
@@ -55,9 +59,9 @@ export class MenuPage {
   }
 
   logout(){
-
     this.util.clearAllData();
     this.rootPage = WelcomePage;
+    // this.navCtrl.setRoot(WelcomePage);
     this.menuCtrl.close();
   }
 

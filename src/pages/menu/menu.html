@@ -6,9 +6,13 @@
   </ion-header>
   <ion-content>
     <ion-list inset *ngIf="isLogged==true">
-      <button ion-item (click)="openPage(HomePage)">
+      <button ion-item (click)="openPage(homePage)">
         <ion-icon name="home"></ion-icon>
         {{'inicio' | translate}}
+      </button>
+      <button ion-item (click)="pushPage(optionsPage)">
+        <ion-icon name="settings"></ion-icon>
+        {{'opciones' | translate}}
       </button>
       <button ion-item (click)="pushPage(helpPage)">
         <ion-icon name="mail"></ion-icon>

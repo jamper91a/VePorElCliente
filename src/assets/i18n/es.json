@@ -65,6 +65,7 @@
   "error_10": "No se pudo enviar la calificación, por favor intentalo mas tarde",
   "error_11": "No se pudo enviar el mensaje, por favor intentalo mas tarde",
   "error_12": "Hay un error en el sistema, por favor intentelo mas tarde",
+  "error_13": "Lo sentimos, no encontramos información",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",
@@ -196,6 +197,11 @@
   "escoger_tus_productos_favoritos": "Escoge tu productos favoritos",
   "mensaje_para_registrar": "Ó registrate para comenzar a ganar y pagar menos",
   "recibir_contrasena_temp": "Recibir contraseña temporal",
-  "ya_tengo_contrasena_temp": "Ya tengo contraseña temporal"
+  "ya_tengo_contrasena_temp": "Ya tengo contraseña temporal",
+  "notificaciones": "Notificaciones",
+  "rango": "Rango de busqueda",
+  "guardar": "Guardar"
+
+
 
 }

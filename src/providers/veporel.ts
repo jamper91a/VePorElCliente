@@ -67,10 +67,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -84,10 +84,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -100,10 +100,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -122,10 +122,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -141,10 +141,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -161,10 +161,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -177,10 +177,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -195,10 +195,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -210,10 +210,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -225,10 +225,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -244,10 +244,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 
@@ -264,10 +264,10 @@ export class VePorEl {
     seq
       .map(res => res.json())
       .subscribe(res => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         return res;
       }, err => {
-        dialog.dismiss();
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
       });
 

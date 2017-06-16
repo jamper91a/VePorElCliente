@@ -68,7 +68,8 @@ export class Util{
 
   public show_dialog(message:string):Loading{
     let loading = this.loadingCtrl.create({
-      content: message
+      content: message,
+      dismissOnPageChange: false
     });
     loading.present();
     return loading;

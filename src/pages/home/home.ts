@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
@@ -33,9 +33,10 @@ import { CategoriesPage } from '../categories/categories';
      private geolocation: Geolocation,
      private translateService: TranslateService,
      public toastCtrl: ToastController,
+     menu: MenuController,
      ) {
 
-
+    menu.enable(true);
 
    }
 
@@ -95,9 +96,6 @@ import { CategoriesPage } from '../categories/categories';
        }
 
      } catch (e) {
-     }
-     if (!this.addres_for_another_place) {
-
      }
    }
 
