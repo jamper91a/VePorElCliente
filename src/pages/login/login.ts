@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, NavParams } from 'ionic-angular';
 
 import { MenuPage } from '../menu/menu';
+import { ForgetPasswordPage } from '../forget-password/forget-password';
 
 import { User } from '../../providers/user';
 
@@ -78,6 +79,10 @@ export class LoginPage {
       }
 
     });
+  }
+
+  public olvide_contrasena(){
+    this.navCtrl.push(ForgetPasswordPage);
   }
 
 

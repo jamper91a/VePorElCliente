@@ -64,6 +64,7 @@
   "error_9": "Debes obtener tu ubicación",
   "error_10": "No se pudo enviar la calificación, por favor intentalo mas tarde",
   "error_11": "No se pudo enviar el mensaje, por favor intentalo mas tarde",
+  "error_12": "Hay un error en el sistema, por favor intentelo mas tarde",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",
@@ -116,7 +117,8 @@
   "celular": "Celular",
   "alertas": "Alertas",
   "codigo_referido": "Código referido",
-  "envio_contrasena_temporal": "Hemos enviado una clave temporal al correo electrónico utilizando en el registro",
+  "envio_contrasena_temporal": "Si el correo electronico existe, hemos enviado una clave temporal al correo electrónico utilizando en el registro",
+  "reset_password_ok": "Contraseña reiniciada con éxito",
   "ir_a_directorio": "Ir a directorio",
   "buscando_promociones": "Buscando promociones",
   "busqueda_manual": "Busqueda manual",
@@ -160,6 +162,7 @@
   "direccion_no_valida": "Dirección no válida",
   "address": "Dirección",
   "terminos_y_condiciones": "Al usar esta aplicación, usted acepta los términos y condiciones.  Puede consultarlos en: www.veporel.com.co/tycapp",
+  "terminos_y_condiciones_text": "Términos y condiciones",
   "estoy_en": "Estoy en",
   "direccion": "Dirección",
   "telefono": "Teléfono",
@@ -190,6 +193,9 @@
   "escoger_un_pais": "Escoge tu país",
   "escoger_una_ciudad": "Escoge tu ciudad",
   "escoger_sexo": "Escoge tu sexo",
-  "escoger_tus_productos_favoritos": "Escoge tu productos favoritos"
+  "escoger_tus_productos_favoritos": "Escoge tu productos favoritos",
+  "mensaje_para_registrar": "Ó registrate para comenzar a ganar y pagar menos",
+  "recibir_contrasena_temp": "Recibir contraseña temporal",
+  "ya_tengo_contrasena_temp": "Ya tengo contraseña temporal"
 
 }

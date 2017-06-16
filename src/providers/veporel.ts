@@ -212,4 +212,39 @@ export class VePorEl {
     return seq;
   }
 
+  recovery_password(email:string){
+    let body = {
+      email: email
+    };
+
+    let seq = this.api.post('recovery_password', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+  reset_password(email:string, temp_password:number, new_password:string){
+    let body = {
+      email: email,
+      temp_password: temp_password,
+      new_password: new_password
+    };
+
+    let seq = this.api.post('reset_password', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        return res;
+      }, err => {
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
 }

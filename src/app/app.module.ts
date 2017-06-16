@@ -20,6 +20,7 @@ import { MapOfferPage } from '../pages/map-offer/map-offer';
 import { CalificationPage } from '../pages/calification/calification';
 import { InformationPage } from '../pages/information/information';
 import { HelpPage } from '../pages/help/help';
+import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -73,7 +74,8 @@ let pages = [
   CalificationPage,
   InformationPage,
   HelpPage,
-  DatePicker
+  DatePicker,
+  ForgetPasswordPage
 ];
 
 export function declarations() {
@@ -120,7 +122,9 @@ const cloudSettings: CloudSettings = {
         deps: [Http]
       }
     }),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ]
+    }),
     IonicImageLoader.forRoot(),
     MomentModule,
     Ionic2RatingModule,

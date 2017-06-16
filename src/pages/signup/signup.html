@@ -35,7 +35,8 @@
 
       <ion-item>
         <ion-label stacked>{{ 'fecha_nacimiento' | translate }}</ion-label>
-        <ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MMMM-DD" [(ngModel)]="account.birthday" name="birthday" placeholder="{{'fecha_nacimiento' | translate}}"></ion-datetime>
+        <!--<ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>-->
       </ion-item>
 
       <ion-item>
