@@ -1,4 +1,4 @@
-import { ToastController } from 'ionic-angular';
+import {ToastController, LoadingController, Loading} from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 /**
@@ -13,6 +13,7 @@ export class Util{
   constructor(
     public toastCtrl: ToastController,
     public translateService: TranslateService,
+    public loadingCtrl: LoadingController
   ) {
     this.constants = {
       logged: 'logged',
@@ -62,6 +63,15 @@ export class Util{
       toast.present();
       return toast;
     });
+
+  }
+
+  public show_dialog(message:string):Loading{
+    let loading = this.loadingCtrl.create({
+      content: message
+    });
+    loading.present();
+    return loading;
 
   }
 }

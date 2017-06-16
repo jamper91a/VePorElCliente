@@ -62,13 +62,15 @@ export class VePorEl {
       latitude : latitude,
       longitude : longitude,
     };
-
+    let dialog = this.util.show_dialog('Obteniendo las ofertas');
     let seq = this.api.post('offers/find_by_location', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -77,12 +79,15 @@ export class VePorEl {
   }
 
   get_categories(){
+    let dialog = this.util.show_dialog('Obteniendo las categorias');
     let seq = this.api.get('categories').share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -90,12 +95,15 @@ export class VePorEl {
   }
 
   get_subcategories(category_id:number){
+    let dialog = this.util.show_dialog('Obteniendo las subcategorias');
     let seq = this.api.get('subcategories', {category_id: category_id}).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -109,13 +117,15 @@ export class VePorEl {
       city_name : this.util.getPreference(this.util.constants.city_name),
       subcategory_id : subcategory_id,
     };
-
+    let dialog = this.util.show_dialog('Obteniendo las ofettas');
     let seq = this.api.post('offers/find_by_subcategorie', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -126,13 +136,15 @@ export class VePorEl {
     let body ={
       id : offer_id
     };
-
+    let dialog = this.util.show_dialog('Buscando la oferta');
     let seq = this.api.post('offers/find_by_id', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -144,13 +156,15 @@ export class VePorEl {
       offer_id : offer_id,
       branch_id: branch_id
     };
-
+    let dialog = this.util.show_dialog('Tomando la oferta');
     let seq = this.api.post('offers/reserve', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -158,12 +172,15 @@ export class VePorEl {
   }
   send_calification(body:any)
   {
+    let dialog = this.util.show_dialog('Calificando');
     let seq = this.api.post('offers/qualification', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -173,39 +190,45 @@ export class VePorEl {
     let body = {
       message: message
     };
-
+    let dialog = this.util.show_dialog('Enviando mensaje');
     let seq = this.api.post('messages', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
     return seq;
   }
   get_countries(){
-
+    let dialog = this.util.show_dialog('Listando los paises');
     let seq = this.api.get('countries', {}).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
     return seq;
   }
   get_cities_by_country(country_code:string){
-
+    let dialog = this.util.show_dialog('Listando las ciudades');
     let seq = this.api.get('cities', {country_code:country_code}).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -216,13 +239,15 @@ export class VePorEl {
     let body = {
       email: email
     };
-
+    let dialog = this.util.show_dialog('Solicitando contraseña temporal');
     let seq = this.api.post('recovery_password', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
@@ -234,13 +259,15 @@ export class VePorEl {
       temp_password: temp_password,
       new_password: new_password
     };
-
+    let dialog = this.util.show_dialog('Cambiando contraseña');
     let seq = this.api.post('reset_password', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
+        dialog.dismiss();
         return res;
       }, err => {
+        dialog.dismiss();
         console.error('ERROR', err);
       });
 
