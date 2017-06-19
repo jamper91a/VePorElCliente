@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+  <h2 text-center>{{'en_que_podriamos_ayudarte' | translate}}</h2>
+  <ion-list>
+    <ion-item>
+      <ion-textarea [(ngModel)]="message" clearInput></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+
+  <button ion-button block (click)="send()">
+    {{'enviar' | translate}}
+  </button>
+</ion-content>

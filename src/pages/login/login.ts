@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, NavParams } from 'ionic-angular';
 
-import { HomePage } from '../home/home';
+import { MenuPage } from '../menu/menu';
+import { ForgetPasswordPage } from '../forget-password/forget-password';
 
 import { User } from '../../providers/user';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Util } from '../../providers/util';
-
+import { Facebook } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-login',
@@ -26,28 +27,37 @@ export class LoginPage {
   private loginErrorString: string;
   private serverErrorString: string;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public user: User,
+    public navParams: NavParams,
     public toastCtrl: ToastController,
     public util: Util,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private fb: Facebook,
+  ) {
 
+    this.account.username = this.navParams.get('username');
+    this.account.password = this.navParams.get('password');
     if (!this.util.getPreference(this.util.constants.logged)) {
       this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
         this.loginErrorString = values.LOGIN_ERROR;
         this.serverErrorString = values.SERVER_ERROR;
-      })
+      });
+      this.account.username = this.navParams.get('username');
+      this.account.password = this.navParams.get('password');
     }else{
-      this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(MenuPage);
     }
   }
 
 
   // Attempt to login in through our User service
   doLogin() {
+    let self=this;
     this.user.login(this.account).subscribe((resp) => {
-      this.util.savePreference(this.util.constants.logged, true);
-      this.navCtrl.push(HomePage);
+      self.util.savePreference(self.util.constants.logged, true);
+      self.navCtrl.setRoot(MenuPage);
     }, (err) => {
       try {
         let body = JSON.parse(err._body);
@@ -63,11 +73,17 @@ export class LoginPage {
         let toast = this.toastCtrl.create({
           message: this.serverErrorString,
           duration: 3000,
-          position: 'top'
+          position: 'bottom'
         });
         toast.present();
       }
 
     });
   }
+
+  public olvide_contrasena(){
+    this.navCtrl.push(ForgetPasswordPage);
+  }
+
+
 }

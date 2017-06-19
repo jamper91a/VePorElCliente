@@ -10,33 +10,76 @@
 <ion-content>
   <form (submit)="doSignup()">
     <ion-list>
-
       <ion-item>
-        <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
+        <ion-label stacked>{{ 'pais' | translate }}</ion-label>
+        <ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="account.country_id" name="country_id" (ionChange)="change_country($event, account.country_id)">
+          <ion-option *ngFor="let country of countries" value="{{country.code}}" >{{country.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="account.country_id">
+        <ion-label stacked>{{ 'ciudad' | translate }}</ion-label>
+        <ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="account.city_id">
+          <ion-option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</ion-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
-        <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-label stacked>{{ 'nombres' | translate }}</ion-label>
+        <ion-input placeholder="{{'nombres' | translate}}" type="name" [(ngModel)]="account.names" name="names" ></ion-input>
       </ion-item>
 
-      <!--
-      Want to add a Username? Here you go:
-
       <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+        <ion-label stacked>{{ 'apellidos' | translate }}</ion-label>
+        <ion-input placeholder="{{'apellidos' | translate}}" type="name" [(ngModel)]="account.last_name" name="last_name"></ion-input>
       </ion-item>
-      -->
 
       <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-label stacked>{{ 'fecha_nacimiento' | translate }}</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MMMM-DD" [(ngModel)]="account.birthday" name="birthday" placeholder="{{'fecha_nacimiento' | translate}}"></ion-datetime>
+        <!--<ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>-->
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'sex' | translate }}</ion-label>
+        <ion-select placeholder="{{'escoger_sexo' | translate}}" [(ngModel)]="account.sex" name="sex">
+          <ion-option value="M">Masculino</ion-option>
+          <ion-option value="F">Femenino</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>{{ 'celular' | translate }}</ion-label>
+        <ion-input placeholder="{{'celular' | translate}}" type="number" [(ngModel)]="account.cellphone" name="cellphone"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'email' | translate }}</ion-label>
+        <ion-input placeholder="{{'email' | translate}}" type="email" [(ngModel)]="account.username" name="username"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'password' | translate }}</ion-label>
+        <ion-input placeholder="{{'password' | translate}}" type="password" [(ngModel)]="account.password" name="password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'repetir_contrasena' | translate }}</ion-label>
+        <ion-input placeholder="{{'repetir_contrasena' | translate}}" type="password" [(ngModel)]="account.r_password" name="r_password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>{{ 'productos_favoritos' | translate }}</ion-label>
+          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories">
+            <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" >{{subcategory.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label> {{ 'infor_alertas' | translate }}</ion-label>
+        <ion-toggle [(ngModel)]="account.notifications" checked="false" name="notifications"></ion-toggle>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block>{{ 'registrar' | translate }}</button>
       </div>
 
     </ion-list>

@@ -10,51 +10,25 @@
         <ion-icon name="home"></ion-icon>
         {{'inicio' | translate}}
       </button>
-      <button ion-item  (click)="openPage(loginPage)">
-        <ion-icon name="paper"></ion-icon>
-        {{'paute_con_nosotros' | translate}}
+      <button ion-item (click)="pushPage(optionsPage)">
+        <ion-icon name="settings"></ion-icon>
+        {{'opciones' | translate}}
       </button>
-      <button ion-item >
+      <button ion-item (click)="pushPage(helpPage)">
         <ion-icon name="mail"></ion-icon>
         {{'help' | translate}}
       </button>
-      <button ion-item>
+      <button ion-item (click)="pushPage(informationPage)">
         <ion-icon name="help-circle"></ion-icon>
         {{'como_funciona_text' | translate}}
       </button>
-      <button ion-item >
+      <button ion-item (click)="pushPage(informationPage)">
         <ion-icon name="information-circle"></ion-icon>
         {{'legal_text' | translate}}
       </button>
-      <button ion-item >
+      <button ion-item (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
         {{'logout' | translate}}
-      </button>
-    </ion-list>
-    <ion-list *ngIf="isLogged==false">
-      <button ion-item (click)="openPage(homePage)">
-        <ion-icon name="home"></ion-icon>
-        {{'inicio' | translate}}
-      </button>
-      <button ion-item (click)="openPage(loginPage)">
-        <ion-icon name="log-in" ></ion-icon>
-        {{'login' | translate}}
-      </button>
-      <button ion-item >
-        <ion-icon name="person-add"></ion-icon>
-        {{'registrar' | translate}}
-      </button>
-      <button ion-item >
-        <ion-icon name="paper"></ion-icon>
-        {{'paute_con_nosotros' | translate}}
-      </button>
-      <button ion-item >
-        <ion-icon name="help-circle"></ion-icon>
-        {{'como_funciona_text' | translate}}
-      </button>
-      <button ion-item >
-        <ion-icon name="information-circle"></ion-icon>
-        {{'legal_text' | translate}}
       </button>
     </ion-list>
   </ion-content>

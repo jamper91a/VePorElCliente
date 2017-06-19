@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { SubcategoriesPage } from '../subcategories/subcategories';
@@ -38,13 +38,32 @@ export class CategoriesPage {
   }
 
   ionViewDidLoad() {
-
+    this.get_banners();
   }
 
   public find_subcategories(category_id:number){
     this.navCtrl.push(SubcategoriesPage,{
       category_id: category_id
     })
+  }
+  private banners:any;
+  private get_banners(){
+    let city_name = this.util.getPreference(this.util.constants.city_name);
+    let self = this;
+    //Obtengo los banners
+    this.veporel.get_banners(city_name).subscribe(
+      (result:any) =>{
+        let body =  result._body;
+        if(body!=null)
+        {
+          self.banners = JSON.parse(body);
+        }else{
+        }
+
+      },
+      error =>{
+      }
+    );
   }
 
 }

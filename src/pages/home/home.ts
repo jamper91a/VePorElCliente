@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
@@ -7,6 +7,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MapPage } from '../map/map';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
 import { CategoriesPage } from '../categories/categories';
+import { DirectoryPage } from '../directory/directory';
+import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the HomePage page.
  *
@@ -21,7 +23,6 @@ import { CategoriesPage } from '../categories/categories';
 
    private banners:any;
    private address:string="";
-   private addres_for_another_place:boolean=false;
    private latitude:number;
    private longitude:number;
    private city_name:string;
@@ -33,8 +34,11 @@ import { CategoriesPage } from '../categories/categories';
      private geolocation: Geolocation,
      private translateService: TranslateService,
      public toastCtrl: ToastController,
-     ) {
-
+     public menu: MenuController,
+     public socialSharing: SocialSharing
+     )
+   {
+      menu.enable(true);
 
 
    }
@@ -64,7 +68,6 @@ import { CategoriesPage } from '../categories/categories';
          }else{
            //Obtengo las coordenadas actuales
            this.geolocation.getCurrentPosition().then((resp) => {
-             console.log(resp);
              self.latitude = resp.coords.latitude;
              self.longitude = resp.coords.longitude;
 
@@ -96,9 +99,6 @@ import { CategoriesPage } from '../categories/categories';
        }
 
      } catch (e) {
-     }
-     if (!this.addres_for_another_place) {
-
      }
    }
 
@@ -147,6 +147,19 @@ import { CategoriesPage } from '../categories/categories';
 
    public find_categories(){
      this.navCtrl.push(CategoriesPage);
+   }
+
+   public share(){
+     this.translateService.get('mensaje_compartir').subscribe((res) => {
+       this.socialSharing.share(res, 'VePorEl', 'http://veporel.com/images/logo.png', 'http://veporel.com/').then(() => {
+
+       }).catch(() => {
+       });
+     });
+   }
+
+   public go_to_directory(){
+     this.navCtrl.push(DirectoryPage);
    }
 
  }

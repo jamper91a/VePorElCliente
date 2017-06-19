@@ -7,6 +7,7 @@ import moment from 'moment';
 import { LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
   selector: 'page-offer',
   templateUrl: 'offer.html',

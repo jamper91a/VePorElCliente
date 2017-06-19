@@ -1,54 +1,175 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController,NavParams } from 'ionic-angular';
 
-import { MainPage } from '../../pages/pages';
+
 import { User } from '../../providers/user';
+import { VePorEl } from '../../providers/providers';
+import { Util } from '../../providers/providers';
 
 import { TranslateService } from '@ngx-translate/core';
+import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
+import { Geolocation } from '@ionic-native/geolocation';
+import {LoginPage} from "../login/login";
 
 
 @Component({
   selector: 'page-signup',
-  templateUrl: 'signup.html'
+  templateUrl: 'signup.html',
+  providers: [ DatePicker ]
 })
 export class SignupPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { name: string, email: string, password: string } = {
-    name: 'Test Human',
-    email: 'test@example.com',
-    password: 'test'
+
+  account: {
+    username: string,
+    password: string,
+    names: string,
+    last_name: string,
+    cellphone: string,
+    push_code: string,
+    notifications: number,
+    birthday: string,
+    sex: string,
+    subcategories: number[],
+    city_id: number,
+    country_id: string,
+    r_password: string
+  }={
+    username: "",
+    password: "",
+    names: "",
+    last_name: "",
+    cellphone: "",
+    push_code: "",
+    notifications: 0,
+    birthday: "",
+    sex: "",
+    subcategories: [],
+    city_id: 0,
+    country_id: "",
+    r_password: ""
   };
 
   // Our translated text strings
   private signupErrorString: string;
+  private countries:any;
+  private cities:any;
+  private subcategories:any;
+  private city_name="";
+  private country_name="";
+  private messages:any;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public user: User,
+    public navParams: NavParams,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    public datePicker: DatePicker,
+    private geolocation: Geolocation,
+    public util:Util,
+    public veporel:VePorEl
 
-    this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
-      this.signupErrorString = value;
-    })
+  ) {
+
+    let self=this;
+
+    this.account.username = this.navParams.get('username');
+    this.account.password = this.navParams.get('password');
+    this.account.r_password = this.navParams.get('password');
+    this.account.names = this.navParams.get('names');
+    this.account.last_name = this.navParams.get('last_name');
+
+    this.translateService.get(['SIGNUP_ERROR', 'error_3']).subscribe((value) => {
+      this.messages = value;
+    });
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+
+      self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+        (result: any) => {
+          if (result != null) {
+            let body = JSON.parse(result._body);
+            self.city_name = body.results[0].address_components[5].short_name;
+            self.country_name = body.results[0].address_components[6].short_name;
+          }
+
+          //Obtengo los paises
+          this.veporel.get_countries().subscribe((result:any)=>{
+            let body =  result._body;
+            if(body!=null){
+              self.countries = JSON.parse(body);
+              self.account.country_id = self.country_name;
+            }
+
+          });
+        },
+        error => {
+
+        }
+      );
+    }).catch((error) => {
+    });
+
+    this.datePicker.onDateSelected.subscribe(
+      (date) => {
+        self.account.birthday = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+      });
+
+    this.veporel.get_subcategories(0).subscribe((result:any)=>{
+      if(result!=null){
+        let body = result._body;
+        self.subcategories = JSON.parse(body);
+      }
+    });
+
   }
 
   doSignup() {
-    // Attempt to login in through our User service
-    this.user.signup(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
+    if(this.account.r_password == this.account.password)
+    {
+      this.user.signup(this.account).subscribe((resp) => {
+        this.navCtrl.push(LoginPage);
+      }, (err) => {
 
-      this.navCtrl.push(MainPage); // TODO: Remove this when you add your signup endpoint
+        //this.navCtrl.push(HomePage); // TODO: Remove this when you add your signup endpoint
 
+        // Unable to sign up
+        let toast = this.toastCtrl.create({
+          message: this.signupErrorString,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      });
+    }else{
       // Unable to sign up
       let toast = this.toastCtrl.create({
-        message: this.signupErrorString,
+        message: this.messages.error_3,
         duration: 3000,
         position: 'top'
       });
       toast.present();
+    }
+
+  }
+  public showCalendar(){
+    this.datePicker.showCalendar();
+  }
+
+  change_country(event:any, country_code:string){
+    let self=this;
+    //Obtengo las ciudades de ese pais
+    this.veporel.get_cities_by_country(country_code).subscribe((result:any)=>{
+      let body =  result._body;
+      if(body!=null) {
+        self.cities = JSON.parse(body);
+        for (var i = 0; i < self.cities.length; i++) {
+          if(self.cities[i].name == self.city_name){
+            self.account.city_id = self.cities[i].id;
+            return;
+          }
+        }
+      }
     });
   }
 }

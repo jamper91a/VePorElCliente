@@ -2,22 +2,16 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
-import { MenuPage } from '../menu/menu';
 import { TranslateService } from '@ngx-translate/core';
-/**
- * Generated class for the CalificationPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-@Component({
-  selector: 'page-calification',
-  templateUrl: 'calification.html',
-})
-export class CalificationPage {
+import {MenuPage} from "../menu/menu";
 
-  private body:any;
-  private reclaimOn=false;
+@Component({
+  selector: 'page-help',
+  templateUrl: 'help.html',
+})
+export class HelpPage {
+  public message:string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,26 +20,18 @@ export class CalificationPage {
     public toastCtrl: ToastController,
     public translate: TranslateService,
   ) {
-    this.reclaimOn=false;
-    this.body={
-      id: this.navParams.get("id"),
-      calification:3,
-      reason: '',
-      reclamed: this.navParams.get("reclamed")
-    }
-    console.log(this.body);
   }
 
-  send_calification() {
+  public send() {
     let self=this;
-    this.veporel.send_calification(this.body).subscribe(
+    this.veporel.send_message(this.message).subscribe(
       (result:any)=>{
-        this.translate.get(["opciones",
-          "calificacion_exitosa"
+        this.translate.get([
+          "mensaje_enviado_exito"
         ]).subscribe(
           (values) => {
             let toast = this.toastCtrl.create({
-              message: values.calificacion_exitosa,
+              message: values.mensaje_enviado_exito,
               position: 'bottom',
               duration: 3000
             });
@@ -55,12 +41,12 @@ export class CalificationPage {
 
       },
       error => {
-        this.translate.get(["opciones",
-          "error_10"
+        this.translate.get([
+          "error_11"
         ]).subscribe(
           (values) => {
             let toast = this.toastCtrl.create({
-              message: values.error_10,
+              message: values.error_11,
               position: 'bottom',
               duration: 3000
             });
