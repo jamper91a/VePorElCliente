@@ -14,6 +14,9 @@
 
 <ion-footer>
   <ion-toolbar>
+    <p *ngIf="kind_map== util.constants.map_branch" text-center="">
+      <b>{{'en_ruta'|translate}}</b>{{branch.name}} -{{branch.address}}
+    </p>
     <button ion-button block (click)="show_options()">
       {{'opciones' | translate}}
     </button>

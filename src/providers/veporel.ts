@@ -282,4 +282,20 @@ export class VePorEl {
     return seq;
   }
 
+  get_companies_by_city_subcategorie_and_name(body:any){
+    let dialog = this.util.show_dialog('Obteniendo compañias');
+    let seq = this.api.post('companies/find', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
 }

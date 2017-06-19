@@ -29,10 +29,14 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label stacked>{{ 'productos_favoritos' | translate }}</ion-label>
-        <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="data.subcategory_id" name="subcategories" required>
+        <ion-label stacked>{{ 'subcategoria' | translate }}</ion-label>
+        <ion-select  placeholder="{{'escoge_subcategoria' | translate}}" [(ngModel)]="data.subcategory_id" name="subcategories" required>
           <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" >{{subcategory.name}}</ion-option>
         </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>{{ 'key_word_directory' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="key_word" ></ion-input>
       </ion-item>
 
       <div padding>

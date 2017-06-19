@@ -33,6 +33,10 @@ export class Util{
       branch_id: 'branch_id',
       offers_user: 'offers_user',
       offer: 'offer',
+      kind_map:'kind_map',
+      map_offer:'map_offer',
+      map_branch:'map_branch',
+      branch: 'branch'
     };
     this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

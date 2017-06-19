@@ -152,7 +152,8 @@ export class OfferPage {
     let self = this;
     this.navCtrl.push(MapOfferPage,{
       offers_user: self.offers_user,
-      offer: self.offer
+      offer: self.offer,
+      kind_map: self.util.constants.map_offer
     });
   }
 

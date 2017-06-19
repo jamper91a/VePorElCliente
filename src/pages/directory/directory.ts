@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
+import { CompaniesPage } from '../companies/companies';
 @Component({
   selector: 'page-directory',
   templateUrl: 'directory.html',
@@ -20,13 +21,13 @@ export class DirectoryPage {
     city_id:number,
     category_id:number,
     subcategory_id:number,
-    key_word:string,
+    name:string,
   }={
     country_id:"",
     city_id:0,
     category_id:0,
     subcategory_id:0,
-    key_word:""
+    name:""
   };
   constructor(
     public navCtrl: NavController,
@@ -45,8 +46,8 @@ export class DirectoryPage {
         (result: any) => {
           if (result != null) {
             let body = JSON.parse(result._body);
-            self.city_name = body.results[0].address_components[5].short_name;
-            self.country_name = body.results[0].address_components[6].short_name;
+            self.city_name = body.results[0].address_components[body.results[0].address_components.length-3].short_name;
+            self.country_name = body.results[0].address_components[body.results[0].address_components.length-2].short_name;
           }
 
           //Obtengo los paises
@@ -105,7 +106,7 @@ export class DirectoryPage {
   }
 
   public find(){
-    console.log(this.data);
+    this.navCtrl.push(CompaniesPage,this.data);
   }
 
 }
