@@ -22,6 +22,7 @@ import { InformationPage } from '../pages/information/information';
 import { HelpPage } from '../pages/help/help';
 import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 import { OptionsPage } from '../pages/options/options';
+import { DirectoryPage } from '../pages/directory/directory';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -79,7 +80,8 @@ let pages = [
   HelpPage,
   DatePicker,
   ForgetPasswordPage,
-  OptionsPage
+  OptionsPage,
+  DirectoryPage
 ];
 
 export function declarations() {

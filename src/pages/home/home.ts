@@ -7,6 +7,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { MapPage } from '../map/map';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
 import { CategoriesPage } from '../categories/categories';
+import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the HomePage page.
@@ -22,7 +23,6 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 
    private banners:any;
    private address:string="";
-   private addres_for_another_place:boolean=false;
    private latitude:number;
    private longitude:number;
    private city_name:string;
@@ -155,8 +155,11 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 
        }).catch(() => {
        });
-     })
+     });
+   }
 
+   public go_to_directory(){
+     this.navCtrl.push(DirectoryPage);
    }
 
  }

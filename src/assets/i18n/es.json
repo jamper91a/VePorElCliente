@@ -122,9 +122,9 @@
   "reset_password_ok": "Contraseña reiniciada con éxito",
   "ir_a_directorio": "Ir a directorio",
   "buscando_promociones": "Buscando promociones",
-  "busqueda_manual": "Busqueda manual",
+  "busqueda_manual": "Otras promociones",
   "direccion_actual": "Dirección actual: </string",
-  "buscar_promociones": "Buscar promociones",
+  "buscar_promociones": "Promociones cercanas",
   "promociones": "Promociones",
   "codigo_promocion": "Código promocion",
   "nombre": "Nombre",
@@ -175,13 +175,13 @@
   "infor_alertas": "¿Deseo recibir alertas con regalos o promociones cerca de mi",
   "fecha_nacimiento": "Fecha nacimiento",
   "sex": "Sexo",
-  "como_funciona": " 1. Regístrate en nuestra página web www.veporel.com.co/usuarios/registro o directamente a través de nuestra APP. <br>2. Selecciona Buscar Promociones o elige la categoría y el tipo de producto o servicio de tu preferencia en el que desees pagar menos. <br>3. Espera unos segundos mientras nuestro sistema encuentra la oferta, premio o regalo más cerca de ti. <br>4. ¡ Y LISTO ¡. Así de fácil funciona nuestra Aplicación. Ahora solo VEPOREL producto, disfrútalo y digita en nuestra Aplicación: RECLAMÉ OFERTA, para poder seguir recibiendo más promociones y regalos    </string",
+  "como_funciona": "1.Regístrate en nuestra página web www.veporel.com.co/usuarios/registro o directamente a través de nuestra APP siguiendo las instrucciones de registro.<br><br>2.Selecciona entre una de las siguientes opciones:<br><br><br>a.DIRECTORIO DE NEGOCIOS: Digitando esta opción encontrarás la información más importante de los principales negocios y profesiones de tu País. Podrás realizar tu búsqueda por el Nombre del Negocio o por una Palabra Clave. Además, si así lo deseas, te llevaremos hasta su puerta.<br>b.PROMOCIONES CERCANAS: Si eliges esta opción, llevaremos hasta tu celular todas las promociones, premios y regalos que nuestros diferentes anunciantes posean más CERCA DE ti, y si son de tu agrado, solo oprime VEPOREL, que nuestro sistema te llevará hasta el Producto o Servicio; ahora solo cancélalo y disfrútalo.  <br>Por último, si lo recibiste oprime LO RECLAMÉ, para poder seguir recibiendo más promociones.<br>c.OTRAS PROMOCIONES: Eligiendo esta opción, podrás encontrar todas las promociones, premios y regalos vigentes en tu ciudad, clasificadas por tipos de producto o servicio, y si son de tu agrado, solo oprime VEPOREL, que nuestro sistema te llevará hasta el Producto o Servicio; ahora solo cancélalo y disfrútalo.  <br>Por último, si lo recibiste oprime LO RECLAMÉ, para poder seguir recibiendo más promociones.",
   "como_funciona_text": "¿Como funciona?",
   "uso_bloqueado": "No puedes reclamar otra oferta hasta que finalizes la anterior",
   "help": "Ayuda",
   "waze": "Waze",
   "info_calificar": "La calificación promedio de los negocios aparecerá en cada nueva venta, con el fin de informar        al usuario y mejorar siempre la calidad de todos lo productos y servicios ofrecidos",
-  "info_legal": "1. La calidad, seriedad, cumplimiento y garantía de todos los productos y servicios anunciados a través de la plataforma tecnológica veporel, es responsabilidad exclusiva de cada uno de los anunciantes.  <br>Veporel solo opera como un intermediario y medio publicitario entre la oferta y la demanda de estos productos y servicios. <br>2. Copyright 2017, veporel colombia sas. Prohibida su reproducción total o parcial, así como su traducción a cualquier idioma sin autorización escrita de su titular. Veporel.com, la forma más rápida y eficiente de ganar y comprar al mejor precio sus productos y servicios",
+  "info_legal": "La calidad, seriedad, honestidad, cumplimiento y garantía de todos los productos y servicios anunciados a través de la plataforma tecnológica VEPOREL, es responsabilidad exclusiva de cada uno de los anunciantes que los promocionan.  VEPOREL solo sirve como medio publicitario e intermediario entre la oferta y la demanda de estos productos y servicios. <br>Copyright 2017, ACOLAPPS.COM, Colombia Aplicaciones SAS. Prohibida su reproducción total o parcial, así como su traducción a cualquier idioma sin autorización escrita de su titular. VEPOREL.COM, La forma más rápida y eficiente de GANAR y COMPRAR AL MEJOR PRECIO sus productos y servicios.",
   "legal_text": "Legal",
   "reclamar": "Reclamar",
   "opciones": "Opciones",
@@ -202,7 +202,9 @@
   "rango": "Rango de busqueda",
   "guardar": "Guardar",
   "compartir": "Compartir",
-  "mensaje_compartir": "!Mira!, estoy usando la nueva App VePorEl para obtener descuentos en los productos que mas consumo"
+  "mensaje_compartir": "!Mira!, estoy usando la nueva App VePorEl para obtener descuentos en los productos que mas consumo",
+  "categoria": "Categoría",
+  "escoge_la_cagetoria": "Escoge la categoría"
 
 
 
