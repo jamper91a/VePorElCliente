@@ -47,6 +47,11 @@ import { Facebook } from '@ionic-native/facebook';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { NativeGeocoder} from '@ionic-native/native-geocoder';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+
+
 
 
 
@@ -108,6 +113,9 @@ export function providers() {
     Geolocation,
     Facebook,
     SocialSharing,
+    NativeGeocoder,
+    GoogleAnalytics,
+    ScreenOrientation,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

@@ -74,10 +74,13 @@ import { SocialSharing } from '@ionic-native/social-sharing';
              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
                (result: any) => {
                  if (result != null) {
-                   let body = JSON.parse(result._body);
-                   self.address = body.results[0].formatted_address;
+                   // let body = JSON.parse(result._body);
+                   // self.address = body.results[0].formatted_address;
+                   //
+                   // let city_name = body.results[0].address_components[5].short_name;
+                   self.address = result.street + " "+ result.houseNumber;
 
-                   let city_name = body.results[0].address_components[5].short_name;
+                   let city_name =  result.city;
                    if (city_name) {
                      //Almaceno
                      self.util.savePreference(this.util.constants.address, this.address);

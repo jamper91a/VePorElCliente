@@ -154,9 +154,9 @@
   "ayuda": "Ayuda",
   "no_encontramos_datos": "No encontramos datos con esa información",
   "subcategorias": "Productos",
-  "muchas_gracias": "¡ Muchas gracias !",
+  "muchas_gracias": "¡ Muchas gracias por tu confianza!",
   "razon_por_no_reclamar": "Ingresa por favor la razón por la cual no has podido reclamar tu producto o servicio",
-  "deseas_calificar": "¿Deseas calificar el negocio",
+  "deseas_calificar": "¿Deseas calificar el negocio?",
   "enviar_calificacion": "Enviar calificación",
   "calificacion_registrada_con_exito": "Calificación realizada con éxito",
   "ver_mi_oferta": "Ver mi oferta",
@@ -167,7 +167,7 @@
   "estoy_en": "Estoy en",
   "direccion": "Dirección",
   "telefono": "Teléfono",
-  "google_maps": "Google maps",
+  "google_maps": "Llévame con Google maps",
   "debes_instalar_google_maps": "Debes instalar google maps",
   "ir_al_negocio": "Ir al negocio",
   "cambiar_direccion": "Cambiar dirección",
@@ -179,7 +179,7 @@
   "como_funciona_text": "¿Como funciona?",
   "uso_bloqueado": "No puedes reclamar otra oferta hasta que finalizes la anterior",
   "help": "Ayuda",
-  "waze": "Waze",
+  "waze": "Llévame con Waze",
   "info_calificar": "La calificación promedio de los negocios aparecerá en cada nueva venta, con el fin de informar        al usuario y mejorar siempre la calidad de todos lo productos y servicios ofrecidos",
   "info_legal": "La calidad, seriedad, honestidad, cumplimiento y garantía de todos los productos y servicios anunciados a través de la plataforma tecnológica VEPOREL, es responsabilidad exclusiva de cada uno de los anunciantes que los promocionan.  VEPOREL solo sirve como medio publicitario e intermediario entre la oferta y la demanda de estos productos y servicios. <br>Copyright 2017, ACOLAPPS.COM, Colombia Aplicaciones SAS. Prohibida su reproducción total o parcial, así como su traducción a cualquier idioma sin autorización escrita de su titular. VEPOREL.COM, La forma más rápida y eficiente de GANAR y COMPRAR AL MEJOR PRECIO sus productos y servicios.",
   "legal_text": "Legal",
@@ -208,7 +208,9 @@
   "key_word_directory": "Introduce una palabra claveo el nombre del negocio",
   "subcategoria": "Producto",
   "escoge_subcategoria":"Escoge la subcategoría",
-  "en_ruta": "En ruta a "
+  "en_ruta": "En ruta a ",
+  "mensaje_disponibilidad": "Aún quedan {{value}} promociones disponibles. <br>Apresúrate a reservarlo antes de alguien más lo haga.",
+  "promocion": "Promoción"
 
 
 

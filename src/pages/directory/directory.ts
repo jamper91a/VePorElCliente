@@ -4,6 +4,7 @@ import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
 import { CompaniesPage } from '../companies/companies';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 @Component({
   selector: 'page-directory',
   templateUrl: 'directory.html',
@@ -35,21 +36,20 @@ export class DirectoryPage {
     public util:Util,
     public veporel:VePorEl,
     private geolocation: Geolocation,
+    private ga: GoogleAnalytics,
   ) {
+
   }
 
   ionViewDidLoad() {
     let self = this;
     this.geolocation.getCurrentPosition().then((resp) => {
-
+      let dialog = this.util.show_dialog('Obteniendo tu ubicación');
       self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
         (result: any) => {
-          if (result != null) {
-            let body = JSON.parse(result._body);
-            self.city_name = body.results[0].address_components[body.results[0].address_components.length-3].short_name;
-            self.country_name = body.results[0].address_components[body.results[0].address_components.length-2].short_name;
-          }
-
+          self.country_name = result.countryCode;
+          self.city_name = result.city;
+          dialog.dismiss();
           //Obtengo los paises
           this.veporel.get_countries().subscribe((result:any)=>{
             let body =  result._body;
@@ -66,6 +66,36 @@ export class DirectoryPage {
       );
     }).catch((error) => {
     });
+
+
+    // this.geolocation.getCurrentPosition().then((resp) => {
+    //
+    //   self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+    //     (result: any) => {
+    //       if (result != null) {
+    //         let body = JSON.parse(result._body);
+    //         self.city_name = body.results[0].address_components.locality.short_name;
+    //         self.country_name = body.results[0].address_components.country.short_name;
+    //       }
+    //
+    //       //Obtengo los paises
+    //       this.veporel.get_countries().subscribe((result:any)=>{
+    //         let body =  result._body;
+    //         if(body!=null){
+    //           self.countries = JSON.parse(body);
+    //           self.data.country_id = self.country_name;
+    //         }
+    //
+    //       });
+    //     },
+    //     error => {
+    //
+    //     }
+    //   );
+    // }).catch((error) => {
+    // });
+
+
 
     this.veporel.get_categories().subscribe((result:any)=>{
       if(result!=null){
@@ -106,6 +136,16 @@ export class DirectoryPage {
   }
 
   public find(){
+    let subcategorie ="";
+    for (var i=0; i<this.subcategories.length;i++){
+      if(this.subcategories[i].id == this.data.subcategory_id)
+      {
+        subcategorie = this.subcategories[i].name;
+        break;
+      }
+    }
+    console.log(subcategorie);
+    this.ga.trackEvent('Busqueda negocios', 'Subcategoria', subcategorie);
     this.navCtrl.push(CompaniesPage,this.data);
   }
 

@@ -88,9 +88,12 @@ export class SignupPage {
       self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
         (result: any) => {
           if (result != null) {
-            let body = JSON.parse(result._body);
-            self.city_name = body.results[0].address_components[5].short_name;
-            self.country_name = body.results[0].address_components[6].short_name;
+            self.city_name =result.city;
+            self.country_name = result.countryCode;
+
+            // let body = JSON.parse(result._body);
+            // self.city_name = body.results[0].address_components[5].short_name;
+            // self.country_name = body.results[0].address_components[6].short_name;
           }
 
           //Obtengo los paises

@@ -128,12 +128,12 @@ export class MapOfferPage {
         let opt:any;
         if(self.kind_map == self.util.constants.map_offer){
           opt = [
-            {
-              text: values.ver_mi_oferta,
-              icon: !this.platform.is('ios') ? 'search' : null,
-              handler: () => {
-              }
-            },
+            // {
+            //   text: values.ver_mi_oferta,
+            //   icon: !this.platform.is('ios') ? 'search' : null,
+            //   handler: () => {
+            //   }
+            // },
             {
               icon: !this.platform.is('ios') ? 'happy' : null,
               text: values.lo_reclame,

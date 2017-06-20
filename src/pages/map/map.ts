@@ -81,10 +81,16 @@ export class MapPage {
     this.veporel.get_address(latitude,longitude).subscribe(
       (result:any)=>{
         if(result!=null){
-          let body = JSON.parse(result._body);
-          var aux = body.results[0].formatted_address;
-          self.city_name = body.results[0].address_components[5].short_name;
+
+          var aux = result.street + " "+ result.houseNumber;
+          self.city_name = result.city
           self.address = aux;
+
+          // let body = JSON.parse(result._body);
+          // var aux = body.results[0].formatted_address;
+          // self.city_name = body.results[0].address_components[5].short_name;
+          // self.address = aux;
+
           self.txt_adress.setFocus();
         } }
     );
