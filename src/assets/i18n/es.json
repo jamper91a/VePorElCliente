@@ -210,7 +210,10 @@
   "escoge_subcategoria":"Escoge la subcategoría",
   "en_ruta": "En ruta a ",
   "mensaje_disponibilidad": "Aún quedan {{value}} promociones disponibles. <br>Apresúrate a reservarlo antes de alguien más lo haga.",
-  "promocion": "Promoción"
+  "promocion": "Promoción",
+  "mis_ofertas": "Mis promociones",
+  "informacion_del_negocio": "Informacion del  Negocio",
+  "facebook": "Facebook"
 
 
 

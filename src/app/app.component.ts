@@ -31,7 +31,9 @@ export class MyApp {
   ) {
 
     this.platform.ready().then(() => {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      if (this.platform.is('cordova')) {
+        this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      }
       console.log("device ready");
       this.initTranslate();
       let self = this;
@@ -61,17 +63,17 @@ export class MyApp {
 
   ionViewDidLoad() {
 
-    this.platform.ready().then(() => {
-      console.log("device ready");
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-      this.ga.startTrackerWithId('UA-101368936-1')
-        .then(() => {
-        console.log("Iniciando GA");
-        })
-        .catch(e => console.log('Error starting GoogleAnalytics', e));
-
-    });
+    // this.platform.ready().then(() => {
+    //   console.log("device ready");
+    //   this.statusBar.styleDefault();
+    //   this.splashScreen.hide();
+    //   this.ga.startTrackerWithId('UA-101368936-1')
+    //     .then(() => {
+    //     console.log("Iniciando GA");
+    //     })
+    //     .catch(e => console.log('Error starting GoogleAnalytics', e));
+    //
+    // });
   }
 
   initTranslate() {

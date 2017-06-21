@@ -6,6 +6,7 @@ import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { CalificationPage } from '../calification/calification';
+import { CompanyPage } from '../company/company';
 
 declare var google: any;
 @Component({
@@ -123,6 +124,7 @@ export class MapOfferPage {
       "waze",
       "lo_reclame",
       "no_lo_reclame",
+      "informacion_del_negocio"
     ]).subscribe(
       (values) => {
         let opt:any;
@@ -172,6 +174,13 @@ export class MapOfferPage {
         }else{
           opt = [
             {
+              text: values.informacion_del_negocio,
+              icon: !this.platform.is('ios') ? 'compass' : null,
+              handler: () => {
+                self.open_company();
+              }
+            },
+            {
               text: values.google_maps,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
@@ -204,6 +213,11 @@ export class MapOfferPage {
       let label = encodeURI('My Label');
       window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
     }
+  }
+  public open_company(){
+    this.navCtrl.push(CompanyPage,{
+      company: this.branch
+    })
   }
 
 

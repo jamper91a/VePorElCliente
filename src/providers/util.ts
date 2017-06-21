@@ -36,7 +36,9 @@ export class Util{
       kind_map:'kind_map',
       map_offer:'map_offer',
       map_branch:'map_branch',
-      branch: 'branch'
+      branch: 'branch',
+      company: 'company',
+      country_code: 'country_code'
     };
     this.url = "http://192.168.0.2:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";

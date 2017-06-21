@@ -24,6 +24,7 @@ import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 import { OptionsPage } from '../pages/options/options';
 import { DirectoryPage } from '../pages/directory/directory';
 import { CompaniesPage } from '../pages/companies/companies';
+import { CompanyPage } from '../pages/company/company';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -88,7 +89,8 @@ let pages = [
   ForgetPasswordPage,
   OptionsPage,
   DirectoryPage,
-  CompaniesPage
+  CompaniesPage,
+  CompanyPage
 ];
 
 export function declarations() {
