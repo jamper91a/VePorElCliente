@@ -4,7 +4,7 @@ import { Api } from './api';
 import { Util } from './util';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import {Observable} from "rxjs/Observable";
 import { Platform } from 'ionic-angular';
 
@@ -42,6 +42,7 @@ export class VePorEl {
 
 
   get_address(latitude:number, longitude:number){
+    let dialog = this.util.show_dialog('Obteniendo tu ubicación');
     let self=this;
     if(!this.util.getPreference(this.util.constants.address)){
     if(this.platform.is('cordova')){
@@ -51,11 +52,13 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
+              dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
               observer.next(result);
               // observer.onCompleted();
             }
           )
           .catch((error: any) => {
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
             return error});
 
       });
@@ -83,8 +86,10 @@ export class VePorEl {
               street: body.results[0].formatted_address,
               houseNumber: ''
             };
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
             observer.next(result);
           }, err => {
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
             console.error('ERROR', err);
           });
 
@@ -102,6 +107,7 @@ export class VePorEl {
           street: this.util.getPreference(this.util.constants.address),
           houseNumber: ''
         };
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         observer.next(result);
         // observer.onCompleted();
 
@@ -218,6 +224,26 @@ export class VePorEl {
     };
     let dialog = this.util.show_dialog('Buscando la oferta');
     let seq = this.api.post('offers/find_by_id', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
+  get_offers_by_user_id(){
+    let dialog = this.util.show_dialog('Obteniendo mis ofertas');
+    let body = {
+      latitude : this.util.getPreference(this.util.constants.latitude),
+      longitude : this.util.getPreference(this.util.constants.longitude),
+    };
+    let seq = this.api.post('offers/find_by_user_id', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {

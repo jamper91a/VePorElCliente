@@ -52,6 +52,25 @@ export class FindPromotiosPage {
           (result: any) => {
             if (result != null) {
               self.promotions = JSON.parse(result._body);
+              if(self.promotions.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
+            }
+          },
+          error => {
+
+          }
+        );
+      }else if(this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_user_id){
+        self.veporel.get_offers_by_user_id().subscribe(
+          (result: any) => {
+            if (result != null) {
+              self.promotions = JSON.parse(result._body);
+              if(self.promotions.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
             }
           },
           error => {

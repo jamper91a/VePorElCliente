@@ -46,7 +46,6 @@ import { MomentModule } from 'angular2-moment';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { Facebook } from '@ionic-native/facebook';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
@@ -85,12 +84,11 @@ let pages = [
   CalificationPage,
   InformationPage,
   HelpPage,
-  DatePicker,
   ForgetPasswordPage,
   OptionsPage,
   DirectoryPage,
   CompaniesPage,
-  CompanyPage
+  CompanyPage,
 ];
 
 export function declarations() {

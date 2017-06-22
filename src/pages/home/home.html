@@ -31,7 +31,7 @@
 						<ion-input (click)="change_address()" readonly type="text" value="{{address}}" placeholder="{{'obteniendo_direccion' | translate}}" text-center></ion-input>
 					</ion-item>
           <ion-item>
-            <button ion-button block>
+            <button ion-button block (click)="change_address()">
               {{'cambiar_direccion' | translate}}
             </button>
           </ion-item>

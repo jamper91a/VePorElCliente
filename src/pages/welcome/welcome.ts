@@ -6,7 +6,6 @@ import { SignupPage } from '../signup/signup';
 import { Util } from '../../providers/util';
 import {MenuPage} from "../menu/menu";
 import { Facebook } from '@ionic-native/facebook';
-import { HomePage } from '../home/home';
 import { User } from '../../providers/user';
 import { TranslateService } from '@ngx-translate/core';
 

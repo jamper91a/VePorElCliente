@@ -38,9 +38,10 @@ export class Util{
       map_branch:'map_branch',
       branch: 'branch',
       company: 'company',
-      country_code: 'country_code'
+      country_code: 'country_code',
+      find_promotion_by_user_id: 'find_promotion_by_user_id'
     };
-    this.url = "http://192.168.0.2:1337/";
+    this.url = "http://veporel.ddns.net:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 

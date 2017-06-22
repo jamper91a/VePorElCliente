@@ -26,6 +26,7 @@ export class CompaniesPage {
       if(result!=null){
         self.branchs = JSON.parse(result._body);
         if(self.branchs.length==0){
+          this.navCtrl.pop();
           this.util.show_toast('error_13');
         }
       }

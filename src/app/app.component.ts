@@ -11,6 +11,7 @@ import { Util } from '../providers/providers';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import {TutorialPage} from "../pages/tutorial/tutorial";
 
 
 @Component({
@@ -40,7 +41,10 @@ export class MyApp {
       if (this.util.getPreference(this.util.constants.logged)) {
         self.rootPage = MenuPage;
       }else{
-        self.rootPage = WelcomePage;
+        if(!this.util.getPreference(this.util.constants.tutorial))
+          self.rootPage = TutorialPage;
+        else
+          self.rootPage = WelcomePage;
       }
       this.statusBar.styleDefault();
       this.splashScreen.hide();

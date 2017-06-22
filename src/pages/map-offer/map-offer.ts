@@ -62,7 +62,7 @@ export class MapOfferPage {
         self.latLngOrigin = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         self.latLngDestination = new google.maps.LatLng(this.offer.latitude, this.offer.longitude);
         this.loadMap(resp.coords.latitude,resp.coords.longitude);
-        //self.calcRoute();
+        self.calcRoute();
       }).catch((error) => {
         console.log('Error getting location', error);
       });
@@ -73,7 +73,7 @@ export class MapOfferPage {
         self.latLngOrigin = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         self.latLngDestination = new google.maps.LatLng(this.branch.location.y, this.branch.location.x);
         this.loadMap(resp.coords.latitude,resp.coords.longitude);
-        //self.calcRoute();
+        self.calcRoute();
       }).catch((error) => {
         console.log('Error getting location', error);
       });

@@ -7,6 +7,7 @@ import { WelcomePage } from "../welcome/welcome";
 import { HelpPage } from "../help/help";
 import { OptionsPage } from "../options/options";
 import { InformationPage } from "../information/information";
+import { FindPromotiosPage } from "../find-promotios/find-promotios";
 import { MenuController } from 'ionic-angular';
 
 /**
@@ -63,6 +64,12 @@ export class MenuPage {
     this.rootPage = WelcomePage;
     // this.navCtrl.setRoot(WelcomePage);
     this.menuCtrl.close();
+  }
+
+  go_to_offers(){
+    this.navCtrl.push(FindPromotiosPage,{
+      "type_find_promotio": this.util.constants.find_promotion_by_user_id
+    })
   }
 
 }
