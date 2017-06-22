@@ -4,7 +4,9 @@ import { Api } from './api';
 import { Util } from './util';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
+import {Observable} from "rxjs/Observable";
+import { Platform } from 'ionic-angular';
 
 
 @Injectable()
@@ -15,7 +17,8 @@ export class VePorEl {
     public http: Http,
     public api: Api,
     public util: Util,
-
+    private nativeGeocoder: NativeGeocoder,
+    private platform: Platform
   ) {
 
   }
@@ -37,22 +40,97 @@ export class VePorEl {
     return seq;
   }
 
+
   get_address(latitude:number, longitude:number){
-    let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=API_KEY";
-    url = url.replace("$lat", latitude + "");
-    url = url.replace("$lon", longitude + "");
-    url = url.replace("API_KEY", this.util.google_api_key);
+    let dialog = this.util.show_dialog('Obteniendo tu ubicación');
+    let self=this;
+    if(!this.util.getPreference(this.util.constants.address)){
+    if(this.platform.is('cordova')){
+      let seq =  Observable.create(observer => {
 
-    let seq = this.api.get(url).share();
-    seq
-      .map(res => res.json())
-      .subscribe(res => {
-          return res;
-      }, err => {
-        console.error('ERROR', err);
+        self.nativeGeocoder.reverseGeocode(latitude, longitude)
+          .then(
+            (result: NativeGeocoderReverseResult) =>
+            {
+              dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+              observer.next(result);
+              // observer.onCompleted();
+            }
+          )
+          .catch((error: any) => {
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+            return error});
+
       });
+      return seq;
+    }else{
 
-    return seq;
+      let seq =  Observable.create(observer => {
+
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=API_KEY";
+        url = url.replace("$lat", latitude + "");
+        url = url.replace("$lon", longitude + "");
+        url = url.replace("API_KEY", this.util.google_api_key);
+
+        let seq = this.api.get(url).share();
+        seq
+          .map(res => res.json())
+          .subscribe(res => {
+            let body = res;
+            // self.address = body.results[0].formatted_address;
+            //
+            // let city_name = body.results[0].address_components[5].short_name;
+            var result = {
+              countryCode:body.results[0].address_components[6].short_name,
+              city:body.results[0].address_components[5].short_name,
+              street: body.results[0].formatted_address,
+              houseNumber: ''
+            };
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+            observer.next(result);
+          }, err => {
+            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+            console.error('ERROR', err);
+          });
+
+      });
+      return seq;
+
+
+    }
+
+    }else{
+      let seq =  Observable.create(observer => {
+        var result = {
+          countryCode:this.util.getPreference(this.util.constants.country_code),
+          city:this.util.getPreference(this.util.constants.city_name),
+          street: this.util.getPreference(this.util.constants.address),
+          houseNumber: ''
+        };
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        observer.next(result);
+        // observer.onCompleted();
+
+      });
+      return seq;
+    }
+
+
+    // let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=API_KEY";
+    // url = url.replace("$lat", latitude + "");
+    // url = url.replace("$lon", longitude + "");
+    // url = url.replace("API_KEY", this.util.google_api_key);
+    //
+    // let seq = this.api.get(url).share();
+    // seq
+    //   .map(res => res.json())
+    //   .subscribe(res => {
+    //       return res;
+    //   }, err => {
+    //     console.error('ERROR', err);
+    //   });
+    //
+    // return seq;
   }
 
 
@@ -146,6 +224,26 @@ export class VePorEl {
     };
     let dialog = this.util.show_dialog('Buscando la oferta');
     let seq = this.api.post('offers/find_by_id', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
+  get_offers_by_user_id(){
+    let dialog = this.util.show_dialog('Obteniendo mis ofertas');
+    let body = {
+      latitude : this.util.getPreference(this.util.constants.latitude),
+      longitude : this.util.getPreference(this.util.constants.longitude),
+    };
+    let seq = this.api.post('offers/find_by_user_id', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {
@@ -269,6 +367,41 @@ export class VePorEl {
     };
     let dialog = this.util.show_dialog('Cambiando contraseña');
     let seq = this.api.post('reset_password', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
+  get_companies_by_city_subcategorie_and_name(body:any){
+    let dialog = this.util.show_dialog('Obteniendo compañias');
+    let seq = this.api.post('companies/find', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
+  get_company_by_id(company_id:number){
+    let dialog = this.util.show_dialog('Obteniendo información del negocio');
+    let body = {
+      company_id: company_id
+    }
+    let seq = this.api.post('companies/find_by_company_id', body).share();
     seq
       .map(res => res.json())
       .subscribe(res => {

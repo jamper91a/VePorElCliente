@@ -56,24 +56,24 @@
         <ion-input placeholder="{{'email' | translate}}" type="email" [(ngModel)]="account.username" name="username"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="!signup_by_facebook">
         <ion-label stacked>{{ 'password' | translate }}</ion-label>
         <ion-input placeholder="{{'password' | translate}}" type="password" [(ngModel)]="account.password" name="password"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="!signup_by_facebook">
         <ion-label stacked>{{ 'repetir_contrasena' | translate }}</ion-label>
         <ion-input placeholder="{{'repetir_contrasena' | translate}}" type="password" [(ngModel)]="account.r_password" name="r_password"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item text-wrap>
         <ion-label stacked>{{ 'productos_favoritos' | translate }}</ion-label>
-          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories">
-            <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" >{{subcategory.name}}</ion-option>
+          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories" text-wrap>
+            <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" text-wrap>{{subcategory.name}}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item text-wrap>
         <ion-label> {{ 'infor_alertas' | translate }}</ion-label>
         <ion-toggle [(ngModel)]="account.notifications" checked="false" name="notifications"></ion-toggle>
       </ion-item>

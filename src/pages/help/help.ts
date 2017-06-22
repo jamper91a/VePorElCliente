@@ -4,6 +4,8 @@ import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import {MenuPage} from "../menu/menu";
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 
 @Component({
   selector: 'page-help',
@@ -19,6 +21,7 @@ export class HelpPage {
     public util:Util,
     public toastCtrl: ToastController,
     public translate: TranslateService,
+    public socialSharing: SocialSharing,
   ) {
   }
 
@@ -55,6 +58,13 @@ export class HelpPage {
           });
       }
     );
+  }
+
+  public share(){
+      this.socialSharing.shareViaWhatsAppToReceiver("3188711857", this.message, '', '').then(() => {
+
+      }).catch(() => {
+      });
   }
 
 }

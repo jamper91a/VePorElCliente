@@ -13,6 +13,10 @@
 
 
   <button ion-button block (click)="send()">
-    {{'enviar' | translate}}
+  {{'enviar' | translate}}
+  </button>
+  <button ion-button block (click)="share()" icon-start>
+    <ion-icon name="logo-whatsapp"></ion-icon> 	&nbsp;
+    {{'Whatsapp' | translate}}
   </button>
 </ion-content>

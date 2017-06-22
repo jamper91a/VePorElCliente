@@ -26,6 +26,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
    private latitude:number;
    private longitude:number;
    private city_name:string;
+   private country_code:string;
    constructor(
      public navCtrl: NavController,
      public navParams: NavParams,
@@ -52,10 +53,12 @@ import { SocialSharing } from '@ionic-native/social-sharing';
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
          this.city_name = this.navParams.get(this.util.constants.city_name);
+         this.country_code = this.navParams.get(this.util.constants.country_code);
          self.util.savePreference(this.util.constants.address, this.address);
          self.util.savePreference(this.util.constants.latitude, this.latitude);
          self.util.savePreference(this.util.constants.longitude, this.longitude);
          self.util.savePreference(this.util.constants.city_name, this.city_name);
+         self.util.savePreference(this.util.constants.country_code, this.country_code);
          self.get_banners(this.city_name);
        }else{
          //Valido si tengo una direccion almacenada
@@ -74,16 +77,21 @@ import { SocialSharing } from '@ionic-native/social-sharing';
              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
                (result: any) => {
                  if (result != null) {
-                   let body = JSON.parse(result._body);
-                   self.address = body.results[0].formatted_address;
+                   // let body = JSON.parse(result._body);
+                   // self.address = body.results[0].formatted_address;
+                   //
+                   // let city_name = body.results[0].address_components[5].short_name;
+                   self.address = result.street + " "+ result.houseNumber;
 
-                   let city_name = body.results[0].address_components[5].short_name;
+                   let city_name =  result.city;
+                   let country_code =  result.countryCode;
                    if (city_name) {
                      //Almaceno
                      self.util.savePreference(this.util.constants.address, this.address);
                      self.util.savePreference(this.util.constants.latitude, self.latitude);
                      self.util.savePreference(this.util.constants.longitude, self.longitude);
                      self.util.savePreference(this.util.constants.city_name, city_name);
+                     self.util.savePreference(this.util.constants.country_code, country_code);
                      self.get_banners(city_name);
                    }
                  }

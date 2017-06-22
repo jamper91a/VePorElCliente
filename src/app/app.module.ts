@@ -23,6 +23,8 @@ import { HelpPage } from '../pages/help/help';
 import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 import { OptionsPage } from '../pages/options/options';
 import { DirectoryPage } from '../pages/directory/directory';
+import { CompaniesPage } from '../pages/companies/companies';
+import { CompanyPage } from '../pages/company/company';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -44,8 +46,12 @@ import { MomentModule } from 'angular2-moment';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { Facebook } from '@ionic-native/facebook';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { NativeGeocoder} from '@ionic-native/native-geocoder';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+
+
 
 
 
@@ -78,10 +84,11 @@ let pages = [
   CalificationPage,
   InformationPage,
   HelpPage,
-  DatePicker,
   ForgetPasswordPage,
   OptionsPage,
-  DirectoryPage
+  DirectoryPage,
+  CompaniesPage,
+  CompanyPage,
 ];
 
 export function declarations() {
@@ -106,6 +113,9 @@ export function providers() {
     Geolocation,
     Facebook,
     SocialSharing,
+    NativeGeocoder,
+    GoogleAnalytics,
+    ScreenOrientation,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

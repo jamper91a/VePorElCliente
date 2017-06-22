@@ -44,6 +44,9 @@
         <rating item-end [(ngModel)]="offer.calification" readOnly="true">
         </rating>
       </ion-item>
+      <ion-item  *ngIf="!offers_user" text-wrap>
+        <p [innerHtml]="'mensaje_disponibilidad' | translate: {value: offer.amount}" text-center></p>
+      </ion-item>
     </ion-list>
   </div>
   <ion-grid >

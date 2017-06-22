@@ -6,6 +6,7 @@ import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { CalificationPage } from '../calification/calification';
+import { CompanyPage } from '../company/company';
 
 declare var google: any;
 @Component({
@@ -16,16 +17,25 @@ declare var google: any;
 export class MapOfferPage {
 
 
-
+  //region Oferta
   private offers_user:any;
   private offer:any;
-
+  //endregion
+  //region Branchs
+  private branch;
+  //endregion
+  //region Mapa
   private map:any;
   private directionsDisplay;
   private directionsService = new google.maps.DirectionsService();
   @ViewChild('map') mapElement: ElementRef;
   private latLngOrigin:any;
   private latLngDestination:any;
+  //endregion
+
+
+
+  private kind_map:any;
   constructor(
     private googleMaps: GoogleMaps,
     public navParams: NavParams,
@@ -42,17 +52,33 @@ export class MapOfferPage {
   ionViewDidEnter()
   {
     let self= this;
-    this.offers_user = this.navParams.get(this.util.constants.offers_user);
-    this.offer = this.navParams.get('offer');
-    this.geolocation.getCurrentPosition().then((resp) => {
-      //Agrego la ubicación del local
-      self.latLngOrigin = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-      self.latLngDestination = new google.maps.LatLng(this.offer.latitude, this.offer.longitude);
-      this.loadMap(resp.coords.latitude,resp.coords.longitude);
-      //self.calcRoute();
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    //Determino el tipo de busqueda, si es de una promocion o de un negocio
+    this.kind_map = this.navParams.get(this.util.constants.kind_map);
+    if(this.kind_map== this.util.constants.map_offer){
+      this.offers_user = this.navParams.get(this.util.constants.offers_user);
+      this.offer = this.navParams.get('offer');
+      this.geolocation.getCurrentPosition().then((resp) => {
+        //Agrego la ubicación del local
+        self.latLngOrigin = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+        self.latLngDestination = new google.maps.LatLng(this.offer.latitude, this.offer.longitude);
+        this.loadMap(resp.coords.latitude,resp.coords.longitude);
+        self.calcRoute();
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });
+    }else{
+      this.branch = this.navParams.get(this.util.constants.branch);
+      this.geolocation.getCurrentPosition().then((resp) => {
+        //Agrego la ubicación del local
+        self.latLngOrigin = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+        self.latLngDestination = new google.maps.LatLng(this.branch.location.y, this.branch.location.x);
+        this.loadMap(resp.coords.latitude,resp.coords.longitude);
+        self.calcRoute();
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });
+    }
+
 
   }
 
@@ -81,7 +107,10 @@ export class MapOfferPage {
     this.directionsService.route(request, function(result, status) {
       if (status == 'OK') {
         result.routes[0].legs[0].start_address="Mi ubicación";
-        result.routes[0].legs[0].end_address=self.offer.name;
+        if(self.kind_map== self.util.constants.map_offer)
+          result.routes[0].legs[0].end_address=self.offer.name;
+        else
+          result.routes[0].legs[0].end_address=self.branch.name;
         self.directionsDisplay.setDirections(result);
       }
     });
@@ -95,17 +124,18 @@ export class MapOfferPage {
       "waze",
       "lo_reclame",
       "no_lo_reclame",
+      "informacion_del_negocio"
     ]).subscribe(
       (values) => {
-        let actionSheet = this.actionSheetCtrl.create({
-          title: values.opciones,
-          buttons: [
-            {
-              text: values.ver_mi_oferta,
-              icon: !this.platform.is('ios') ? 'search' : null,
-              handler: () => {
-              }
-            },
+        let opt:any;
+        if(self.kind_map == self.util.constants.map_offer){
+          opt = [
+            // {
+            //   text: values.ver_mi_oferta,
+            //   icon: !this.platform.is('ios') ? 'search' : null,
+            //   handler: () => {
+            //   }
+            // },
             {
               icon: !this.platform.is('ios') ? 'happy' : null,
               text: values.lo_reclame,
@@ -141,6 +171,34 @@ export class MapOfferPage {
               }
             }
           ]
+        }else{
+          opt = [
+            {
+              text: values.informacion_del_negocio,
+              icon: !this.platform.is('ios') ? 'compass' : null,
+              handler: () => {
+                self.open_company();
+              }
+            },
+            {
+              text: values.google_maps,
+              icon: !this.platform.is('ios') ? 'compass' : null,
+              handler: () => {
+                self.open_maps();
+              }
+            },
+            {
+              text: values.waze,
+              icon: !this.platform.is('ios') ? 'compass' : null,
+              handler: () => {
+                self.open_maps();
+              }
+            }
+          ]
+        }
+        let actionSheet = this.actionSheetCtrl.create({
+          title: values.opciones,
+          buttons: opt
         });
         actionSheet.present();
       });
@@ -155,6 +213,11 @@ export class MapOfferPage {
       let label = encodeURI('My Label');
       window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
     }
+  }
+  public open_company(){
+    this.navCtrl.push(CompanyPage,{
+      company: this.branch
+    })
   }
 
 

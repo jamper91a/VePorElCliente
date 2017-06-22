@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+  <div *ngIf="company">
+    <h2 text-center> {{company.name}}</h2>
+    <div text-center>
+      <img-loader src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+    </div>
+
+    <ion-list >
+      <ion-item>
+        <b>{{'telefono' | translate}}</b>
+        <a href="tel:{{company.cellphone}}" target="_blank" item-end>
+          {{company.cellphone}}
+        </a>
+      </ion-item>
+      <ion-item>
+        <b>{{'email' | translate}}</b>
+        <a href="mailto:{{company.email}}" target="_blank" item-end>
+          {{company.email}}
+        </a>
+      </ion-item>
+      <ion-item>
+        <b>{{'facebook' | translate}}</b>
+        <a href="https://www.messenger.com/t/{{company.fanpage}}" target="_blank" item-end>
+          Contactar
+        </a>
+      </ion-item>
+      <ion-item>
+        <b>{{'domicilio' | translate}}</b>
+        <p item-end>{{company.domicilios?'Si':'No'}}</p>
+      </ion-item>
+      <ion-item>
+        <b>{{'calificacion_negocio' | translate}}</b>
+        <rating item-end [(ngModel)]="company.calification" readOnly="true">
+        </rating>
+      </ion-item>
+    </ion-list>
+    <ion-grid >
+      <ion-row>
+        <ion-col col-6-auto>
+          <button ion-button block (click)="go_to_offers()" *ngIf="company.cantidad>0">
+            {{'mis_ofertas' | translate}}
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

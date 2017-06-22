@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
-import { VePorEl } from '../../providers/providers';
+import { VePorEl, Util } from '../../providers/providers';
 import { HomePage } from '../home/home';
 
 declare var google: any;
@@ -21,10 +21,16 @@ export class MapPage {
   private latitude:number;
   private longitude:number;
   private city_name:string;
+  private country_code:string;
 
-  constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform,
+  constructor(
+    private googleMaps: GoogleMaps,
+    public navCtrl: NavController,
+    public platform: Platform,
     private geolocation: Geolocation,
-    public veporel:VePorEl,) {
+    public veporel:VePorEl,
+    public util:Util
+  ) {
 
   }
 
@@ -32,6 +38,8 @@ export class MapPage {
 
   ionViewDidLoad()
   {
+    console.log(this.platform);
+    this.util.savePreference(this.util.constants.address, '');
     this.geolocation.getCurrentPosition().then((resp) => {
       this.loadMap(resp.coords.latitude,resp.coords.longitude);
     }).catch((error) => {
@@ -75,16 +83,23 @@ export class MapPage {
   }
 
   private get_address(latitude:number, longitude:number){
+
     let self = this;
     this.latitude = latitude;
     this.longitude = longitude;
     this.veporel.get_address(latitude,longitude).subscribe(
       (result:any)=>{
         if(result!=null){
-          let body = JSON.parse(result._body);
-          var aux = body.results[0].formatted_address;
-          self.city_name = body.results[0].address_components[5].short_name;
+
+          var aux = result.street + " "+ result.houseNumber;
+          self.city_name = result.city
           self.address = aux;
+          self.country_code = result.countryCode;
+          // let body = JSON.parse(result._body);
+          // var aux = body.results[0].formatted_address;
+          // self.city_name = body.results[0].address_components[5].short_name;
+          // self.address = aux;
+
           self.txt_adress.setFocus();
         } }
     );
@@ -95,7 +110,8 @@ export class MapPage {
       address: this.address,
       latitude: this.latitude,
       longitude: this.longitude,
-      city_name: this.city_name
+      city_name: this.city_name,
+      country_code: this.country_code
     }
     console.log(parameters);
     this.navCtrl.push(HomePage, parameters);

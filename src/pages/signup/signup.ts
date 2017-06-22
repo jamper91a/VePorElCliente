@@ -7,15 +7,14 @@ import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 
 import { TranslateService } from '@ngx-translate/core';
-import { DatePicker } from 'ionic2-date-picker/ionic2-date-picker';
 import { Geolocation } from '@ionic-native/geolocation';
 import {LoginPage} from "../login/login";
+import {WelcomePage} from "../welcome/welcome";
 
 
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
-  providers: [ DatePicker ]
 })
 export class SignupPage {
 
@@ -49,6 +48,8 @@ export class SignupPage {
     r_password: ""
   };
 
+  private signup_by_facebook=false;
+
   // Our translated text strings
   private signupErrorString: string;
   private countries:any;
@@ -64,7 +65,6 @@ export class SignupPage {
     public navParams: NavParams,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public datePicker: DatePicker,
     private geolocation: Geolocation,
     public util:Util,
     public veporel:VePorEl
@@ -76,6 +76,8 @@ export class SignupPage {
     this.account.username = this.navParams.get('username');
     this.account.password = this.navParams.get('password');
     this.account.r_password = this.navParams.get('password');
+    if(this.account.password)
+      this.signup_by_facebook = true;
     this.account.names = this.navParams.get('names');
     this.account.last_name = this.navParams.get('last_name');
 
@@ -88,9 +90,12 @@ export class SignupPage {
       self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
         (result: any) => {
           if (result != null) {
-            let body = JSON.parse(result._body);
-            self.city_name = body.results[0].address_components[5].short_name;
-            self.country_name = body.results[0].address_components[6].short_name;
+            self.city_name =result.city;
+            self.country_name = result.countryCode;
+
+            // let body = JSON.parse(result._body);
+            // self.city_name = body.results[0].address_components[5].short_name;
+            // self.country_name = body.results[0].address_components[6].short_name;
           }
 
           //Obtengo los paises
@@ -110,11 +115,6 @@ export class SignupPage {
     }).catch((error) => {
     });
 
-    this.datePicker.onDateSelected.subscribe(
-      (date) => {
-        self.account.birthday = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
-      });
-
     this.veporel.get_subcategories(0).subscribe((result:any)=>{
       if(result!=null){
         let body = result._body;
@@ -128,7 +128,7 @@ export class SignupPage {
     if(this.account.r_password == this.account.password)
     {
       this.user.signup(this.account).subscribe((resp) => {
-        this.navCtrl.push(LoginPage);
+        this.navCtrl.push(WelcomePage);
       }, (err) => {
 
         //this.navCtrl.push(HomePage); // TODO: Remove this when you add your signup endpoint
@@ -151,9 +151,6 @@ export class SignupPage {
       toast.present();
     }
 
-  }
-  public showCalendar(){
-    this.datePicker.showCalendar();
   }
 
   change_country(event:any, country_code:string){
