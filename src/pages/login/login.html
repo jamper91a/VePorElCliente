@@ -8,7 +8,7 @@
 
 
 <ion-content>
-  <form (submit)="doLogin()">
+  <form>
     <ion-list>
 
       <ion-item>
@@ -22,9 +22,11 @@
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block (click)="doLogin()">{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block (click)="olvide_contrasena()">{{ 'olvide_la_contraseña' | translate }}</button>
       </div>
 
     </ion-list>
+
   </form>
 </ion-content>

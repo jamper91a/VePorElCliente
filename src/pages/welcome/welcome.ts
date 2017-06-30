@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
 import { Util } from '../../providers/util';
-import { MainPage } from '../../pages/pages';
+import {MenuPage} from "../menu/menu";
+import { Facebook } from '@ionic-native/facebook';
+import { User } from '../../providers/user';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -18,13 +21,27 @@ import { MainPage } from '../../pages/pages';
 })
 export class WelcomePage {
 
+  account: { username: string, password: string } = {
+    username: '',
+    password: ''
+  };
+  private loginErrorString: string;
+  private serverErrorString: string;
   constructor(
     public navCtrl: NavController,
-    public util: Util
+    public toastCtrl: ToastController,
+    public translateService: TranslateService,
+    public user: User,
+    public util: Util,
+    private fb: Facebook,
   ) {
     if (!this.util.getPreference(this.util.constants.logged)) {
+      this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
+        this.loginErrorString = values.LOGIN_ERROR;
+        this.serverErrorString = values.SERVER_ERROR;
+      })
     }else{
-      this.navCtrl.push(MainPage);
+      this.navCtrl.setRoot(MenuPage);
     }
 
   }
@@ -35,5 +52,58 @@ export class WelcomePage {
 
   signup() {
     this.navCtrl.push(SignupPage);
+  }
+
+  public facebook_login(){
+    let self=this;
+    this.fb.login(['public_profile', 'email'])
+      .then(
+        (res: any) => {
+          //Getting name and gender properties
+          let userId = res.authResponse.userID;
+          let params = new Array<string>();
+          self.fb.api("/me?fields=id,first_name,last_name,email,gender, birthday", params)
+            .then(function(user) {
+              user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+              //Ingreso al usuario en el sistema
+              self.account.username = user.email;
+              self.account.password = user.id;
+              self.user.login(self.account).subscribe((result)=>{
+                self.util.savePreference(self.util.constants.logged, true);
+                self.navCtrl.setRoot(MenuPage);
+              },(err)=>{
+                console.log(err);
+                if(err!=null){
+                  let body = JSON.parse(err._body);
+                  console.log(body.code);
+                  if(body.code==-1){
+                    let toast = self.toastCtrl.create({
+                      message: self.loginErrorString,
+                      duration: 3000,
+                      position: 'bottom'
+                    });
+                    toast.present();
+                    self.navCtrl.push(LoginPage,{
+                      username: user.email,
+                      password: user.id
+
+                    });
+                  }else if(body.code==-2){
+                    self.navCtrl.push(SignupPage,{
+                      username: user.email,
+                      password: user.id,
+                      names: user.first_name,
+                      last_name: user.last_name,
+
+                    });
+                  }
+                }
+              });
+            });
+        })
+      .catch(
+        e => {
+          console.log('Error logging into Facebook', e)
+        });
   }
 }

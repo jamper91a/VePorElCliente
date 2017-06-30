@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id, promotion.bid)">
+        <img-loader src="{{util.url}}{{promotion.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        <ion-card-content>
+          <ion-card-title>
+            {{promotion.name}}
+          </ion-card-title>
+          <p>
+            {{promotion.description}}
+          </p>
+        </ion-card-content>
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small  icon-left disabled>
+              <ion-icon name="map"></ion-icon>
+              {{transform_distance(promotion.distance)}}
+            </button>
+          </ion-col>
+          <ion-col text-center>
+            <button ion-button clear small  icon-left disabled>
+              {{promotion.price | currency:'USD':true:'1.0-0'}}
+            </button>
+          </ion-col>
+          <ion-col text-right>
+            <button ion-button clear small  icon-left>
+              <ion-icon name='share-alt'></ion-icon>
+              VePorEl
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+</ion-content>

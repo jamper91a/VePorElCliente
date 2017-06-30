@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-
-import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition } from '@ionic-native/google-maps';
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
+import { VePorEl, Util } from '../../providers/providers';
+import { HomePage } from '../home/home';
 
 declare var google: any;
 
@@ -10,90 +12,108 @@ declare var google: any;
   templateUrl: 'map.html'
 })
 export class MapPage {
-  
-  @ViewChild('map') map;
 
-  constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public platform: Platform) { }
+  private map:any;
+  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('txt_adress') txt_adress;
 
+  private address:string;
+  private latitude:number;
+  private longitude:number;
+  private city_name:string;
+  private country_code:string;
 
-  ngAfterViewInit() {
-    this.loadMap();
+  constructor(
+    private googleMaps: GoogleMaps,
+    public navCtrl: NavController,
+    public platform: Platform,
+    private geolocation: Geolocation,
+    public veporel:VePorEl,
+    public util:Util
+  ) {
+
   }
-  loadMap() {
-    // make sure to create following structure in your view.html file
-    // and add a height (for example 100%) to it, else the map won't be visible
-    // <ion-content>
-    //  <div #map id="map" style="height:100%;"></div>
-    // </ion-content>
 
-    // create a new map by passing HTMLElement
-    let element: HTMLElement = document.getElementById('map');
 
-    let map: GoogleMap = this.googleMaps.create(element);
 
-    // listen to MAP_READY event
-    // You must wait for this event to fire before adding something to the map or modifying it in anyway
-    map.one(GoogleMapsEvent.MAP_READY).then(() => console.log('Map is ready!'));
+  ionViewDidLoad()
+  {
+    console.log(this.platform);
+    this.util.savePreference(this.util.constants.address, '');
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.loadMap(resp.coords.latitude,resp.coords.longitude);
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
 
-    // create LatLng object
-    let ionic: LatLng = new LatLng(43.0741904, -89.3809802);
+  }
 
-    // create CameraPosition
-    let position: CameraPosition = {
-      target: ionic,
-      zoom: 18,
-      tilt: 30
+
+  private loadMap(latitude:number, longitude:number){
+
+    let self = this;
+    let latLng = new google.maps.LatLng(latitude, longitude);
+
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    // move the map's camera to position
-    map.moveCamera(position);
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.map.addListener('click', function(e) {
+      self.addMarket(e.latLng);
+    });
 
-    // create new marker
-    //  let markerOptions: MarkerOptions = {
-    //    position: ionic,
-    //    title: 'Ionic'
-    //  };
+    this.addMarket(latLng);
+  }
 
-    //  const marker: Marker = map.addMarker(markerOptions)
-    //    .then((marker: Marker) => {
-    //       marker.showInfoWindow();
-    //     });
-    //  }
+  private marker=null;
+  private addMarket(myLatlng:any)
+  {
+    if(this.marker!=null)
+      this.marker.setMap(null);
+    this.marker = new google.maps.Marker({
+      position: myLatlng,
+      animation: google.maps.Animation.DROP,
+      map: this.map
+    });
+    this.get_address(myLatlng.lat(), myLatlng.lng());
 
-    // initJSMaps(mapEle) {
-    //   new google.maps.Map(mapEle, {
-    //     center: { lat: 43.071584, lng: -89.380120 },
-    //     zoom: 16
-    //   });
-    // }
+  }
 
-    // initNativeMaps(mapEle) {
-    //   this.map = new GoogleMap(mapEle);
-    //   mapEle.classList.add('show-map');
+  private get_address(latitude:number, longitude:number){
 
-    //   GoogleMap.isAvailable().then(() => {
-    //     const position = new GoogleMapsLatLng(43.074395, -89.381056);
-    //     this.map.setPosition(position);
-    //   });
-    // }
+    let self = this;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.veporel.get_address(latitude,longitude).subscribe(
+      (result:any)=>{
+        if(result!=null){
 
-    // ionViewDidLoad() {
-    //   let mapEle = this.map.nativeElement;
+          var aux = result.street + " "+ result.houseNumber;
+          self.city_name = result.city
+          self.address = aux;
+          self.country_code = result.countryCode;
+          // let body = JSON.parse(result._body);
+          // var aux = body.results[0].formatted_address;
+          // self.city_name = body.results[0].address_components[5].short_name;
+          // self.address = aux;
 
-    //   if (!mapEle) {
-    //     console.error('Unable to initialize map, no map element with #map view reference.');
-    //     return;
-    //   }
+          self.txt_adress.setFocus();
+        } }
+    );
+  }
 
-    //   // Disable this switch if you'd like to only use JS maps, as the APIs
-    //   // are slightly different between the two. However, this makes it easy
-    //   // to use native maps while running in Cordova, and JS maps on the web.
-    //   if (this.platform.is('cordova') === true) {
-    //     this.initNativeMaps(mapEle);
-    //   } else {
-    //     this.initJSMaps(mapEle);
-    //   }
-    // }
-
+  public return_new_address(){
+    let parameters = {
+      address: this.address,
+      latitude: this.latitude,
+      longitude: this.longitude,
+      city_name: this.city_name,
+      country_code: this.country_code
+    }
+    console.log(parameters);
+    this.navCtrl.push(HomePage, parameters);
   }
 }

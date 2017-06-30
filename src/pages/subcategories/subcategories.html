@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <ion-slides pager>
+          <ion-slide *ngFor="let banner of banners">
+            <a href="{{banner.url_destination}}" target="_blank">
+              <img-loader src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            </a>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let subcategory of subcategories" (click)="get_offers(subcategory.id)">
+      <ion-thumbnail item-start>
+        <img-loader src="{{util.url}}{{subcategory.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+      </ion-thumbnail>
+      <h2>{{subcategory.name}}</h2>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

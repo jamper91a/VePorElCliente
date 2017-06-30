@@ -1,38 +1,75 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, Nav } from 'ionic-angular';
-
-import { ContentPage } from '../content/content';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { HomePage } from '../home/home';
+import { Util } from '../../providers/util';
 import { LoginPage } from '../login/login';
-import { SignupPage } from '../signup/signup';
+import { WelcomePage } from "../welcome/welcome";
+import { HelpPage } from "../help/help";
+import { OptionsPage } from "../options/options";
+import { InformationPage } from "../information/information";
+import { FindPromotiosPage } from "../find-promotios/find-promotios";
+import { MenuController } from 'ionic-angular';
 
-
+/**
+ * Generated class for the MenuPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
 @Component({
   selector: 'page-menu',
-  templateUrl: 'menu.html'
+  templateUrl: 'menu.html',
 })
 export class MenuPage {
-  // A reference to the ion-nav in our component
-  @ViewChild(Nav) nav: Nav;
-
-  rootPage: any = ContentPage;
-
-  pages: Array<{ title: string, component: any }>;
-
-  constructor(public navCtrl: NavController) {
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Sign in', component: LoginPage },
-      { title: 'Signup', component: SignupPage }
-    ];
+  private rootPage;
+  private loginPage;
+  private homePage;
+  private informationPage;
+  private helpPage;
+  private optionsPage;
+  private isLogged = false;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public util: Util,
+    public menuCtrl: MenuController,
+  ) {
+    this.rootPage = HomePage;
+    this.loginPage = LoginPage;
+    this.homePage = MenuPage;
+    this.informationPage = InformationPage;
+    this.helpPage = HelpPage;
+    this.optionsPage = OptionsPage;
   }
 
   ionViewDidLoad() {
-    console.log('Hello MenuPage Page');
+    if (this.util.getPreference(this.util.constants.logged)) {
+      this.isLogged = true;
+    }
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  public pushPage(p){
+
+    this.menuCtrl.close();
+    this.navCtrl.push(p);
   }
+
+  public openPage(p){
+    this.menuCtrl.close();
+    this.rootPage = p;
+  }
+
+  logout(){
+    this.util.clearAllData();
+    this.rootPage = WelcomePage;
+    // this.navCtrl.setRoot(WelcomePage);
+    this.menuCtrl.close();
+  }
+
+  go_to_offers(){
+    this.navCtrl.push(FindPromotiosPage,{
+      "type_find_promotio": this.util.constants.find_promotion_by_user_id
+    })
+  }
+
 }

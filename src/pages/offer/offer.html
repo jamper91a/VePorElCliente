@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only end>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+  </ion-navbar>
+</ion-header>
+<ion-content padding >
+  <div *ngIf="offer">
+    <h2 text-center>{{'producto_encotrado' | translate}}</h2>
+    <p text-center *ngIf="offers_user">{{'codigo_oferta' | translate}} CO-{{offers_user.id}}</p>
+    <img-loader src="{{util.url}}{{offer.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+    <ion-list >
+      <ion-item>
+        <b>{{'nombre' | translate}}</b>
+        <p item-end>{{offer.name}}</p>
+      </ion-item>
+      <ion-item>
+        <b>{{'producto' | translate}}</b>
+        <p item-end>{{offer.product_name}} </p>
+      </ion-item>
+      <ion-item>
+        <b>{{'precio_normal' | translate}}</b>
+        <p item-end>{{offer.regular_price | currency:'USD':true:'1.0-0'}}</p>
+      </ion-item>
+      <ion-item>
+        <b>{{'precio_veporel' | translate}}</b>
+        <p item-end>{{offer.price | currency:'USD':true:'1.0-0'}}</p>
+
+      </ion-item>
+      <ion-item>
+        <b>{{'ahorro' | translate}}</b>
+        <p item-end> {{calculate_saving(offer.regular_price,offer.price) | currency:'USD':true:'1.0-0'}} </p>
+      </ion-item>
+      <ion-item>
+        <b>{{'tiempo_oferta' | translate}}</b>
+        <div item-end>
+          <p>{{calculate_time(offer.finish)}}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <b>{{'calificacion_negocio' | translate}}</b>
+        <rating item-end [(ngModel)]="offer.calification" readOnly="true">
+        </rating>
+      </ion-item>
+      <ion-item  *ngIf="!offers_user" text-wrap>
+        <p [innerHtml]="'mensaje_disponibilidad' | translate: {value: offer.amount}" text-center></p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-grid >
+    <ion-row>
+      <ion-col col-6-auto>
+        <button ion-button block (click)="take_offer()" *ngIf="!offers_user"  [disabled]="cantidad>0">
+          {{'app_name' | translate}}
+        </button>
+        <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="offers_user.state>0">
+          {{'reclamar' | translate}}
+        </button>
+      </ion-col>
+      <ion-col col-6-auto>
+        <button ion-button block (click)="go_back()">
+          {{'nueva_busqueda' | translate}}
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
