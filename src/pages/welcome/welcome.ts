@@ -44,6 +44,8 @@ export class WelcomePage {
       this.navCtrl.setRoot(MenuPage);
     }
 
+    alert(this.util.url);
+
   }
 
   login() {
