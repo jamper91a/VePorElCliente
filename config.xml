@@ -4,6 +4,7 @@
     <description>Aplicativo para clientes.</description>
     <author email="jamper91a@gmail.com" href="">Jorge Moreno</author>
     <content src="index.html" />
+    <content src="main.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
