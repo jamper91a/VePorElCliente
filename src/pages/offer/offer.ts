@@ -6,6 +6,7 @@ import { MapOfferPage } from '../map-offer/map-offer';
 import moment from 'moment';
 import { LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import {QRCodeComponent} from 'angular2-qrcode';
 
 
 @Component({
@@ -133,15 +134,25 @@ export class OfferPage {
         }
       },
       error => {
-        let body = JSON.parse(error._body);
-        loader.dismiss();
-        let toast = self.toastCtrl.create({
-          message: body.message,
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        self.go_back();
+        try {
+          let body = JSON.parse(error._body);
+          loader.dismiss();
+          let toast = self.toastCtrl.create({
+            message: body.message,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+          self.go_back();
+        } catch (e) {
+          loader.dismiss();
+          let toast = self.toastCtrl.create({
+            message: "Error al intentar reservar, por favor intentalo mas tarde",
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }
 
       }
     );

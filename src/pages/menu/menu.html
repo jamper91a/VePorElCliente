@@ -1,11 +1,11 @@
-<ion-menu [content]="content" persistent="true" side="right">
+<ion-menu [content]="content" persistent="true" side="right" *ngIf="isLogged==true">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>Hola {{user.names}}</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <ion-list inset *ngIf="isLogged==true">
+    <ion-list inset >
       <button ion-item (click)="openPage(homePage)">
         <ion-icon name="home"></ion-icon>
         {{'inicio' | translate}}

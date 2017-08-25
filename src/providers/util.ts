@@ -41,7 +41,8 @@ export class Util{
       country_code: 'country_code',
       find_promotion_by_user_id: 'find_promotion_by_user_id'
     };
-    this.url = "http://132.148.81.118:85/";
+    //this.url = "http://132.148.81.118:85/";
+    this.url = "http://localhost:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 

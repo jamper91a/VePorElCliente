@@ -10,7 +10,10 @@
   <div *ngIf="offer">
     <h2 text-center>{{'producto_encotrado' | translate}}</h2>
     <p text-center *ngIf="offers_user">{{'codigo_oferta' | translate}} CO-{{offers_user.id}}</p>
-    <img-loader src="{{util.url}}{{offer.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+    <div *ngIf="offers_user">
+      <qr-code [value]="''+offers_user.id" [size]="150"></qr-code>
+    </div>
+    <img-loader *ngIf="!offers_user" src="{{util.url}}{{offer.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
     <ion-list >
       <ion-item>
         <b>{{'nombre' | translate}}</b>

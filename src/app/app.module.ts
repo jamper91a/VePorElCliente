@@ -51,7 +51,7 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
-
+import { QRCodeModule } from 'angular2-qrcode';
 
 
 
@@ -145,7 +145,8 @@ const cloudSettings: CloudSettings = {
     IonicImageLoader.forRoot(),
     MomentModule,
     Ionic2RatingModule,
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    QRCodeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: entryComponents(),

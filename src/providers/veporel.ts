@@ -80,12 +80,25 @@ export class VePorEl {
             // self.address = body.results[0].formatted_address;
             //
             // let city_name = body.results[0].address_components[5].short_name;
+            //busco en los address componene hasta encontrr cada elemento
+
             var result = {
-              countryCode:body.results[0].address_components[6].short_name,
-              city:body.results[0].address_components[5].short_name,
+              countryCode:"",
+              city:"",
               street: body.results[0].formatted_address,
               houseNumber: ''
             };
+            for(var i=0; i<body.results.length;i++){
+              for(var j=0; j<body.results[i].address_components.length;j++){
+                var element = body.results[i].address_components[j];
+                if(element.types[0]=="postal_town"){
+                  result.city=element.short_name;
+                }
+                if(element.types[0]=="country"){
+                  result.countryCode=element.short_name;
+                }
+              }
+              }
             dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
             observer.next(result);
           }, err => {

@@ -8,7 +8,6 @@ import { Util } from '../../providers/providers';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Geolocation } from '@ionic-native/geolocation';
-import {LoginPage} from "../login/login";
 import {WelcomePage} from "../welcome/welcome";
 
 

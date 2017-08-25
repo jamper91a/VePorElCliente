@@ -28,6 +28,7 @@ export class MenuPage {
   private helpPage;
   private optionsPage;
   private isLogged = false;
+  private user:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -45,6 +46,7 @@ export class MenuPage {
   ionViewDidLoad() {
     if (this.util.getPreference(this.util.constants.logged)) {
       this.isLogged = true;
+      this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
     }
   }
 
