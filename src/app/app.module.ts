@@ -52,6 +52,7 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { QRCodeModule } from 'angular2-qrcode';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 
 
@@ -116,6 +117,7 @@ export function providers() {
     NativeGeocoder,
     GoogleAnalytics,
     ScreenOrientation,
+    Diagnostic,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];
@@ -147,6 +149,7 @@ const cloudSettings: CloudSettings = {
     Ionic2RatingModule,
     CloudModule.forRoot(cloudSettings),
     QRCodeModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: entryComponents(),

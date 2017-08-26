@@ -1,5 +1,8 @@
 {
   "name": "'VePorEl",
   "app_id": "5bbdb51b",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { NavController, ToastController,NavParams } from 'ionic-angular';
 
 
@@ -57,6 +57,8 @@ export class SignupPage {
   private city_name="";
   private country_name="";
   private messages:any;
+
+  @ViewChild('password') inputP;
 
   constructor(
     public navCtrl: NavController,
@@ -167,5 +169,9 @@ export class SignupPage {
         }
       }
     });
+  }
+
+  showPassword(): any {
+    this.inputP.type = this.inputP.type === 'password' ?  'text' : 'password';
   }
 }
