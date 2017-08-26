@@ -73,5 +73,10 @@ export class MenuPage {
       "type_find_promotio": this.util.constants.find_promotion_by_user_id
     })
   }
+  go_to_information_page(option){
+    this.navCtrl.push(this.informationPage,{
+      "option": option
+    })
+  }
 
 }

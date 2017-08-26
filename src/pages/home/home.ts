@@ -9,6 +9,8 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
 import { CategoriesPage } from '../categories/categories';
 import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Diagnostic } from '@ionic-native/diagnostic';
+
 /**
  * Generated class for the HomePage page.
  *
@@ -36,7 +38,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
      private translateService: TranslateService,
      public toastCtrl: ToastController,
      public menu: MenuController,
-     public socialSharing: SocialSharing
+     public socialSharing: SocialSharing,
+     private diagnostic: Diagnostic
      )
    {
       menu.enable(true);
@@ -69,40 +72,52 @@ import { SocialSharing } from '@ionic-native/social-sharing';
            this.city_name= self.util.getPreference(this.util.constants.city_name);
            self.get_banners(this.city_name);
          }else{
-           //Obtengo las coordenadas actuales
-           this.geolocation.getCurrentPosition().then((resp) => {
-             self.latitude = resp.coords.latitude;
-             self.longitude = resp.coords.longitude;
 
-             self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
-               (result: any) => {
-                 if (result != null) {
-                   // let body = JSON.parse(result._body);
-                   // self.address = body.results[0].formatted_address;
-                   //
-                   // let city_name = body.results[0].address_components[5].short_name;
-                   self.address = result.street + " "+ result.houseNumber;
+           self.diagnostic.isLocationEnabled().then(function(isAvailable){
+             if(isAvailable){
+               //Obtengo las coordenadas actuales
+               self.geolocation.getCurrentPosition().then((resp) => {
+                 self.latitude = resp.coords.latitude;
+                 self.longitude = resp.coords.longitude;
 
-                   let city_name =  result.city;
-                   let country_code =  result.countryCode;
-                   if (city_name) {
-                     //Almaceno
-                     self.util.savePreference(this.util.constants.address, this.address);
-                     self.util.savePreference(this.util.constants.latitude, self.latitude);
-                     self.util.savePreference(this.util.constants.longitude, self.longitude);
-                     self.util.savePreference(this.util.constants.city_name, city_name);
-                     self.util.savePreference(this.util.constants.country_code, country_code);
-                     self.get_banners(city_name);
+                 self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+                   (result: any) => {
+                     if (result != null) {
+                       // let body = JSON.parse(result._body);
+                       // self.address = body.results[0].formatted_address;
+                       //
+                       // let city_name = body.results[0].address_components[5].short_name;
+                       self.address = result.street + " "+ result.houseNumber;
+
+                       let city_name =  result.city;
+                       let country_code =  result.countryCode;
+                       if (city_name) {
+                         //Almaceno
+                         self.util.savePreference(this.util.constants.address, this.address);
+                         self.util.savePreference(this.util.constants.latitude, self.latitude);
+                         self.util.savePreference(this.util.constants.longitude, self.longitude);
+                         self.util.savePreference(this.util.constants.city_name, city_name);
+                         self.util.savePreference(this.util.constants.country_code, country_code);
+                         self.get_banners(city_name);
+                       }
+                     }
+                   },
+                   error => {
+
                    }
-                 }
-               },
-               error => {
+                 );
+               }).catch((error) => {
+                 console.log('Error getting location', error);
+               });
+             }else{
+               self.diagnostic.switchToLocationSettings();
+             }
+           }).catch(function(){
 
-               }
-             );
-           }).catch((error) => {
-             console.log('Error getting location', error);
            });
+
+
+
          }
        }
 

@@ -58,7 +58,13 @@
 
       <ion-item *ngIf="!signup_by_facebook">
         <ion-label stacked>{{ 'password' | translate }}</ion-label>
-        <ion-input placeholder="{{'password' | translate}}" type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-input #password id="password" placeholder="{{'password' | translate}}" type="password" [(ngModel)]="account.password" name="password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label for="checkbox" *ngIf="!passwordCheckbox">{{'mostrar_contrasena'| translate}}</ion-label>
+        <ion-label for="checkbox" *ngIf="passwordCheckbox">{{'ocultar_contrasena' | translate}}</ion-label>
+        <ion-checkbox  class="marginTop" id="checkbox" name="checkbox" style="border-style: none;" [(ngModel)]="passwordCheckbox" (click)="showPassword()"></ion-checkbox>
       </ion-item>
 
       <ion-item *ngIf="!signup_by_facebook">

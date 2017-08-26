@@ -15,13 +15,14 @@
   "TUTORIAL_CONTINUE_BUTTON" : "Continuar",
 
   "TUTORIAL_SLIDE1_TITLE": "Bienvenido/a VePorEl",
-  "TUTORIAL_SLIDE1_DESCRIPTION": "En esta aplicación podrás xxxxxxxx.",
+  "TUTORIAL_SLIDE1_DESCRIPTION": "Hola estimado amigo, desde este momento y de la manera más FÁCIL, siempre podrás utilizar nuestra aplicación VEPOREL, para encontrar todas las OFERTAS de productos y servicios más cercanas a ti.",
 
-  "TUTORIAL_SLIDE2_TITLE": "Cómo usar el Super Starter",
-  "TUTORIAL_SLIDE2_DESCRIPTION": "Monta los varios tipos de página que quieras y quita los que no. Hemos incluido muchas estructuras de página comunes en apps móviles, como páginas de inicio de sesión y registro, pestañas, y esta página de tutorial.",
+  "TUTORIAL_SLIDE2_TITLE": "Ofertas",
+  "TUTORIAL_SLIDE2_DESCRIPTION": "Para obtener estas OFERTAS, solo debes ingresar a nuestra APP y escoger entre las opciones de PROMOCIONES CERCANAS – que te mostrará las mejores ofertas cercanas de ti –, u OTRAS PROMOCIONES – que te mostrará las OFERTAS que tienes en toda tu ciudad ",
 
-  "TUTORIAL_SLIDE3_TITLE": "Empezando",
-  "TUTORIAL_SLIDE3_DESCRIPTION": "¿Necesitas ayuda? Échale un vistazo al README del Super Starter para ver el tutorial completo.",
+  "TUTORIAL_SLIDE3_TITLE": "Negocios y servicios",
+  "TUTORIAL_SLIDE3_DESCRIPTION": "O si solo necesitas encontrar un producto o servicio en tu ciudad y desplazarte rápidamente hasta el, solo oprime en nuestra APP la opción NEGOCIOS Y SERVICIOS y seguro encontrarás el producto o servicio que estás buscando",
+  "TUTORIAL_SLIDE4_TITLE": "Todos estos servicios para nuestros usuarios en VEPOREL son FÁCILES y GRATUITOS.",
 
   "WELCOME_INTRO" : "Aquí podras iniciar tu camino para disfrutar de todos los beneficios",
 
@@ -150,7 +151,7 @@
   "nueva_busqueda": "Nueva busqueda",
   "registarse_para_obtener": "Debes estar registrado en el sistema para poder obtener las promociones",
   "obteniendo_direccion": "Obteniendo dirección",
-  "directorio_negocios": "Directorio negocios",
+  "directorio_negocios": "Negocios y Servicios",
   "ayuda": "Ayuda",
   "no_encontramos_datos": "No encontramos datos con esa información",
   "subcategorias": "Productos",
@@ -214,7 +215,9 @@
   "mis_ofertas": "Mis promociones",
   "informacion_del_negocio": "Informacion del  Negocio",
   "facebook": "Facebook",
-  "mis_promociones": "Mis promociones"
+  "mis_promociones": "Mis promociones",
+  "mostrar_contrasena": "Motrar Contraseña",
+  "ocultar_contrasena": "Ocultar contraseña"
 
 
 

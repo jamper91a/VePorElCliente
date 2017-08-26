@@ -13,10 +13,13 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class InformationPage {
 
+  private option:number;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
   ) {
+
+    this.option = this.navParams.get('option');
   }
 
   ionViewDidLoad() {
