@@ -171,7 +171,7 @@
   "google_maps": "Llévame con Google maps",
   "debes_instalar_google_maps": "Debes instalar google maps",
   "ir_al_negocio": "Ir al negocio",
-  "cambiar_direccion": "Cambiar dirección",
+  "cambiar_direccion": "Actualizar dirección",
   "productos_favoritos": "Productos favoritos",
   "infor_alertas": "¿Deseo recibir alertas con regalos o promociones cerca de mi",
   "fecha_nacimiento": "Fecha nacimiento",
@@ -217,7 +217,12 @@
   "facebook": "Facebook",
   "mis_promociones": "Mis promociones",
   "mostrar_contrasena": "Motrar Contraseña",
-  "ocultar_contrasena": "Ocultar contraseña"
+  "ocultar_contrasena": "Ocultar contraseña",
+  "ubicacion": "Ubicación",
+  "activar_ubicacion": "Se deben activar los servicios de ubicación",
+  "activar": "Activar",
+  "omitir": "Omitir",
+  "salir":"Salir"
 
 
 

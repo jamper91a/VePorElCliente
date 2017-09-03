@@ -24,7 +24,7 @@
 
   <ion-card *ngFor="let category of categories" (click)="find_subcategories(category.id)">
     <img-loader src="{{util.url}}{{category.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
-    <div class="card-title">{{category.name}}</div>
+    <div class="card-title" style="background: rgba(0, 0, 0, 0.5)">{{category.name}}</div>
   </ion-card>
 
 </ion-content>

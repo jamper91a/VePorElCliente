@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
+import {NavController, NavParams, ToastController, MenuController, AlertController, Platform} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
@@ -10,6 +10,7 @@ import { CategoriesPage } from '../categories/categories';
 import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
+
 
 /**
  * Generated class for the HomePage page.
@@ -39,7 +40,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
      public toastCtrl: ToastController,
      public menu: MenuController,
      public socialSharing: SocialSharing,
-     private diagnostic: Diagnostic
+     private diagnostic: Diagnostic,
+     private platform: Platform,
+     private alertCtrl: AlertController
      )
    {
       menu.enable(true);
@@ -51,7 +54,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
      let self = this;
      try {
        //Valido si me llega una dirrecion de otra vista
-       this.address = this.navParams.get('address');
+       this.city_name = this.navParams.get('city_name');
        if(this.address){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
@@ -65,7 +68,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
          self.get_banners(this.city_name);
        }else{
          //Valido si tengo una direccion almacenada
-         if(self.util.getPreference(this.util.constants.address)){
+         if(self.util.getPreference(this.util.constants.city_name)){
            this.address = self.util.getPreference(this.util.constants.address);
            this.latitude = self.util.getPreference(this.util.constants.latitude);
            this.longitude = self.util.getPreference(this.util.constants.longitude);
@@ -110,7 +113,30 @@ import { Diagnostic } from '@ionic-native/diagnostic';
                  console.log('Error getting location', error);
                });
              }else{
-               self.diagnostic.switchToLocationSettings();
+
+
+               self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+                 let confirm = self.alertCtrl.create({
+                   title: res.ubicacion,
+                   message: res.activar_ubicacion,
+                   buttons: [
+                     {
+                       text: res.salir,
+                       handler: () => {
+                         self.platform.exitApp();
+                       }
+                     },
+                     {
+                       text: res.activar,
+                       handler: () => {
+                         self.diagnostic.switchToLocationSettings();
+                       }
+                     }
+                   ]
+                 });
+                 confirm.present();
+               });
+
              }
            }).catch(function(){
 

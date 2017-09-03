@@ -17,7 +17,7 @@
 		<ion-list>
 			<ion-item>
 				<ion-label stacked>{{'address' | translate}}</ion-label>
-				<ion-input #txt_adress type="text" [(ngModel)]="address" placeholder="{{'obteniendo_direccion' | translate}}" text-center autofocus></ion-input>
+				<ion-input #txt_adress type="text" [(ngModel)]="city_name" placeholder="{{'obteniendo_direccion' | translate}}" text-center disable="true"></ion-input>
 			</ion-item>
 		</ion-list>
 		<button ion-button block (click)="return_new_address()">
