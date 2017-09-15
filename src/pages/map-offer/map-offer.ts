@@ -182,19 +182,20 @@ export class MapOfferPage {
               }
             },
             {
-              text: values.google_maps,
+              text: "Llévame a este lugar",
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
                 self.open_maps();
               }
-            },
+            }
+            /*,
             {
               text: values.waze,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
                 self.open_maps();
               }
-            }
+            }*/
           ]
         }
         let actionSheet = this.actionSheetCtrl.create({

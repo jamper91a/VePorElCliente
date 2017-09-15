@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {AlertController, NavController, NavParams, Platform} from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
 import { CompaniesPage } from '../companies/companies';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { TranslateService } from '@ngx-translate/core';
+import {Subscription} from "rxjs/Subscription";
+
+
 @Component({
   selector: 'page-directory',
   templateUrl: 'directory.html',
@@ -30,6 +35,7 @@ export class DirectoryPage {
     subcategory_id:0,
     name:""
   };
+  private onResumeSubscription: Subscription;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,36 +43,97 @@ export class DirectoryPage {
     public veporel:VePorEl,
     private geolocation: Geolocation,
     private ga: GoogleAnalytics,
+    private diagnostic: Diagnostic,
+    private translateService: TranslateService,
+    private platform: Platform,
+    private alertCtrl: AlertController
   ) {
+    var self=this;
+    this.platform.resume.subscribe(() => {
+      console.log("resumen");
+      self.get_location();
+    });
+
+  }
+
+  get_location(){
+    console.log("ingresando");
+    let self = this;
+    self.diagnostic.isLocationEnabled().then(function(isAvailable){
+      console.log("isLocationEnabled:"+isAvailable);
+      if(isAvailable){
+        let dialog = self.util.show_dialog('Obteniendo tu ubicación');
+        self.geolocation.getCurrentPosition().then((resp) => {
+          console.log("getCurrentPosition:"+resp.coords);
+          self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+            (result: any) => {
+              self.country_name = result.countryCode;
+              self.city_name = result.city;
+              dialog.dismiss();
+              //Obtengo los paises
+              self.veporel.get_countries().subscribe((result:any)=>{
+                let body =  result._body;
+                if(body!=null){
+                  self.countries = JSON.parse(body);
+                  self.data.country_id = self.country_name;
+
+                  self.veporel.get_categories().subscribe((result:any)=>{
+                    if(result!=null){
+                      let body = result._body;
+                      self.categories = JSON.parse(body);
+                    }
+                  });
+                }
+
+              });
+            },
+            error => {
+
+            }
+          );
+        }).catch((error) => {
+          console.error(error);
+        });
+      }else{
+
+
+        self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+          let confirm = self.alertCtrl.create({
+            title: res.ubicacion,
+            message: res.activar_ubicacion,
+            buttons: [
+              {
+                text: res.salir,
+                handler: () => {
+                  self.platform.exitApp();
+                }
+              },
+              {
+                text: res.activar,
+                handler: () => {
+                  self.diagnostic.switchToLocationSettings();
+                }
+              }
+            ]
+          });
+          confirm.present();
+        });
+
+      }
+    }).catch((error)=>{
+      console.error(error);
+    });
+
 
   }
 
   ionViewDidLoad() {
+
     let self = this;
-    this.geolocation.getCurrentPosition().then((resp) => {
-      let dialog = this.util.show_dialog('Obteniendo tu ubicación');
-      self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
-        (result: any) => {
-          self.country_name = result.countryCode;
-          self.city_name = result.city;
-          dialog.dismiss();
-          //Obtengo los paises
-          this.veporel.get_countries().subscribe((result:any)=>{
-            let body =  result._body;
-            if(body!=null){
-              self.countries = JSON.parse(body);
-              self.data.country_id = self.country_name;
-            }
+    this.get_location();
 
-          });
-        },
-        error => {
 
-        }
-      );
-    }).catch((error) => {
-      console.error(error);
-    });
+
 
 
     // this.geolocation.getCurrentPosition().then((resp) => {
@@ -98,12 +165,7 @@ export class DirectoryPage {
 
 
 
-    this.veporel.get_categories().subscribe((result:any)=>{
-      if(result!=null){
-        let body = result._body;
-        self.categories = JSON.parse(body);
-      }
-    });
+
 
 
   }
