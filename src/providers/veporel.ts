@@ -340,7 +340,7 @@ export class VePorEl {
   }
   get_cities_by_country(country_code:string){
     let dialog = this.util.show_dialog('Listando las ciudades');
-    let seq = this.api.get('cities', {country_code:country_code}).share();
+    let seq = this.api.post('cities', {country_code:country_code}).share();
     seq
       .map(res => res.json())
       .subscribe(res => {

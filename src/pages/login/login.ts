@@ -54,24 +54,35 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
+    let dialog = this.util.show_dialog('Validando información');
     let self=this;
     this.user.login(this.account).subscribe((resp) => {
+      dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
       self.util.savePreference(self.util.constants.logged, true);
       self.navCtrl.setRoot(MenuPage);
     }, (err) => {
+      dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
       try {
         let body = JSON.parse(err._body);
         if (body.code==-1) {
-          let toast = this.toastCtrl.create({
-            message: this.loginErrorString,
+          let toast = self.toastCtrl.create({
+            message: self.loginErrorString,
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+        }else if(body.code==-2){
+          let toast = self.toastCtrl.create({
+            message: "Usuario no existe",
             duration: 3000,
             position: 'top'
           });
           toast.present();
         }
       } catch (e) {
-        let toast = this.toastCtrl.create({
-          message: this.serverErrorString,
+        console.error(e);
+        let toast = self.toastCtrl.create({
+          message: self.serverErrorString,
           duration: 3000,
           position: 'bottom'
         });

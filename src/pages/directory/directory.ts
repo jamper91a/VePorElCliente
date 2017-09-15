@@ -65,6 +65,7 @@ export class DirectoryPage {
         }
       );
     }).catch((error) => {
+      console.error(error);
     });
 
 

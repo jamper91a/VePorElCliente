@@ -42,6 +42,7 @@
   "SIGNUP_TITLE": "Registro",
   "SIGNUP_ERROR": "No se ha podido crear la cuenta. Por favor revisa la información de la cuenta e inténtalo de nuevo.",
   "SIGNUP_BUTTON": "Registrarse",
+  "SERVER_ERROR": "Tenemos unos incovenientes técnicos, por favor intenta mas tarde",
 
   "LIST_MASTER_TITLE": "Items",
 
