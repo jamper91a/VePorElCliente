@@ -393,8 +393,9 @@ export class VePorEl {
     return seq;
   }
 
-  get_companies_by_city_subcategorie_and_name(body:any){
+  get_companies_by_city_subcategorie_and_name(body:any,page:number){
     let dialog = this.util.show_dialog('Obteniendo compañias');
+    body.page = page;
     let seq = this.api.post('companies/find', body).share();
     seq
       .map(res => res.json())

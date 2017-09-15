@@ -157,25 +157,26 @@ export class MapOfferPage {
               }
             },
             {
-              text: values.google_maps,
+              text: "Llévame a este lugar",
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
                 self.open_maps();
               }
-            },
+            }
+            /*,
             {
               text: values.waze,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
                 self.open_maps();
               }
-            }
+            }*/
           ]
         }else{
           opt = [
             {
               text: values.informacion_del_negocio,
-              icon: !this.platform.is('ios') ? 'compass' : null,
+              icon: !this.platform.is('ios') ? 'ios-information-circle' : null,
               handler: () => {
                 self.open_company();
               }

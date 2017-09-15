@@ -145,7 +145,6 @@ export class DirectoryPage {
         break;
       }
     }
-    console.log(subcategorie);
     this.ga.trackEvent('Busqueda negocios', 'Subcategoria', subcategorie);
     this.navCtrl.push(CompaniesPage,this.data);
   }
