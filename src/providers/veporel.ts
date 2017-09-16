@@ -252,9 +252,10 @@ export class VePorEl {
     return seq;
   }
 
-  get_offer_by_id(offer_id:number):any{
+  get_offer_by_id(offer_id:number, branch_id:number):any{
     let body ={
-      id : offer_id
+      id : offer_id,
+      branch_id: branch_id,
     };
     let dialog = this.util.show_dialog('Buscando la oferta');
     let seq = this.api.post('offers/find_by_id', body).share();

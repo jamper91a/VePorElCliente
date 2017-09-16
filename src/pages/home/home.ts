@@ -62,7 +62,7 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
-       if(this.address){
+       if(this.city_name){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
          this.city_name = this.navParams.get(this.util.constants.city_name);
@@ -97,7 +97,7 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
                        // self.address = body.results[0].formatted_address;
                        //
                        // let city_name = body.results[0].address_components[5].short_name;
-                       self.address = result.street + " "+ result.houseNumber;
+                       self.address = result.city
 
                        let city_name =  result.city;
                        let country_code =  result.countryCode;
@@ -182,7 +182,7 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
 
    public find_promotios(){
      let self = this;
-     if(this.address){
+     if(this.city_name){
        this.navCtrl.push(FindPromotiosPage, {
          "type_find_promotio": self.util.constants.find_promotio_by_location,
          "latitude" : self.latitude,

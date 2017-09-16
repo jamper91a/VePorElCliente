@@ -32,7 +32,7 @@ export class OfferPage {
     let self = this;
     this.offer_id = this.navParams.get(this.util.constants.offer_id);
     this.branch_id = this.navParams.get(this.util.constants.branch_id);
-    self.veporel.get_offer_by_id(this.offer_id).subscribe(
+    self.veporel.get_offer_by_id(this.offer_id, this.branch_id).subscribe(
       (result: any) => {
         if (result != null) {
           let body = JSON.parse(result._body);
