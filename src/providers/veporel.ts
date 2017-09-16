@@ -23,7 +23,7 @@ export class VePorEl {
 
   }
 
-  get_banners(city_name:string) {
+  get_banners(city_name:string):any {
 
     let body ={
       city_name : city_name
@@ -148,7 +148,7 @@ export class VePorEl {
 
 
 
-  get_promotions_by_location(latitude:number, longitude:number){
+  get_promotions_by_location(latitude:number, longitude:number):any{
     let options= JSON.parse(this.util.getPreference("options"));
     if(!options){
       options={
@@ -177,7 +177,7 @@ export class VePorEl {
 
   }
 
-  get_categories(){
+  get_categories():any{
     let dialog = this.util.show_dialog('Obteniendo las categorias');
     let seq = this.api.get('categories').share();
     seq
@@ -193,7 +193,7 @@ export class VePorEl {
     return seq;
   }
 
-  get_subcategories(category_id:number){
+  get_subcategories(category_id:number):any{
     let dialog = this.util.show_dialog('Obteniendo las subcategorias');
     let seq = this.api.get('subcategories', {category_id: category_id}).share();
     seq
@@ -209,7 +209,7 @@ export class VePorEl {
     return seq;
   }
 
-  get_offers_by_subcategory(subcategory_id:number){
+  get_offers_by_subcategory(subcategory_id:number):any{
     let body ={
       latitude : this.util.getPreference(this.util.constants.latitude),
       longitude : this.util.getPreference(this.util.constants.longitude),
@@ -230,8 +230,29 @@ export class VePorEl {
 
     return seq;
   }
+  get_offers_by_subcategory_name(subcategory_name:string):any{
+    let body ={
+      latitude : this.util.getPreference(this.util.constants.latitude),
+      longitude : this.util.getPreference(this.util.constants.longitude),
+      city_name : this.util.getPreference(this.util.constants.city_name),
+      subcategory_name : subcategory_name,
+    };
+    let dialog = this.util.show_dialog('Obteniendo las ofettas');
+    let seq = this.api.post('offers/find_by_subcategorie_name', body).share();
+    seq
+      .map(res => res.json())
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        return res;
+      }, err => {
+        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        console.error('ERROR', err);
+      });
 
-  get_offer_by_id(offer_id:number){
+    return seq;
+  }
+
+  get_offer_by_id(offer_id:number):any{
     let body ={
       id : offer_id
     };
@@ -250,7 +271,7 @@ export class VePorEl {
     return seq;
   }
 
-  get_offers_by_user_id(){
+  get_offers_by_user_id():any{
     let dialog = this.util.show_dialog('Obteniendo mis ofertas');
     let body = {
       latitude : this.util.getPreference(this.util.constants.latitude),
@@ -270,7 +291,7 @@ export class VePorEl {
     return seq;
   }
 
-  take_offer(offer_id:number, branch_id:number){
+  take_offer(offer_id:number, branch_id:number):any{
     let body ={
       offer_id : offer_id,
       branch_id: branch_id
@@ -289,7 +310,7 @@ export class VePorEl {
 
     return seq;
   }
-  send_calification(body:any)
+  send_calification(body:any):any
   {
     let dialog = this.util.show_dialog('Calificando');
     let seq = this.api.post('offers/qualification', body).share();
@@ -305,7 +326,7 @@ export class VePorEl {
 
     return seq;
   }
-  send_message(message:string){
+  send_message(message:string):any{
     let body = {
       message: message
     };
@@ -323,7 +344,7 @@ export class VePorEl {
 
     return seq;
   }
-  get_countries(){
+  get_countries():any{
     let dialog = this.util.show_dialog('Listando los paises');
     let seq = this.api.get('countries', {}).share();
     seq
@@ -338,7 +359,7 @@ export class VePorEl {
 
     return seq;
   }
-  get_cities_by_country(country_code:string){
+  get_cities_by_country(country_code:string):any{
     let dialog = this.util.show_dialog('Listando las ciudades');
     let seq = this.api.post('cities', {country_code:country_code}).share();
     seq
@@ -354,7 +375,7 @@ export class VePorEl {
     return seq;
   }
 
-  recovery_password(email:string){
+  recovery_password(email:string):any{
     let body = {
       email: email
     };
@@ -372,7 +393,7 @@ export class VePorEl {
 
     return seq;
   }
-  reset_password(email:string, temp_password:number, new_password:string){
+  reset_password(email:string, temp_password:number, new_password:string):any{
     let body = {
       email: email,
       temp_password: temp_password,
@@ -393,7 +414,7 @@ export class VePorEl {
     return seq;
   }
 
-  get_companies_by_city_subcategorie_and_name(body:any,page:number){
+  get_companies_by_city_subcategorie_and_name(body:any,page:number):any{
     let dialog = this.util.show_dialog('Obteniendo compañias');
     body.page = page;
     let seq = this.api.post('companies/find', body).share();
@@ -410,7 +431,7 @@ export class VePorEl {
     return seq;
   }
 
-  get_company_by_id(company_id:number){
+  get_company_by_id(company_id:number):any{
     let dialog = this.util.show_dialog('Obteniendo información del negocio');
     let body = {
       company_id: company_id

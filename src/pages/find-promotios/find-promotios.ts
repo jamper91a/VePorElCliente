@@ -46,7 +46,8 @@ export class FindPromotiosPage {
 
           }
         );
-      }else if (this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_subcategory){
+      }
+      else if (this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_subcategory){
         let subcategory_id = this.navParams.get(this.util.constants.subcategory_id);
         self.veporel.get_offers_by_subcategory(subcategory_id).subscribe(
           (result: any) => {
@@ -62,7 +63,25 @@ export class FindPromotiosPage {
 
           }
         );
-      }else if(this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_user_id){
+      }
+      else if (this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_subcategory_name){
+        let subcategory_name = this.navParams.get(this.util.constants.subcategory_name);
+        self.veporel.get_offers_by_subcategory_name(subcategory_name).subscribe(
+          (result: any) => {
+            if (result != null) {
+              self.promotions = JSON.parse(result._body);
+              if(self.promotions.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
+            }
+          },
+          error => {
+
+          }
+        );
+      }
+      else if(this.type_find_promotion && this.type_find_promotion == this.util.constants.find_promotion_by_user_id){
         self.veporel.get_offers_by_user_id().subscribe(
           (result: any) => {
             if (result != null) {

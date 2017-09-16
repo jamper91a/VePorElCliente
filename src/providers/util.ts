@@ -29,6 +29,7 @@ export class Util{
       city_name: 'city_name',
       address: 'address',
       subcategory_id: 'subcategory_id',
+      subcategory_name: 'subcategory_name',
       offer_id: 'offer_id',
       branch_id: 'branch_id',
       offers_user: 'offers_user',
@@ -39,7 +40,8 @@ export class Util{
       branch: 'branch',
       company: 'company',
       country_code: 'country_code',
-      find_promotion_by_user_id: 'find_promotion_by_user_id'
+      find_promotion_by_user_id: 'find_promotion_by_user_id',
+      find_promotion_by_subcategory_name: 'find_promotion_by_subcategory_name'
     };
     //this.url = "http://79.143.188.95:85/";
     this.url = "http://192.168.1.74:1337/";

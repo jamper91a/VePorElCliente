@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, NavController, NavParams, Platform} from 'ionic-angular';
+import {AlertController, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -46,12 +46,13 @@ export class DirectoryPage {
     private diagnostic: Diagnostic,
     private translateService: TranslateService,
     private platform: Platform,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public viewCtrl: ViewController
   ) {
     var self=this;
     this.platform.resume.subscribe(() => {
-      console.log("resumen");
-      self.get_location();
+      if(this.navCtrl.last().instance instanceof DirectoryPage)
+        self.get_location();
     });
 
   }

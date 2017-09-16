@@ -10,6 +10,7 @@ import { CategoriesPage } from '../categories/categories';
 import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
 
 
 /**
@@ -30,6 +31,11 @@ import { Diagnostic } from '@ionic-native/diagnostic';
    private longitude:number;
    private city_name:string;
    private country_code:string;
+
+  speechList: Array<string> = [];
+  androidOptions: SpeechRecognitionListeningOptionsAndroid;
+  iosOptions: SpeechRecognitionListeningOptionsIOS;
+
    constructor(
      public navCtrl: NavController,
      public navParams: NavParams,
@@ -42,7 +48,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
      public socialSharing: SocialSharing,
      private diagnostic: Diagnostic,
      private platform: Platform,
-     private alertCtrl: AlertController
+     private alertCtrl: AlertController,
+     private speech: SpeechRecognition
      )
    {
       menu.enable(true);
@@ -210,5 +217,101 @@ import { Diagnostic } from '@ionic-native/diagnostic';
    public go_to_directory(){
      this.navCtrl.push(DirectoryPage);
    }
+
+  async isSpeechSupported(): Promise<boolean> {
+    let isAvailable = await this.speech.isRecognitionAvailable();
+    return isAvailable;
+  }
+  async getPermission(): Promise<void> {
+    try {
+      let permission = await this.speech.requestPermission();
+      console.log(permission);
+      return permission;
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+  async hasPermission(): Promise<boolean> {
+    try {
+      let permission = await this.speech.hasPermission();
+      console.log(permission);
+      return permission;
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+  async getSupportedLanguages(): Promise<Array<string>> {
+    try {
+      let languages = await this.speech.getSupportedLanguages();
+      console.log(languages);
+      return languages;
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+  listenForSpeech(): void {
+     var self=this;
+     this.isSpeechSupported().then((isSupported:boolean)=>{
+       if(isSupported){
+         self.hasPermission().then((hasPermission:boolean)=>{
+           if(hasPermission){
+             self.androidOptions = {
+               prompt: 'Cual producto deseas buscarle ofertas',
+               language: 'es-MX'
+             }
+
+             self.iosOptions = {
+               language: 'es-MX'
+             }
+
+             if (self.platform.is('android')) {
+               self.speech.startListening(self.androidOptions).subscribe(data => {
+                 let confirm = self.alertCtrl.create({
+                   title:  "Buscar ofertas",
+                   message: "Deseas buscar ofertas del producto "+data[0]+"?",
+                   buttons: [
+                     {
+                       text: "Cancelar",
+                       handler: () => {
+
+                       }
+                     },
+                     {
+                       text: "Buscar",
+                       handler: () => {
+                         self.get_offers(data[0]);
+                       }
+                     }
+                   ]
+                 });
+                 confirm.present();
+               }, error => console.log(error));
+             }
+             else if (self.platform.is('ios')) {
+               self.speech.startListening(self.iosOptions).subscribe(data => self.speechList = data, error => console.log(error));
+             }
+           }else{
+             self.getPermission();
+           }
+         });
+
+
+       }else{
+
+       }
+     });
+
+
+  }
+
+  public get_offers(subcategory_name:string){
+    this.navCtrl.push(FindPromotiosPage,{
+      "type_find_promotio": this.util.constants.find_promotion_by_subcategory_name,
+      "subcategory_name": subcategory_name
+    })
+  }
 
  }
