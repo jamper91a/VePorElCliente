@@ -50,7 +50,12 @@
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col col-6-auto>
+			<ion-col col-1-auto>
+        <button ion-button block icon-only (click)="listenForSpeech()">
+          <ion-icon name="mic"></ion-icon>
+        </button>
+			</ion-col>
+      <ion-col col-5-auto>
 				<button ion-button block (click)="find_promotios()">
 					{{'buscar_promociones' | translate}}
 				</button>

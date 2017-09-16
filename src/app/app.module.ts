@@ -53,6 +53,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
 
 
 
@@ -118,6 +119,7 @@ export function providers() {
     GoogleAnalytics,
     ScreenOrientation,
     Diagnostic,
+    SpeechRecognition,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

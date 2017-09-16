@@ -12,6 +12,7 @@ export class CompaniesPage {
 
 
   private branchs:any[];
+  private page=0;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -22,7 +23,7 @@ export class CompaniesPage {
 
   ionViewDidLoad() {
     let self = this;
-    this.veporel.get_companies_by_city_subcategorie_and_name(this.navParams.data).subscribe((result:any)=>{
+    this.veporel.get_companies_by_city_subcategorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
       if(result!=null){
         self.branchs = JSON.parse(result._body);
         if(self.branchs.length==0){
@@ -40,5 +41,24 @@ export class CompaniesPage {
       branch: branch
     })
   }
+
+  doInfinite(infiniteScroll) {
+    var self=this;
+    this.page=this.page+50;
+    this.veporel.get_companies_by_city_subcategorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
+      infiniteScroll.complete();
+
+      if(result!=null){
+        let new_Branchs= JSON.parse(result._body);
+        if(new_Branchs==0){
+        }else{
+          self.branchs = self.branchs.concat(new_Branchs);
+        }
+      }
+    });
+
+
+  }
+
 
 }
