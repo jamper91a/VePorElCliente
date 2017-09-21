@@ -39,7 +39,6 @@ export class DirectoryPage {
     latitude:0,
     longitude:0
   };
-  private onResumeSubscription: Subscription;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -150,8 +149,6 @@ export class DirectoryPage {
   }
 
   ionViewDidLoad() {
-
-    let self = this;
     this.get_location();
 
 

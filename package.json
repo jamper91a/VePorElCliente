@@ -28,6 +28,7 @@
         "@ionic-native/geolocation": "^3.11.0",
         "@ionic-native/google-analytics": "^3.12.1",
         "@ionic-native/google-maps": "3.11.0",
+        "@ionic-native/launch-navigator": "^4.2.1",
         "@ionic-native/native-geocoder": "^3.12.1",
         "@ionic-native/screen-orientation": "^3.12.1",
         "@ionic-native/social-sharing": "^3.12.1",
@@ -42,9 +43,11 @@
         "angular2-moment": "^1.3.3",
         "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",
+        "cordova-plugin-actionsheet": "^2.3.3",
         "cordova-plugin-add-swift-support": "^1.6.0",
         "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-device": "^1.1.6",
+        "cordova-plugin-dialogs": "^1.3.3",
         "cordova-plugin-facebook4": "^1.9.1",
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-file-transfer": "^1.6.3",
@@ -71,6 +74,7 @@
         "moment": "^2.18.1",
         "rxjs": "5.1.1",
         "sw-toolbox": "3.6.0",
+        "uk.co.workingedge.phonegap.plugin.launchnavigator": "^4.0.5",
         "zone.js": "0.8.11"
     },
     "devDependencies": {
@@ -111,7 +115,8 @@
             "cordova-plugin-screen-orientation": {},
             "es6-promise-plugin": {},
             "cordova.plugins.diagnostic": {},
-            "cordova-plugin-speechrecognition": {}
+            "cordova-plugin-speechrecognition": {},
+            "uk.co.workingedge.phonegap.plugin.launchnavigator": {}
         },
         "platforms": [
             "android",

@@ -68,6 +68,7 @@
   "error_11": "No se pudo enviar el mensaje, por favor intentalo mas tarde",
   "error_12": "Hay un error en el sistema, por favor intentelo mas tarde",
   "error_13": "Lo sentimos, no encontramos información",
+  "error_14": "Lo sentimos, esa aplicación no esta disponible",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",

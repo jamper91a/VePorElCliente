@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
-import { MapOfferPage } from '../map-offer/map-offer';
 import {CompanyPage} from "../company/company";
+import {MapOfferPage} from "../map-offer/map-offer";
 
 @Component({
   selector: 'page-companies',
@@ -37,9 +37,9 @@ export class CompaniesPage {
 
   go_to_map(branch:any){
     let self = this;
-    this.navCtrl.push(CompanyPage,{
+    this.navCtrl.push(MapOfferPage,{
       kind_map: self.util.constants.map_branch,
-      company: branch
+      branch: branch
     })
   }
 

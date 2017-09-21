@@ -6,7 +6,6 @@ import { MapOfferPage } from '../map-offer/map-offer';
 import moment from 'moment';
 import { LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
-import {QRCodeComponent} from 'angular2-qrcode';
 
 
 @Component({

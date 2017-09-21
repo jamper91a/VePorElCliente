@@ -50,33 +50,48 @@
       </div>
       <ion-grid>
         <ion-row>
-          <ion-col col-3>
-            <ion-list>
-              <ion-item *ngIf="company.cellphone">
+          <ion-col col-4>
+               <div *ngIf="company.cellphone">
                 <a href="tel:{{company.cellphone}}" target="_blank" item-end>
                   <ion-icon name="call" item-start [color]="primary"></ion-icon>
                 </a>
-              </ion-item>
-              <ion-item *ngIf="company.email">
-                <a href="mailto:{{company.email}}" target="_blank" item-end>
-                  <ion-icon name="mail" item-start [color]="primary"></ion-icon>
-                </a>
-              </ion-item>
-              <ion-item *ngIf="company.fanpage">
-                <a href="{{company.fanpage}}" target="_blank" item-end>
-                  <ion-icon name="globe" item-start [color]="primary"></ion-icon>
-                </a>
-              </ion-item>
+              </div>
+            <div *ngIf="!company.cellphone">
+                <ion-icon name="call" item-start></ion-icon>
+            </div>
 
-            </ion-list>
           </ion-col>
-          <ion-col col-9-auto>
+          <ion-col col-4>
+            <div *ngIf="company.email">
+              <a href="mailto:{{company.email}}" target="_blank" item-end>
+                <ion-icon name="mail" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
+            <div *ngIf="!company.email">
+                <ion-icon name="mail" item-start ></ion-icon>
+            </div>
+
+          </ion-col>
+          <ion-col col-4>
+            <div *ngIf="company.fanpage">
+              <a href="{{company.fanpage}}" target="_blank" item-end>
+                <ion-icon name="globe" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
+            <div *ngIf="!company.fanpage">
+                <ion-icon name="globe" item-start> </ion-icon>
+            </div>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col col-12-auto>
             <ion-item >
-              <ion-icon name="car" item-start [color]="primary"></ion-icon>
+              {{'domicilio' | translate}}
               <p item-end>{{company.domicilios?'Si':'No'}}</p>
             </ion-item>
             <ion-item >
-              <ion-icon name="navigate" item-start [color]="primary"></ion-icon>
+              {{'direccion' | translate}}
               <p item-end>{{branch.address}}</p>
             </ion-item>
 

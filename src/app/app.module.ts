@@ -53,8 +53,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
-
+import { SpeechRecognition} from '@ionic-native/speech-recognition'
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 
 // The translate loader needs to know where to load i18n files
@@ -120,6 +120,7 @@ export function providers() {
     ScreenOrientation,
     Diagnostic,
     SpeechRecognition,
+    LaunchNavigator,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];
