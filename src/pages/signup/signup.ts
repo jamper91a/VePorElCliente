@@ -59,6 +59,7 @@ export class SignupPage {
   private messages:any;
 
   @ViewChild('password') inputP;
+  @ViewChild('r_password') inputRP;
 
   constructor(
     public navCtrl: NavController,
@@ -173,5 +174,6 @@ export class SignupPage {
 
   showPassword(): any {
     this.inputP.type = this.inputP.type === 'password' ?  'text' : 'password';
+    this.inputRP.type = this.inputP.type === 'password' ?  'text' : 'password';
   }
 }

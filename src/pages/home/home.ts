@@ -62,7 +62,9 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
+       console.log("city_name:"+this.city_name);
        if(this.city_name){
+         console.log("tiene cityname");
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
          this.city_name = this.navParams.get(this.util.constants.city_name);
@@ -76,80 +78,15 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
        }else{
          //Valido si tengo una direccion almacenada
          if(self.util.getPreference(this.util.constants.city_name)){
+           console.log("tiene almacenado city_name");
            this.address = self.util.getPreference(this.util.constants.address);
            this.latitude = self.util.getPreference(this.util.constants.latitude);
            this.longitude = self.util.getPreference(this.util.constants.longitude);
            this.city_name= self.util.getPreference(this.util.constants.city_name);
            self.get_banners(this.city_name);
+           console.log("city_name:"+this.city_name);
          }else{
-
-           self.diagnostic.isLocationEnabled().then(function(isAvailable){
-             if(isAvailable){
-               //Obtengo las coordenadas actuales
-               self.geolocation.getCurrentPosition().then((resp) => {
-                 self.latitude = resp.coords.latitude;
-                 self.longitude = resp.coords.longitude;
-
-                 self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
-                   (result: any) => {
-                     if (result != null) {
-                       // let body = JSON.parse(result._body);
-                       // self.address = body.results[0].formatted_address;
-                       //
-                       // let city_name = body.results[0].address_components[5].short_name;
-                       self.address = result.city
-
-                       let city_name =  result.city;
-                       let country_code =  result.countryCode;
-                       if (city_name) {
-                         //Almaceno
-                         self.util.savePreference(this.util.constants.address, this.address);
-                         self.util.savePreference(this.util.constants.latitude, self.latitude);
-                         self.util.savePreference(this.util.constants.longitude, self.longitude);
-                         self.util.savePreference(this.util.constants.city_name, city_name);
-                         self.util.savePreference(this.util.constants.country_code, country_code);
-                         self.get_banners(city_name);
-                       }
-                     }
-                   },
-                   error => {
-
-                   }
-                 );
-               }).catch((error) => {
-                 console.log('Error getting location', error);
-               });
-             }else{
-
-
-               self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
-                 let confirm = self.alertCtrl.create({
-                   title: res.ubicacion,
-                   message: res.activar_ubicacion,
-                   buttons: [
-                     {
-                       text: res.salir,
-                       handler: () => {
-                         self.platform.exitApp();
-                       }
-                     },
-                     {
-                       text: res.activar,
-                       handler: () => {
-                         self.diagnostic.switchToLocationSettings();
-                       }
-                     }
-                   ]
-                 });
-                 confirm.present();
-               });
-
-             }
-           }).catch(function(){
-
-           });
-
-
+           self.get_location();
 
          }
        }
@@ -158,11 +95,103 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
      }
    }
 
+  get_location(){
+    let self = this;
+    self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+      if(isAuthorized){
+        self.diagnostic.isLocationEnabled().then(function(isAvailable){
+          if(isAvailable){
+            //Obtengo las coordenadas actuales
+            self.geolocation.getCurrentPosition().then((resp) => {
+              self.latitude = resp.coords.latitude;
+              self.longitude = resp.coords.longitude;
+              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+                (result: any) => {
+                  if (result != null) {
+                    // let body = JSON.parse(result._body);
+                    // self.address = body.results[0].formatted_address;
+                    //
+                    // let city_name = body.results[0].address_components[5].short_name;
+                    self.address = result.city
+
+                    self.city_name =  result.city;
+                    console.log("city_name obtenidi: "+self.city_name);
+                    let country_code =  result.countryCode;
+                    if (self.city_name) {
+                      //Almaceno
+                      console.log("almacenando despues de obtener la ciudad");
+                      self.util.savePreference(self.util.constants.address, self.address);
+                      self.util.savePreference(self.util.constants.latitude, self.latitude);
+                      self.util.savePreference(self.util.constants.longitude, self.longitude);
+                      self.util.savePreference(self.util.constants.city_name, self.city_name);
+                      self.util.savePreference(self.util.constants.country_code, country_code);
+                      self.get_banners(self.city_name);
+                    }
+                  }
+                },
+                error => {
+
+                }
+              );
+            }).catch((error) => {
+              console.log('Error getting location', error);
+            });
+          }else{
+
+            self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+              let confirm = self.alertCtrl.create({
+                title: res.ubicacion,
+                message: res.activar_ubicacion,
+                buttons: [
+                  {
+                    text: res.salir,
+                    handler: () => {
+                      self.platform.exitApp();
+                    }
+                  },
+                  {
+                    text: res.activar,
+                    handler: () => {
+                      self.diagnostic.switchToLocationSettings();
+                    }
+                  }
+                ]
+              });
+              confirm.present();
+            });
+
+          }
+        }).catch((error)=>{
+          console.error(error);
+        });
+      }else{
+        self.diagnostic.requestLocationAuthorization().then(function (status) {
+          if(status=='GRANTED'){
+            self.get_location();
+          }else{
+            self.platform.exitApp();
+          }
+        }).catch(function (error) {
+
+        });
+      }
+    }).catch(function () {
+
+    });
+
+
+
+
+  }
+
    private get_banners(city_name:string){
+    console.log("Obteniendo banner para: "+this.city_name);
      let self = this;
      //Obtengo los banners
      this.veporel.get_banners(city_name).subscribe(
        (result:any) =>{
+         console.log("llega");
+         console.log(result);
          let body =  result._body;
          if(body!=null)
          {

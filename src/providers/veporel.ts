@@ -31,9 +31,20 @@ export class VePorEl {
 
     let seq = this.api.post('banners/get', body).share();
     seq
-      .map(res => res.json())
+      //.map(res => res.json())
       .subscribe(res => {
-          return res;
+        let aux= res.json();
+        console.log(aux);
+        if(aux.length==0){
+          aux= [{
+            url_photo: 'banners/9838/Arf_logo_nuevo_veporel.png',
+            url_destination: 'http://veporel.com/'
+          }];
+          res._body=JSON.stringify(aux);
+          console.log(res);
+          return res.json();
+        }else
+          return res.json();
       }, err => {
         console.error('ERROR', err);
       });
@@ -216,7 +227,7 @@ export class VePorEl {
       city_name : this.util.getPreference(this.util.constants.city_name),
       subcategory_id : subcategory_id,
     };
-    let dialog = this.util.show_dialog('Obteniendo las ofettas');
+    let dialog = this.util.show_dialog('Obteniendo las ofertas');
     let seq = this.api.post('offers/find_by_subcategorie', body).share();
     seq
       .map(res => res.json())
@@ -237,7 +248,7 @@ export class VePorEl {
       city_name : this.util.getPreference(this.util.constants.city_name),
       subcategory_name : subcategory_name,
     };
-    let dialog = this.util.show_dialog('Obteniendo las ofettas');
+    let dialog = this.util.show_dialog('Obteniendo las ofertas');
     let seq = this.api.post('offers/find_by_subcategorie_name', body).share();
     seq
       .map(res => res.json())

@@ -9,6 +9,7 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
 export class CompanyPage {
 
   private company:any;
+  private branch:any;
   private company_id:any;
   constructor(
     public navCtrl: NavController,
@@ -17,6 +18,7 @@ export class CompanyPage {
     public util:Util,
   ) {
     this.company_id = this.navParams.get(this.util.constants.company).company_id;
+    this.branch=this.navParams.get(this.util.constants.company);
   }
 
   ionViewDidLoad() {

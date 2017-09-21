@@ -43,8 +43,8 @@ export class Util{
       find_promotion_by_user_id: 'find_promotion_by_user_id',
       find_promotion_by_subcategory_name: 'find_promotion_by_subcategory_name'
     };
-    //this.url = "http://79.143.188.95:85/";
-    this.url = "http://192.168.1.74:1337/";
+    this.url = "http://79.143.188.95:85/";
+    //this.url = "http://192.168.1.74:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 

@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { MapOfferPage } from '../map-offer/map-offer';
+import {CompanyPage} from "../company/company";
 
 @Component({
   selector: 'page-companies',
@@ -36,9 +37,9 @@ export class CompaniesPage {
 
   go_to_map(branch:any){
     let self = this;
-    this.navCtrl.push(MapOfferPage,{
+    this.navCtrl.push(CompanyPage,{
       kind_map: self.util.constants.map_branch,
-      branch: branch
+      company: branch
     })
   }
 
@@ -58,6 +59,15 @@ export class CompaniesPage {
     });
 
 
+  }
+
+  public transform_distance(distance:number){
+    let d:number= parseInt((distance*100).toFixed(0));
+    if(d<1000){
+      return d+ " Mts";
+    }else{
+      return (d/1000).toFixed(0)+ " Kms"
+    }
   }
 
 

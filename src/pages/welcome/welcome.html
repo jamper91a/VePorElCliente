@@ -2,15 +2,12 @@
   <div class="splash-bg"></div>
   <div class="splash-info">
     <div class="splash-logo"></div>
-    <div class="splash-intro">
-      {{ 'WELCOME_INTRO' | translate }}
-    </div>
   </div>
   <div padding>
-    <button ion-button block (click)="login()" class="signup">{{ 'LOGIN' | translate }}</button>
+    <button ion-button block (click)="login()" class="signup">Ingresar</button>
     <button ion-button block (click)="facebook_login()" class="signup">{{ 'FACEBOOK' | translate }}</button>
     <p text-center> {{'mensaje_para_registrar'|translate}}</p>
-    <button ion-button block (click)="signup()" class="signup">{{ 'SIGNUP' | translate }}</button>
+    <button ion-button block (click)="signup()" class="signup">Registrar</button>
     <br>
     <div text-center>
       <a href="" text-center>{{'terminos_y_condiciones_text'|translate}}</a>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="co.jamper91.veporelclientes" version="1.0.6">
-    <name>VePorEl Clientes</name>
+    <name>VePorEl</name>
     <description>Aplicativo para clientes.</description>
     <author email="jamper91a@gmail.com" href="">Jorge Moreno</author>
     <content src="index.html" />
@@ -85,7 +85,6 @@
     <allow-navigation href="http://192.168.1.74:8100" />
     <engine name="android" spec="^6.2.3" />
     <engine name="browser" spec="^4.1.0" />
-    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-compat" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">

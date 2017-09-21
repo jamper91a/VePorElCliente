@@ -28,12 +28,16 @@ export class DirectoryPage {
     category_id:number,
     subcategory_id:number,
     name:string,
+    latitude:number,
+    longitude:number
   }={
     country_id:"",
     city_id:0,
     category_id:0,
     subcategory_id:0,
-    name:""
+    name:"",
+    latitude:0,
+    longitude:0
   };
   private onResumeSubscription: Subscription;
   constructor(
@@ -58,72 +62,89 @@ export class DirectoryPage {
   }
 
   get_location(){
-    console.log("ingresando");
     let self = this;
-    self.diagnostic.isLocationEnabled().then(function(isAvailable){
-      console.log("isLocationEnabled:"+isAvailable);
-      if(isAvailable){
-        let dialog = self.util.show_dialog('Obteniendo tu ubicación');
-        self.geolocation.getCurrentPosition().then((resp) => {
-          console.log("getCurrentPosition:"+resp.coords);
-          self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
-            (result: any) => {
-              self.country_name = result.countryCode;
-              self.city_name = result.city;
-              dialog.dismiss();
-              //Obtengo los paises
-              self.veporel.get_countries().subscribe((result:any)=>{
-                let body =  result._body;
-                if(body!=null){
-                  self.countries = JSON.parse(body);
-                  self.data.country_id = self.country_name;
+    self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+      if(isAuthorized){
+        self.diagnostic.isLocationEnabled().then(function(isAvailable){
+          if(isAvailable){
+            let dialog = self.util.show_dialog('Obteniendo tu ubicación');
+            self.geolocation.getCurrentPosition().then((resp) => {
+              self.data.latitude = resp.coords.latitude;
+              self.data.longitude = resp.coords.longitude;
+              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+                (result: any) => {
+                  self.country_name = result.countryCode;
+                  self.city_name = result.city;
+                  dialog.dismiss();
+                  //Obtengo los paises
+                  self.veporel.get_countries().subscribe((result:any)=>{
+                    let body =  result._body;
+                    if(body!=null){
+                      self.countries = JSON.parse(body);
+                      self.data.country_id = self.country_name;
 
-                  self.veporel.get_categories().subscribe((result:any)=>{
-                    if(result!=null){
-                      let body = result._body;
-                      self.categories = JSON.parse(body);
+                      self.veporel.get_categories().subscribe((result:any)=>{
+                        if(result!=null){
+                          let body = result._body;
+                          self.categories = JSON.parse(body);
+                        }
+                      });
                     }
+
                   });
+                },
+                error => {
+
                 }
+              );
+            }).catch((error) => {
+              console.error(error);
+            });
+          }else{
 
+
+            self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+              let confirm = self.alertCtrl.create({
+                title: res.ubicacion,
+                message: res.activar_ubicacion,
+                buttons: [
+                  {
+                    text: res.salir,
+                    handler: () => {
+                      self.platform.exitApp();
+                    }
+                  },
+                  {
+                    text: res.activar,
+                    handler: () => {
+                      self.diagnostic.switchToLocationSettings();
+                    }
+                  }
+                ]
               });
-            },
-            error => {
+              confirm.present();
+            });
 
-            }
-          );
-        }).catch((error) => {
+          }
+        }).catch((error)=>{
           console.error(error);
         });
       }else{
+        self.diagnostic.requestLocationAuthorization().then(function (status) {
+          if(status=='GRANTED'){
+            self.get_location();
+          }else{
+            self.platform.exitApp();
+          }
+        }).catch(function (error) {
 
-
-        self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
-          let confirm = self.alertCtrl.create({
-            title: res.ubicacion,
-            message: res.activar_ubicacion,
-            buttons: [
-              {
-                text: res.salir,
-                handler: () => {
-                  self.platform.exitApp();
-                }
-              },
-              {
-                text: res.activar,
-                handler: () => {
-                  self.diagnostic.switchToLocationSettings();
-                }
-              }
-            ]
-          });
-          confirm.present();
         });
-
       }
-    }).catch((error)=>{
-      console.error(error);
+    }).catch(function () {
+
     });
+
+
 
 
   }
