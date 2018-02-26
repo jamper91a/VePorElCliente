@@ -5,11 +5,11 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding="">
-<div>
+<div *ngIf="option==1">
   <h2 text-center>{{'como_funciona_text'| translate}}</h2>
   <p [innerHTML]="'como_funciona'| translate" text-wrap text-justify></p>
 </div>
-  <div>
+  <div *ngIf="option==2">
     <h2 text-center>{{'legal_text'| translate}}</h2>
     <p [innerHTML]="'info_legal'| translate" text-wrap text-justify></p>
   </div>

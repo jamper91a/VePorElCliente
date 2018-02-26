@@ -9,6 +9,7 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
 export class CompanyPage {
 
   private company:any;
+  private branch:any;
   private company_id:any;
   constructor(
     public navCtrl: NavController,
@@ -17,6 +18,7 @@ export class CompanyPage {
     public util:Util,
   ) {
     this.company_id = this.navParams.get(this.util.constants.company).company_id;
+    this.branch=this.navParams.get(this.util.constants.company);
   }
 
   ionViewDidLoad() {
@@ -24,6 +26,7 @@ export class CompanyPage {
     this.veporel.get_company_by_id(this.company_id).subscribe((result:any)=>{
       if(result!=null){
         self.company = JSON.parse(result._body);
+        console.log(self.company);
       }
     });
   }

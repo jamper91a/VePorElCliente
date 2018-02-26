@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "230154692904",
+    "firebase_url": "https://ven-por-el.firebaseio.com",
+    "project_id": "ven-por-el",
+    "storage_bucket": "ven-por-el.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230154692904:android:bfd9f69b6aa8823f",
+        "android_client_info": {
+          "package_name": "co.jamper91.veporelclientes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230154692904-4if2ot19gc6ug16g8hf3781ebfmvucqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaGJPg39IR2Tt3WhId3ODz6YVXINowoT0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230154692904:android:8793d8ec96daf278",
+        "android_client_info": {
+          "package_name": "co.colombiaapps.vpeclientes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230154692904-4if2ot19gc6ug16g8hf3781ebfmvucqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaGJPg39IR2Tt3WhId3ODz6YVXINowoT0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

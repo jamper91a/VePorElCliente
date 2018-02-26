@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only end>
-      <ion-icon name='menu'></ion-icon>
+      <img src="assets/img/menu.png" class="menu_icon" />
     </button>
     <img src="assets/img/logo_horizontal.png" height="40" class="center" />
   </ion-navbar>
@@ -13,7 +13,7 @@
         <ion-slides pager>
           <ion-slide *ngFor="let banner of banners">
             <a href="{{banner.url_destination}}" target="_blank">
-              <img-loader src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader src="{{util.url}}{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
             </a>
           </ion-slide>
         </ion-slides>
@@ -23,10 +23,15 @@
   <ion-list>
     <ion-item *ngFor="let branch of branchs" (click)="go_to_map(branch)">
       <ion-thumbnail item-start>
-        <img-loader src="{{util.url}}{{branch.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        <img-loader src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
       </ion-thumbnail>
       <h2>{{branch.name}}</h2>
+      <p>{{transform_distance(branch.distance)}}</p>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

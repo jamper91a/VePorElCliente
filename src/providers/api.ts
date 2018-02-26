@@ -20,7 +20,7 @@ import { Util } from './util';
 
    }
 
-   get(endpoint: string, params?: any, options?: RequestOptions) {
+   get(endpoint: string, params?: any, options?: RequestOptions):any {
      if (!options) {
        options = new RequestOptions();
      }
@@ -48,7 +48,7 @@ import { Util } from './util';
        return this.http.get(this.util.url + endpoint, options);
    }
 
-   post(endpoint: string, body: any, options?: RequestOptions) {
+   post(endpoint: string, body: any, options?: RequestOptions):any {
      var token = this.util.getPreference(this.util.constants.token);
      if(token){
        if (!options) {
@@ -59,28 +59,28 @@ import { Util } from './util';
        headers.append('Authorization', 'Bearer '+token);
        options.headers = headers;
      }
-     if(endpoint.includes("http:"))
+     if(endpoint.includes("http"))
        return this.http.get(endpoint, options);
      else
        return this.http.post(this.util.url + endpoint, body, options);
    }
 
-   put(endpoint: string, body: any, options?: RequestOptions) {
-     if(endpoint.includes("http:"))
+   put(endpoint: string, body: any, options?: RequestOptions):any {
+     if(endpoint.includes("http"))
        return this.http.get(endpoint, options);
      else
        return this.http.put(this.util.url + endpoint, body, options);
    }
 
-   delete(endpoint: string, options?: RequestOptions) {
-     if(endpoint.includes("http:"))
+   delete(endpoint: string, options?: RequestOptions):any {
+     if(endpoint.includes("http"))
        return this.http.get(endpoint, options);
      else
        return this.http.delete(this.util.url + endpoint, options);
    }
 
-   patch(endpoint: string, body: any, options?: RequestOptions) {
-     if(endpoint.includes("http:"))
+   patch(endpoint: string, body: any, options?: RequestOptions):any {
+     if(endpoint.includes("http"))
        return this.http.get(endpoint, options);
      else
        return this.http.put(this.util.url + endpoint, body, options);

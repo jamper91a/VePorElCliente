@@ -1,56 +1,156 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only end>
-      <ion-icon name='menu'></ion-icon>
+      <img src="assets/img/menu.png" class="menu_icon" />
     </button>
     <img src="assets/img/logo_horizontal.png" height="40" class="center" />
   </ion-navbar>
 </ion-header>
 <ion-content padding >
   <div *ngIf="company">
-    <h2 text-center> {{company.name}}</h2>
-    <div text-center>
-      <img-loader src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+    <div *ngIf="company.suscripcion==0">
+      <div text-center>
+        <img-loader src="assets/img/logo_horizontal.png" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+      </div>
+      <h2 text-center> {{company.name}}</h2>
+
+      <ion-grid>
+        <ion-row>
+            <ion-col col-6 text-center>
+                 <div *ngIf="company.cellphone">
+                  <a href="tel:{{company.cellphone}}" target="_blank" item-end>
+                    <ion-icon name="call" item-start [color]="primary"></ion-icon>
+                  </a>
+                </div>
+              <div *ngIf="!company.cellphone">
+                  <ion-icon name="call" item-start></ion-icon>
+              </div>
+
+            </ion-col>
+            <ion-col col-6 text-center>
+              <div *ngIf="company.fanpage && util.isUrlValid(company.fanpage)">
+                <a href="{{company.fanpage}}" target="_blank" item-end>
+                  <ion-icon name="globe" item-start [color]="primary"></ion-icon>
+                </a>
+              </div>
+              <div *ngIf="!company.fanpage || !util.isUrlValid(company.fanpage)">
+                  <ion-icon name="globe" item-start> </ion-icon>
+              </div>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+          <ion-col col-12-auto>
+            <ion-item >
+              {{'direccion' | translate}}
+              <p item-end>{{branch.address}}</p>
+            </ion-item>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <b>{{'calificacion_negocio' | translate}}</b>
+              <rating item-end [(ngModel)]="company.calification" readOnly="true">
+              </rating>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block (click)="go_to_offers()" *ngIf="company.cantidad>0">
+              {{'mis_ofertas' | translate}}
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <a href="https://www.veporel.com.co/admin/pages/login" target="_blank" ion-button block>
+              {{'mejorar_anuncio' | translate}}
+            </a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="company.suscripcion==1">
+      <h2 text-center> {{company.name}}</h2>
+      <div text-center>
+        <img-loader src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 text-center>
+               <div *ngIf="company.cellphone">
+                <a href="tel:{{company.cellphone}}" target="_blank" item-end>
+                  <ion-icon name="call" item-start [color]="primary"></ion-icon>
+                </a>
+              </div>
+            <div *ngIf="!company.cellphone">
+                <ion-icon name="call" item-start></ion-icon>
+            </div>
+
+          </ion-col>
+          <ion-col col-4 text-center>
+            <div *ngIf="company.email">
+              <a href="mailto:{{company.email}}" target="_blank" item-end>
+                <ion-icon name="mail" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
+            <div *ngIf="!company.email">
+                <ion-icon name="mail" item-start ></ion-icon>
+            </div>
+
+          </ion-col>
+          <ion-col col-4 text-center>
+            <div *ngIf="company.fanpage && util.isUrlValid(company.fanpage)">
+              <a href="{{company.fanpage}}" target="_blank" item-end>
+                <ion-icon name="globe" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
+            <div *ngIf="!company.fanpage || !util.isUrlValid(company.fanpage)">
+                <ion-icon name="globe" item-start> </ion-icon>
+            </div>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col col-12-auto>
+            <ion-item >
+              {{'domicilio' | translate}}
+              <p item-end>{{company.domicilios?'Si':'No'}}</p>
+            </ion-item>
+            <ion-item >
+              {{'direccion' | translate}}
+              <p item-end>{{branch.address}}</p>
+            </ion-item>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <b>{{'calificacion_negocio' | translate}}</b>
+              <rating item-end [(ngModel)]="company.calification" readOnly="true">
+              </rating>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid >
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block (click)="go_to_offers()" *ngIf="company.cantidad>0">
+              {{'mis_ofertas' | translate}}
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <a href="https://www.veporel.com.co/admin/pages/login" target="_blank" ion-button block>
+              {{'editar_mi_negocio' | translate}}
+            </a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
-    <ion-list >
-      <ion-item>
-        <b>{{'telefono' | translate}}</b>
-        <a href="tel:{{company.cellphone}}" target="_blank" item-end>
-          {{company.cellphone}}
-        </a>
-      </ion-item>
-      <ion-item>
-        <b>{{'email' | translate}}</b>
-        <a href="mailto:{{company.email}}" target="_blank" item-end>
-          {{company.email}}
-        </a>
-      </ion-item>
-      <ion-item>
-        <b>{{'facebook' | translate}}</b>
-        <a href="https://www.messenger.com/t/{{company.fanpage}}" target="_blank" item-end>
-          Contactar
-        </a>
-      </ion-item>
-      <ion-item>
-        <b>{{'domicilio' | translate}}</b>
-        <p item-end>{{company.domicilios?'Si':'No'}}</p>
-      </ion-item>
-      <ion-item>
-        <b>{{'calificacion_negocio' | translate}}</b>
-        <rating item-end [(ngModel)]="company.calification" readOnly="true">
-        </rating>
-      </ion-item>
-    </ion-list>
-    <ion-grid >
-      <ion-row>
-        <ion-col col-6-auto>
-          <button ion-button block (click)="go_to_offers()" *ngIf="company.cantidad>0">
-            {{'mis_ofertas' | translate}}
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
   </div>
-
 </ion-content>

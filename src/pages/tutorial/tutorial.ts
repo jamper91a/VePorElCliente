@@ -28,6 +28,7 @@ export class TutorialPage {
     public menu: MenuController, translate: TranslateService,
     public util : Util
   ) {
+    this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
     //Valido si ya vio o no el tutorial
       if (!this.util.getPreference(this.util.constants.tutorial)) {
         translate.get(["TUTORIAL_SLIDE1_TITLE",
@@ -38,7 +39,6 @@ export class TutorialPage {
           "TUTORIAL_SLIDE3_DESCRIPTION",
         ]).subscribe(
           (values) => {
-            console.log('Loaded values', values);
             this.slides = [
               {
                 title: values.TUTORIAL_SLIDE1_TITLE,
@@ -48,12 +48,12 @@ export class TutorialPage {
               {
                 title: values.TUTORIAL_SLIDE2_TITLE,
                 description: values.TUTORIAL_SLIDE2_DESCRIPTION,
-                image: 'assets/img/ica-slidebox-img-2.png',
+                image: 'assets/img/logo.png',
               },
               {
                 title: values.TUTORIAL_SLIDE3_TITLE,
                 description: values.TUTORIAL_SLIDE3_DESCRIPTION,
-                image: 'assets/img/ica-slidebox-img-3.png',
+                image: 'assets/img/logo.png',
               }
             ];
           });
@@ -69,6 +69,8 @@ export class TutorialPage {
 
       }
   }
+
+
 
   startApp() {
     this.navCtrl.setRoot(WelcomePage, {}, {

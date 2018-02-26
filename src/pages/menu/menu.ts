@@ -28,6 +28,7 @@ export class MenuPage {
   private helpPage;
   private optionsPage;
   private isLogged = false;
+  private user:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -45,6 +46,7 @@ export class MenuPage {
   ionViewDidLoad() {
     if (this.util.getPreference(this.util.constants.logged)) {
       this.isLogged = true;
+      this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
     }
   }
 
@@ -69,6 +71,11 @@ export class MenuPage {
   go_to_offers(){
     this.navCtrl.push(FindPromotiosPage,{
       "type_find_promotio": this.util.constants.find_promotion_by_user_id
+    })
+  }
+  go_to_information_page(option){
+    this.navCtrl.push(this.informationPage,{
+      "option": option
     })
   }
 

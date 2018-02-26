@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler, IonicPageModule} from 'ionic-angular';
 
 import { MyApp } from './app.component';
 
@@ -40,6 +40,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Push } from '@ionic-native/push';
+
 
 import { IonicImageLoader } from 'ionic-image-loader';
 import { MomentModule } from 'angular2-moment';
@@ -51,8 +53,10 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
-
-
+import { QRCodeModule } from 'angular2-qrcode';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { SpeechRecognition} from '@ionic-native/speech-recognition'
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 
 // The translate loader needs to know where to load i18n files
@@ -116,6 +120,10 @@ export function providers() {
     NativeGeocoder,
     GoogleAnalytics,
     ScreenOrientation,
+    Diagnostic,
+    SpeechRecognition,
+    LaunchNavigator,
+    Push,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];
@@ -123,7 +131,7 @@ export function providers() {
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': '5bbdb51b'
+    'app_id': '9e668b86'
   }
 };
 
@@ -132,6 +140,7 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     HttpModule,
+    IonicPageModule.forChild(MyApp),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -145,7 +154,9 @@ const cloudSettings: CloudSettings = {
     IonicImageLoader.forRoot(),
     MomentModule,
     Ionic2RatingModule,
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    QRCodeModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: entryComponents(),

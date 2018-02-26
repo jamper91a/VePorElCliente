@@ -8,21 +8,21 @@
 
 
 <ion-content>
-  <form>
+  <form [formGroup]="validations_form">
     <ion-list>
 
       <ion-item>
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.username" name="username" placeholder="email@email.com"></ion-input>
+        <ion-input required type="email" formControlName="username" [(ngModel)]="account.username" name="username" placeholder="email@email.com"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password" placeholder="{{ 'PASSWORD' | translate }}"></ion-input>
+        <ion-input required type="password" formControlName="password" [(ngModel)]="account.password" name="password" placeholder="{{ 'PASSWORD' | translate }}"></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block (click)="doLogin()">{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block (click)="doLogin(validations_form.value)" [disabled]="!validations_form.valid">{{ 'LOGIN_BUTTON' | translate }}</button>
         <button ion-button color="primary" block (click)="olvide_contrasena()">{{ 'olvide_la_contraseña' | translate }}</button>
       </div>
 

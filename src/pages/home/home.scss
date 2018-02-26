@@ -1,3 +1,57 @@
 page-home {
+	.location{
+		background: url('../assets/img/fondo_ciudad.png');
+		width: 100%;
+		padding-top: 38%;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		position: relative;
+	},
+	.location ion-col:first-child {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+	},
+	.location ion-col:first-child img{
+		height: 100%;
+		left: 2em;
+	},
+	.location ion-col:last-child {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-content:center;
+		align-items:center;
+		text-align: center;
+	},
+	.location ion-col:last-child p {
+		background: color($colors, gray);
+		border-radius: 5px;
+		background-size: 100%;
+		padding: 1em;
+		width: 80%;
+		color: white; 
+		font-weight: bold;
+		text-size: 2em;
+	}
+	button span div{
+		width: 100%;
+		text-transform: none;
+	}
+	button span ion-img{
+		height: 100%; 
+		min-width: 58px;
+	}
+	button span ion-img img{
+		height: 36px; 
+		min-width: 58px;
+	}
+	
 
+
+	
 }

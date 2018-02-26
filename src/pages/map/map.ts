@@ -1,9 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, AlertController } from 'ionic-angular';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { VePorEl, Util } from '../../providers/providers';
 import { HomePage } from '../home/home';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { TranslateService } from '@ngx-translate/core';
+
 
 declare var google: any;
 
@@ -29,7 +32,11 @@ export class MapPage {
     public platform: Platform,
     private geolocation: Geolocation,
     public veporel:VePorEl,
-    public util:Util
+    public util:Util,
+    private diagnostic: Diagnostic,
+    private translateService: TranslateService,
+    private alertCtrl: AlertController,
+
   ) {
 
   }
@@ -38,13 +45,78 @@ export class MapPage {
 
   ionViewDidLoad()
   {
-    console.log(this.platform);
     this.util.savePreference(this.util.constants.address, '');
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.loadMap(resp.coords.latitude,resp.coords.longitude);
-    }).catch((error) => {
-      console.log('Error getting location', error);
+    this.get_location();
+
+  }
+
+  get_location(){
+    let self = this;
+    self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+      if(isAuthorized){
+        self.diagnostic.isLocationEnabled().then(function(isAvailable){
+          if(isAvailable){
+            //Obtengo las coordenadas actuales
+            self.geolocation.getCurrentPosition().then((resp) => {
+              self.loadMap(resp.coords.latitude,resp.coords.longitude);
+            }).catch((error) => {
+              console.log('Error getting location', error);
+            });
+          }else{
+
+            self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+              let confirm = self.alertCtrl.create({
+                title: res.ubicacion,
+                message: res.activar_ubicacion,
+                buttons: [
+                  {
+                    text: res.salir,
+                    handler: () => {
+                      if (this.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        this.util.show_toast('error_16');
+                      }
+                    }
+                  },
+                  {
+                    text: res.activar,
+                    handler: () => {
+                      self.diagnostic.switchToLocationSettings();
+                    }
+                  }
+                ]
+              });
+              confirm.present();
+            });
+
+          }
+        }).catch((error)=>{
+          console.error(error);
+        });
+      }else{
+        self.diagnostic.requestLocationAuthorization().then(function (status) {
+          if(status=='GRANTED'){
+            self.get_location();
+          }else{
+            if (self.platform.is('android')) {
+              self.platform.exitApp();
+            }else{
+              self.navCtrl.pop();
+              self.util.show_toast('error_16');
+            }
+          }
+        }).catch(function (error) {
+
+        });
+      }
+    }).catch(function () {
+
     });
+
+
+
 
   }
 

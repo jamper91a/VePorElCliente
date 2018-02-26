@@ -7,6 +7,7 @@ import { Util } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { CalificationPage } from '../calification/calification';
 import { CompanyPage } from '../company/company';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 declare var google: any;
 @Component({
@@ -46,6 +47,7 @@ export class MapOfferPage {
     public util:Util,
     public actionSheetCtrl: ActionSheetController,
     public translate: TranslateService,
+    private launchnavigator: LaunchNavigator,
   )  {
   }
 
@@ -160,14 +162,15 @@ export class MapOfferPage {
               text: values.google_maps,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
-                self.open_maps();
+                self.open_maps(self.launchnavigator.APP.GOOGLE_MAPS);
               }
-            },
+            }
+            ,
             {
               text: values.waze,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
-                self.open_maps();
+                self.open_maps(self.launchnavigator.APP.Waze);
               }
             }
           ]
@@ -175,7 +178,7 @@ export class MapOfferPage {
           opt = [
             {
               text: values.informacion_del_negocio,
-              icon: !this.platform.is('ios') ? 'compass' : null,
+              icon: !this.platform.is('ios') ? 'ios-information-circle' : null,
               handler: () => {
                 self.open_company();
               }
@@ -184,14 +187,15 @@ export class MapOfferPage {
               text: values.google_maps,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
-                self.open_maps();
+                self.open_maps(self.launchnavigator.APP.GOOGLE_MAPS);
               }
-            },
+            }
+            ,
             {
               text: values.waze,
               icon: !this.platform.is('ios') ? 'compass' : null,
               handler: () => {
-                self.open_maps();
+                self.open_maps(self.launchnavigator.APP.WAZE);
               }
             }
           ]
@@ -204,15 +208,29 @@ export class MapOfferPage {
       });
   }
 
-  public open_maps(){
+  public open_maps(app_name:string){
+    var self=this;
     let destination = this.latLngDestination.lat() + ',' + this.latLngDestination.lng();
 
-    if(this.platform.is('ios')){
+    /*if(this.platform.is('ios')){
       window.open('maps://?q=' + destination, '_system');
     } else {
       let label = encodeURI('My Label');
       window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
-    }
+    }*/
+
+    this.launchnavigator.isAppAvailable(app_name).then(function (isAvailable) {
+      var app;
+      if(isAvailable){
+        app = app_name;
+      }else{
+        self.util.show_toast('error_10');
+        app = self.launchnavigator.APP.USER_SELECT;
+      }
+      self.launchnavigator.navigate(destination, {
+        app: app
+      });
+    });
   }
   public open_company(){
     this.navCtrl.push(CompanyPage,{

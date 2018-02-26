@@ -8,6 +8,7 @@ import {MenuPage} from "../menu/menu";
 import { Facebook } from '@ionic-native/facebook';
 import { User } from '../../providers/user';
 import { TranslateService } from '@ngx-translate/core';
+import {VePorEl} from "../../providers/veporel";
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -34,6 +35,7 @@ export class WelcomePage {
     public user: User,
     public util: Util,
     private fb: Facebook,
+    public veporel: VePorEl
   ) {
     if (!this.util.getPreference(this.util.constants.logged)) {
       this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
@@ -44,6 +46,10 @@ export class WelcomePage {
       this.navCtrl.setRoot(MenuPage);
     }
 
+  }
+
+  ionViewWillEnter(){
+    this.veporel.get_translation();
   }
 
   login() {
@@ -62,7 +68,7 @@ export class WelcomePage {
           //Getting name and gender properties
           let userId = res.authResponse.userID;
           let params = new Array<string>();
-          self.fb.api("/me?fields=id,first_name,last_name,email,gender, birthday", params)
+          self.fb.api("/me?fields=id,first_name,last_name,email,gender,birthday", params)
             .then(function(user) {
               user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
               //Ingreso al usuario en el sistema
@@ -102,8 +108,8 @@ export class WelcomePage {
             });
         })
       .catch(
-        e => {
-          console.log('Error logging into Facebook', e)
+        (e) => {
+          alert(e);
         });
   }
 }
