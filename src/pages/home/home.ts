@@ -11,6 +11,7 @@ import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 
 /**
@@ -31,6 +32,7 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
    private longitude:number;
    private city_name:string;
    private country_code:string;
+   private user:any;
 
   speechList: Array<string> = [];
   androidOptions: SpeechRecognitionListeningOptionsAndroid;
@@ -49,11 +51,13 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
      private diagnostic: Diagnostic,
      private platform: Platform,
      private alertCtrl: AlertController,
-     private speech: SpeechRecognition
+     private speech: SpeechRecognition,
+     private push: Push,
      )
    {
+      this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
       menu.enable(true);
-
+      this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
 
    }
 
@@ -62,9 +66,7 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
-       console.log("city_name:"+this.city_name);
        if(this.city_name){
-         console.log("tiene cityname");
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
          this.city_name = this.navParams.get(this.util.constants.city_name);
@@ -78,13 +80,11 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
        }else{
          //Valido si tengo una direccion almacenada
          if(self.util.getPreference(this.util.constants.city_name)){
-           console.log("tiene almacenado city_name");
            this.address = self.util.getPreference(this.util.constants.address);
            this.latitude = self.util.getPreference(this.util.constants.latitude);
            this.longitude = self.util.getPreference(this.util.constants.longitude);
            this.city_name= self.util.getPreference(this.util.constants.city_name);
            self.get_banners(this.city_name);
-           console.log("city_name:"+this.city_name);
          }else{
            self.get_location();
 
@@ -115,11 +115,9 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
                     self.address = result.city
 
                     self.city_name =  result.city;
-                    console.log("city_name obtenidi: "+self.city_name);
                     let country_code =  result.countryCode;
                     if (self.city_name) {
                       //Almaceno
-                      console.log("almacenando despues de obtener la ciudad");
                       self.util.savePreference(self.util.constants.address, self.address);
                       self.util.savePreference(self.util.constants.latitude, self.latitude);
                       self.util.savePreference(self.util.constants.longitude, self.longitude);
@@ -146,7 +144,12 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
                   {
                     text: res.salir,
                     handler: () => {
-                      self.platform.exitApp();
+                      if (this.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        this.util.show_toast('error_16');
+                      }
                     }
                   },
                   {
@@ -169,7 +172,12 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
           if(status=='GRANTED'){
             self.get_location();
           }else{
-            self.platform.exitApp();
+            if (self.platform.is('android')) {
+              self.platform.exitApp();
+            }else{
+              self.navCtrl.pop();
+              self.util.show_toast('error_16');
+            }
           }
         }).catch(function (error) {
 
@@ -185,13 +193,10 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
   }
 
    private get_banners(city_name:string){
-    console.log("Obteniendo banner para: "+this.city_name);
      let self = this;
      //Obtengo los banners
      this.veporel.get_banners(city_name).subscribe(
        (result:any) =>{
-         console.log("llega");
-         console.log(result);
          let body =  result._body;
          if(body!=null)
          {
@@ -235,10 +240,13 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
    }
 
    public share(){
-     this.translateService.get('mensaje_compartir').subscribe((res) => {
-       this.socialSharing.share(res, 'VePorEl', 'http://veporel.com/images/logo.png', 'http://veporel.com/').then(() => {
+     var self=this;
+     this.translateService.get('mensaje_compartir',{value: "VPE"+this.user.id}).subscribe((res) => {
+ 
+       this.socialSharing.share(res, 'VePorEl', [], 'http://veporel.com').then(() => {
 
-       }).catch(() => {
+       }).catch((e) => {
+        alert(e);
        });
      });
    }
@@ -254,7 +262,6 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
   async getPermission(): Promise<void> {
     try {
       let permission = await this.speech.requestPermission();
-      console.log(permission);
       return permission;
     }
     catch (e) {
@@ -264,7 +271,6 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
   async hasPermission(): Promise<boolean> {
     try {
       let permission = await this.speech.hasPermission();
-      console.log(permission);
       return permission;
     }
     catch (e) {
@@ -274,7 +280,6 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
   async getSupportedLanguages(): Promise<Array<string>> {
     try {
       let languages = await this.speech.getSupportedLanguages();
-      console.log(languages);
       return languages;
     }
     catch (e) {

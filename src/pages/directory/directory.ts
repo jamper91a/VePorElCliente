@@ -7,7 +7,6 @@ import { CompaniesPage } from '../companies/companies';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { TranslateService } from '@ngx-translate/core';
-import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -18,23 +17,22 @@ export class DirectoryPage {
 
   private countries:any;
   private cities:any;
-  private subcategories:any;
   private categories:any;
   private city_name="";
   private country_name="";
+  public language="";
+
   data:{
     country_id:string
     city_id:number,
-    category_id:number,
-    subcategory_id:number,
+    category:string,
     name:string,
     latitude:number,
     longitude:number
   }={
     country_id:"",
     city_id:0,
-    category_id:0,
-    subcategory_id:0,
+    category:"",
     name:"",
     latitude:0,
     longitude:0
@@ -49,15 +47,23 @@ export class DirectoryPage {
     private diagnostic: Diagnostic,
     private translateService: TranslateService,
     private platform: Platform,
-    private alertCtrl: AlertController,
-    public viewCtrl: ViewController
+    private alertCtrl: AlertController
   ) {
+    let self = this;
+    translateService.get('LANG').subscribe(
+      lang => {
+        self.language=lang;
+      }
+    );
+
+  }
+
+  ionViewWillEnter(){
     var self=this;
     this.platform.resume.subscribe(() => {
       if(this.navCtrl.last().instance instanceof DirectoryPage)
         self.get_location();
     });
-
   }
 
   get_location(){
@@ -82,12 +88,6 @@ export class DirectoryPage {
                       self.countries = JSON.parse(body);
                       self.data.country_id = self.country_name;
 
-                      self.veporel.get_categories().subscribe((result:any)=>{
-                        if(result!=null){
-                          let body = result._body;
-                          self.categories = JSON.parse(body);
-                        }
-                      });
                     }
 
                   });
@@ -110,7 +110,12 @@ export class DirectoryPage {
                   {
                     text: res.salir,
                     handler: () => {
-                      self.platform.exitApp();
+                      if (this.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        this.util.show_toast('error_16');
+                      }
                     }
                   },
                   {
@@ -133,7 +138,12 @@ export class DirectoryPage {
           if(status=='GRANTED'){
             self.get_location();
           }else{
-            self.platform.exitApp();
+            if (self.platform.is('android')) {
+              self.platform.exitApp();
+            }else{
+              self.navCtrl.pop();
+              self.util.show_toast('error_16');
+            }
           }
         }).catch(function (error) {
 
@@ -150,49 +160,12 @@ export class DirectoryPage {
 
   ionViewDidLoad() {
     this.get_location();
-
-
-
-
-
-    // this.geolocation.getCurrentPosition().then((resp) => {
-    //
-    //   self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
-    //     (result: any) => {
-    //       if (result != null) {
-    //         let body = JSON.parse(result._body);
-    //         self.city_name = body.results[0].address_components.locality.short_name;
-    //         self.country_name = body.results[0].address_components.country.short_name;
-    //       }
-    //
-    //       //Obtengo los paises
-    //       this.veporel.get_countries().subscribe((result:any)=>{
-    //         let body =  result._body;
-    //         if(body!=null){
-    //           self.countries = JSON.parse(body);
-    //           self.data.country_id = self.country_name;
-    //         }
-    //
-    //       });
-    //     },
-    //     error => {
-    //
-    //     }
-    //   );
-    // }).catch((error) => {
-    // });
-
-
-
-
-
-
   }
 
   change_country(event:any, country_code:string){
     let self=this;
     //Obtengo las ciudades de ese pais
-    this.veporel.get_cities_by_country(country_code).subscribe((result:any)=>{
+    this.veporel.get_cities_by_country(country_code,1).subscribe((result:any)=>{
       let body =  result._body;
       if(body!=null) {
         self.cities = JSON.parse(body);
@@ -202,31 +175,34 @@ export class DirectoryPage {
             return;
           }
         }
+        this.util.show_toast('error_15');
+        return;
       }
     });
   }
-
-  change_category(event:any, category_id:number){
+  change_city(event:any, city_id:string){
     let self=this;
-    //Obtengo las ciudades de ese pais
-    this.veporel.get_subcategories(category_id).subscribe((result:any)=>{
-      if(result!=null){
-        let body = result._body;
-        self.subcategories = JSON.parse(body);
-      }
-    });
-  }
-
-  public find(){
-    let subcategorie ="";
-    for (var i=0; i<this.subcategories.length;i++){
-      if(this.subcategories[i].id == this.data.subcategory_id)
-      {
-        subcategorie = this.subcategories[i].name;
-        break;
+    //Obtengo el nombre de la ciudad
+    for (var i = 0; i < self.cities.length; i++) {
+      if(self.cities[i].id == city_id){
+        self.city_name=self.cities[i].name;
+        self.veporel.get_categories(self.city_name).subscribe((result:any)=>{
+          if(result!=null){
+            let body = result._body;
+            self.categories = JSON.parse(body);
+          }
+        });
       }
     }
-    this.ga.trackEvent('Busqueda negocios', 'Subcategoria', subcategorie);
+
+  }
+  public get_name(category){
+    return category[this.language]
+  }
+
+
+  public find(){
+    //this.ga.trackEvent('Busqueda negocios', 'Categoria', subcategorie);
     this.navCtrl.push(CompaniesPage,this.data);
   }
 

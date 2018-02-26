@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only end>
-      <ion-icon name='menu'></ion-icon>
+      <img src="assets/img/menu.png" class="menu_icon" />
     </button>
     <img src="assets/img/logo_horizontal.png" height="40" class="center" />
   </ion-navbar>
@@ -12,26 +12,20 @@
     <ion-list>
       <ion-item>
         <ion-label stacked>{{ 'pais' | translate }}</ion-label>
-        <ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="data.country_id" name="country_id" (ionChange)="change_country($event, data.country_id)" required>
+        <ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="data.country_id" name="country_id" (ionChange)="change_country($event, data.country_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
           <ion-option *ngFor="let country of countries" value="{{country.code}}" >{{country.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item *ngIf="data.country_id">
         <ion-label stacked>{{ 'ciudad' | translate }}</ion-label>
-        <ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="data.city_id" required>
+        <ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="data.city_id" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}" (ionChange)="change_city($event, data.city_id)">
           <ion-option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label stacked>{{ 'categoria' | translate }}</ion-label>
-        <ion-select  placeholder="{{'escoge_la_cagetoria' | translate}}" [(ngModel)]="data.category_id" name="categories" (ionChange)="change_category($event, data.category_id)" required>
-          <ion-option *ngFor="let category of categories" value="{{category.id}}" >{{category.name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>{{ 'subcategoria' | translate }}</ion-label>
-        <ion-select  placeholder="{{'escoge_subcategoria' | translate}}" [(ngModel)]="data.subcategory_id" name="subcategories" required>
-          <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" >{{subcategory.name}}</ion-option>
+        <ion-select  placeholder="{{'escoge_la_cagetoria' | translate}}" [(ngModel)]="data.category_id" name="categories" (ionChange)="change_category($event, data.category_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
+          <ion-option *ngFor="let category of categories" value="{{category.name}}" >{{get_name(category)}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>

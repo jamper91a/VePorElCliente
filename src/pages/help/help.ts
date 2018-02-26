@@ -61,7 +61,7 @@ export class HelpPage {
   }
 
   public share(){
-      this.socialSharing.shareViaWhatsAppToReceiver("3188711857", this.message, '', '').then(() => {
+      this.socialSharing.shareViaWhatsAppToReceiver("+573193811648", this.message, '', '').then(() => {
 
       }).catch(() => {
       });

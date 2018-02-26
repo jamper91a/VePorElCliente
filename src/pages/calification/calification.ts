@@ -33,7 +33,6 @@ export class CalificationPage {
       reason: '',
       reclamed: this.navParams.get("reclamed")
     }
-    console.log(this.body);
   }
 
   send_calification() {

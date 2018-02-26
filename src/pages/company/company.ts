@@ -26,6 +26,7 @@ export class CompanyPage {
     this.veporel.get_company_by_id(this.company_id).subscribe((result:any)=>{
       if(result!=null){
         self.company = JSON.parse(result._body);
+        console.log(self.company);
       }
     });
   }

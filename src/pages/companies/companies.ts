@@ -24,7 +24,7 @@ export class CompaniesPage {
 
   ionViewDidLoad() {
     let self = this;
-    this.veporel.get_companies_by_city_subcategorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
+    this.veporel.get_companies_by_city_categorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
       if(result!=null){
         self.branchs = JSON.parse(result._body);
         if(self.branchs.length==0){
@@ -46,7 +46,7 @@ export class CompaniesPage {
   doInfinite(infiniteScroll) {
     var self=this;
     this.page=this.page+50;
-    this.veporel.get_companies_by_city_subcategorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
+    this.veporel.get_companies_by_city_categorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
       infiniteScroll.complete();
 
       if(result!=null){
@@ -62,7 +62,7 @@ export class CompaniesPage {
   }
 
   public transform_distance(distance:number){
-    let d:number= parseInt((distance*100).toFixed(0));
+    let d:number= parseInt((distance*1).toFixed(0));
     if(d<1000){
       return d+ " Mts";
     }else{

@@ -6,6 +6,7 @@ import { MapOfferPage } from '../map-offer/map-offer';
 import moment from 'moment';
 import { LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import {SocialSharing} from "@ionic-native/social-sharing";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class OfferPage {
   private cantidad:number;
   public offer:any;
   public  offers_user:any;
+  public  company_name:string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,10 +29,12 @@ export class OfferPage {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public translate: TranslateService,
+    public socialSharing: SocialSharing,
   ) {
     let self = this;
     this.offer_id = this.navParams.get(this.util.constants.offer_id);
     this.branch_id = this.navParams.get(this.util.constants.branch_id);
+    this.company_name = this.navParams.get(this.util.constants.company_name);
     self.veporel.get_offer_by_id(this.offer_id, this.branch_id).subscribe(
       (result: any) => {
         if (result != null) {
@@ -164,6 +168,18 @@ export class OfferPage {
       offers_user: self.offers_user,
       offer: self.offer,
       kind_map: self.util.constants.map_offer
+    });
+  }
+
+  public share(){
+    var self=this;
+    this.translate.get('mensaje_compartir_offer',{offer: self.offer.name, company: this.company_name}).subscribe((res) => {
+
+      this.socialSharing.share(res, 'VePorEl', [], 'http://veporel.com').then(() => {
+
+      }).catch((e) => {
+        alert(e);
+      });
     });
   }
 

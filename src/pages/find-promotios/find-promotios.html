@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only end>
-      <ion-icon name='menu'></ion-icon>
+      <img src="assets/img/menu.png" class="menu_icon" />
     </button>
     <img src="assets/img/logo_horizontal.png" height="40" class="center" />
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id, promotion.bid)">
+      <ion-card *ngFor="let promotion of promotions" (click)="go_to_offer(promotion.id, promotion.bid, promotion.c_name)">
         <img-loader src="{{util.url}}{{promotion.url_photo}}" useImg fallback="assets/img/logo_horizontal.png"></img-loader>
         <ion-card-content>
           <ion-card-title>

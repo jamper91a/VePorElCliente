@@ -1,11 +1,12 @@
 <ion-header>
 	<ion-navbar>
 		<!--<button ion-button menuToggle icon-only end>-->
-			<!--<ion-icon name='menu'></ion-icon>-->
+			<!--<img src="assets/img/menu.png" class="menu_icon" />-->
 		<!--</button>-->
     <ion-buttons end>
       <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+      	<img src="assets/img/menu.png" class="menu_icon" />
+        <!--<ion-icon name="menu"></ion-icon>-->
       </button>
     </ion-buttons>
 		<img src="assets/img/logo_horizontal.png" height="40" class="center" />
@@ -13,31 +14,58 @@
 </ion-header>
 <ion-content padding>
 	<ion-grid>
-		<ion-row>
-			<ion-col col-12 text-center>
+		<ion-row class="location">
+			<ion-col col-4>
+				<img src="assets/img/avatar_saludo.png" />
+			</ion-col>
+			<ion-col col-8 text-center>
+				<p> Hola {{city_name}}</p>
+			</ion-col>
+		</ion-row>
+		<ion-row align-items-start>
+			<ion-col text-wrap  text-left>
 
+				<button ion-button block (click)="change_address()" text-wrap color="gray" no-padding>
+					<ion-img src="assets/img/button_actualizacion_direccion_icon.png" no-padding></ion-img>
+              		<div>{{'cambiar_direccion' | translate}}</div>
+            	</button>
+			</ion-col>
+			<ion-col col-auto >
+				<button ion-button block (click)="share()" color="gray" no-padding text-wrap>
+					<img src="assets/img/button_compartir_icon.png"/>
+            	</button>
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col text-center>
-				{{'estoy_en' | translate}}
+			<ion-col col-12-auto>
+				<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap>
+					<ion-img src="assets/img/button_ofertas.png"></ion-img>
+					<div >{{'buscar_promociones' | translate}}</div>
+				</button>
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col text-center>
-				<ion-list>
-					<ion-item>
-            <ion-label> <ion-icon name="locate"></ion-icon></ion-label>
-						<ion-input (click)="change_address()" readonly type="text" value="{{city_name}}" placeholder="{{'obteniendo_direccion' | translate}}" text-center></ion-input>
-					</ion-item>
-          <ion-item>
-            <button ion-button block (click)="change_address()">
-              {{'cambiar_direccion' | translate}}
-            </button>
-          </ion-item>
-				</ion-list>
+			<ion-col col-12-auto>
+				<button ion-button block (click)="find_categories()" color="primary" no-padding text-wrap>
+					<div>{{'busqueda_manual' | translate}}</div>
+					<ion-img  src="assets/img/button_ofertas_cercanas.png"></ion-img>
+				</button>
 			</ion-col>
 		</ion-row>
+		<ion-row>
+			<ion-col col-10>
+				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap>
+					<img src="assets/img/button_negocios_servicios.png"/>
+					<div>{{'directorio_negocios' | translate}}</div>
+				</button>
+			</ion-col>
+			<ion-col col-2>
+		        <button ion-button block icon-only (click)="listenForSpeech()" color="yellow">
+		          <ion-icon name="mic"></ion-icon>
+		        </button>
+			</ion-col>
+		</ion-row>
+
 		<ion-row>
 			<ion-col col-12>
 				<ion-slides pager>
@@ -49,35 +77,7 @@
 				</ion-slides>
 			</ion-col>
 		</ion-row>
-		<ion-row>
-			<ion-col col-1-auto>
-        <button ion-button block icon-only (click)="listenForSpeech()">
-          <ion-icon name="mic"></ion-icon>
-        </button>
-			</ion-col>
-      <ion-col col-5-auto>
-				<button ion-button block (click)="find_promotios()">
-					{{'buscar_promociones' | translate}}
-				</button>
-			</ion-col>
-			<ion-col col-6-auto>
-				<button ion-button block (click)="find_categories()">
-					{{'busqueda_manual' | translate}}
-				</button>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-6-auto>
-				<button ion-button block color="yellow" (click)="go_to_directory()">
-					{{'directorio_negocios' | translate}}
-				</button>
-			</ion-col>
-      <ion-col col-6-auto>
-        <button ion-button block (click)="share()">
-          {{'compartir' | translate}}
-        </button>
-      </ion-col>
-		</ion-row>
+			
 	</ion-grid>
 
 </ion-content>

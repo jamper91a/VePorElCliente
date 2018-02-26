@@ -28,6 +28,7 @@ export class TutorialPage {
     public menu: MenuController, translate: TranslateService,
     public util : Util
   ) {
+    this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
     //Valido si ya vio o no el tutorial
       if (!this.util.getPreference(this.util.constants.tutorial)) {
         translate.get(["TUTORIAL_SLIDE1_TITLE",
@@ -38,7 +39,6 @@ export class TutorialPage {
           "TUTORIAL_SLIDE3_DESCRIPTION",
         ]).subscribe(
           (values) => {
-            console.log('Loaded values', values);
             this.slides = [
               {
                 title: values.TUTORIAL_SLIDE1_TITLE,
@@ -69,6 +69,8 @@ export class TutorialPage {
 
       }
   }
+
+
 
   startApp() {
     this.navCtrl.setRoot(WelcomePage, {}, {

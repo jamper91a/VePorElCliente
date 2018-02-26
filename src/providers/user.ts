@@ -14,6 +14,7 @@ export class User {
   }
 
   login(accountInfo: any) {
+    accountInfo.push_code = this.util.getPreference(this.util.constants.push_code);
     let seq = this.api.post('login', accountInfo).share();
 
     seq
@@ -56,6 +57,7 @@ export class User {
     this.util.savePreference(this.util.constants.logged, true);
     this.util.savePreference(this.util.constants.user, JSON.stringify(resp.user));
     this.util.savePreference(this.util.constants.token, resp.token);
+    this.util.savePreference(this.util.constants.topics, JSON.stringify(resp.categories));
   }
 
 

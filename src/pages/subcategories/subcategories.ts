@@ -27,7 +27,8 @@ export class SubcategoriesPage {
       let self = this;
       let category_id = this.navParams.get(this.util.constants.category_id);
       if(category_id){
-        self.veporel.get_subcategories(category_id).subscribe(
+        let city_name=self.util.getPreference(this.util.constants.city_name);
+        self.veporel.get_subcategories(category_id, city_name).subscribe(
           (result: any) => {
             if (result != null) {
               self.subcategories = JSON.parse(result._body);
@@ -54,7 +55,7 @@ export class SubcategoriesPage {
 
   public get_offers(subcategory_id:number){
     this.navCtrl.push(FindPromotiosPage,{
-      "type_find_promotio": this.util.constants.find_promotion_by_subcategory,
+      "type_find_promotio": this.util.constants.find_promotion_by_category,
       "subcategory_id": subcategory_id
     })
   }

@@ -19,7 +19,7 @@ export class OptionsPage {
     this.options= JSON.parse(this.util.getPreference("options"));
     if(!this.options){
       this.options={
-        notifications:false,
+        notifications:true,
         range : 2
       }
     }

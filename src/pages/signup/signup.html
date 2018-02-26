@@ -34,20 +34,21 @@
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>{{ 'fecha_nacimiento' | translate }}</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MMMM-DD" [(ngModel)]="account.birthday" name="birthday" placeholder="{{'fecha_nacimiento' | translate}}"></ion-datetime>
+        <ion-label stacked>{{ 'fecha_nacimiento' | translate }} {{ 'optional' | translate }}</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MMMM-DD" [(ngModel)]="account.birthday" name="birthday" placeholder="{{'fecha_nacimiento' | translate}}" cancelText="{{'Cancel' | translate}}" doneText="{{'Done' | translate}}"></ion-datetime>
         <!--<ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>-->
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>{{ 'sex' | translate }}</ion-label>
-        <ion-select placeholder="{{'escoger_sexo' | translate}}" [(ngModel)]="account.sex" name="sex">
+        <ion-label stacked>{{ 'sex' | translate }} {{ 'optional' | translate }}</ion-label>
+        <ion-select placeholder="{{'escoger_sexo' | translate}}" [(ngModel)]="account.sex" name="sex" cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
           <ion-option value="M">Masculino</ion-option>
           <ion-option value="F">Femenino</ion-option>
+          <ion-option value="O">Otro</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label stacked>{{ 'celular' | translate }}</ion-label>
+        <ion-label stacked>{{ 'celular' | translate }} {{ 'optional' | translate }}</ion-label>
         <ion-input placeholder="{{'celular' | translate}}" type="number" [(ngModel)]="account.cellphone" name="cellphone"></ion-input>
       </ion-item>
 
@@ -76,7 +77,7 @@
 
       <ion-item text-wrap>
         <ion-label stacked>{{ 'productos_favoritos' | translate }}</ion-label>
-          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories" text-wrap>
+          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories" text-wrap cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
             <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" text-wrap>{{subcategory.name}}</ion-option>
         </ion-select>
       </ion-item>
@@ -86,6 +87,10 @@
         <ion-toggle [(ngModel)]="account.notifications" checked="false" name="notifications"></ion-toggle>
       </ion-item>
 
+      <ion-item>
+        <ion-label stacked>{{ 'codigo_referido' | translate }}</ion-label>
+        <ion-input placeholder="{{'codigo_referido' | translate}}" type="text" [(ngModel)]="account.refer_code" name="refer_code"></ion-input>
+      </ion-item>
       <div padding>
         <button ion-button color="primary" block>{{ 'registrar' | translate }}</button>
       </div>
