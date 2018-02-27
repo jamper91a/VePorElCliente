@@ -47,8 +47,8 @@ export class Util{
       topics: 'topics',
       company_name: 'company_name'
     };
-    //this.url = "https://backend.veporel.com.co:85/";
-    this.url = "http://192.168.1.72:1337/";
+    this.url = "https://backend.veporel.com.co:85/";
+    //this.url = "http://192.168.1.72:1337/";
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 

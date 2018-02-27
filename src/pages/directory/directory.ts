@@ -28,14 +28,21 @@ export class DirectoryPage {
     category:string,
     name:string,
     latitude:number,
-    longitude:number
+    longitude:number,
+    city_latitude:number,
+    city_longitude:number,
+    diferent_city:boolean
   }={
     country_id:"",
     city_id:0,
     category:"",
     name:"",
     latitude:0,
-    longitude:0
+    longitude:0,
+    city_latitude:0,
+    city_longitude:0,
+    diferent_city:false
+
   };
   constructor(
     public navCtrl: NavController,
@@ -172,20 +179,25 @@ export class DirectoryPage {
         for (var i = 0; i < self.cities.length; i++) {
           if(self.cities[i].name == self.city_name){
             self.data.city_id = self.cities[i].id;
+            self.data.diferent_city=false;
             return;
           }
         }
         this.util.show_toast('error_15');
+
         return;
       }
     });
   }
   change_city(event:any, city_id:string){
     let self=this;
+    self.data.diferent_city=true;
     //Obtengo el nombre de la ciudad
     for (var i = 0; i < self.cities.length; i++) {
       if(self.cities[i].id == city_id){
         self.city_name=self.cities[i].name;
+        self.data.city_latitude= self.cities[i].latitude;
+        self.data.city_longitude= self.cities[i].longitude;
         self.veporel.get_categories(self.city_name).subscribe((result:any)=>{
           if(result!=null){
             let body = result._body;

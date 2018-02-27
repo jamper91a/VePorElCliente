@@ -35,6 +35,10 @@ export class CategoriesPage {
           (result: any) => {
             if (result != null) {
               self.categories = JSON.parse(result._body);
+              if(self.categories.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
             }
           },
           error => {
