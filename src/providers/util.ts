@@ -1,6 +1,8 @@
 import {ToastController, LoadingController, Loading} from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { IsDebug } from '@ionic-native/is-debug';
+
 /**
  * Created by Usuario on 02/06/2017.
  */
@@ -13,8 +15,11 @@ export class Util{
   constructor(
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private isDebug: IsDebug
+
   ) {
+    var self=this;
     this.constants = {
       logged: 'logged',
       tutorial: 'tutorial',
@@ -40,6 +45,7 @@ export class Util{
       branch: 'branch',
       company: 'company',
       country_code: 'country_code',
+      country_name: 'country_name',
       find_promotion_by_user_id: 'find_promotion_by_user_id',
       find_promotion_by_subcategory_name: 'find_promotion_by_subcategory_name',
       language: 'language',
@@ -47,8 +53,21 @@ export class Util{
       topics: 'topics',
       company_name: 'company_name'
     };
-    this.url = "https://backend.veporel.com.co:85/";
-    //this.url = "http://192.168.1.72:1337/";
+    this.isDebug.getIsDebug()
+      .then(function (isDebug: boolean){
+        console.log(isDebug);
+        if(isDebug==false)
+          self.url = "https://backend.veporel.com.co:85/";
+        else
+          self.url = "http://192.168.1.72:1337/";
+      })
+      .catch(function (error: any) {
+        console.log("Error is debug");
+        self.url = "https://backend.veporel.com.co:85/"
+      });
+
+
+
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
   }
 

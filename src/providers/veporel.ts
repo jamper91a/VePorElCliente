@@ -99,6 +99,8 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
+              console.log("NativeGeocoderReverseResult: ");
+              console.log(result);
               dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
               observer.next(result);
               // observer.onCompleted();
@@ -203,11 +205,28 @@ export class VePorEl {
     return seq;
 
   }
-  get_categories(city_name?:string):any{
+  get_categories(country_name?:string, country_code?:string, latitude?:number, longitude?:number, city_name?:string):any{
     if(!city_name)
       city_name="";
+    if(!country_name)
+      country_name="";
+    if(!country_code)
+      country_code="";
+    if(!latitude)
+      latitude=0;
+    if(!longitude)
+      longitude=0;
     let dialog = this.util.show_dialog(this.messages.obteniendo_las_categorias);
-    let seq = this.api.get('categories',{city_name:city_name}).share();
+    let seq = this.api.get(
+      'categories',
+      {
+        city_name:city_name,
+        country_name: country_name,
+        country_code: country_code,
+        latitude: latitude,
+        longitude: longitude
+      }
+      ).share();
     seq
       .subscribe(res => {
         dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});

@@ -28,6 +28,7 @@
     "@ionic-native/geolocation": "^3.11.0",
     "@ionic-native/google-analytics": "^3.12.1",
     "@ionic-native/google-maps": "^3.11.0",
+    "@ionic-native/is-debug": "^4.5.3",
     "@ionic-native/launch-navigator": "^4.2.1",
     "@ionic-native/native-geocoder": "^3.12.1",
     "@ionic-native/push": "^4.5.3",
@@ -56,6 +57,7 @@
     "cordova-plugin-googlemaps": "^2.2.5",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
     "cordova-plugin-inappbrowser": "^1.7.2",
+    "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-nativegeocoder": "^1.0.2",
     "cordova-plugin-screen-orientation": "^2.0.2",
     "cordova-plugin-speechrecognition": "^1.2.0",
@@ -113,7 +115,8 @@
       "cordova-plugin-file": {},
       "phonegap-plugin-push": {
         "FCM_VERSION": "11.6.2"
-      }
+      },
+      "cordova-plugin-is-debug": {}
     },
     "platforms": [
       "android"

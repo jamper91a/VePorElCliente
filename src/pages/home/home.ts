@@ -108,6 +108,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
               self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
                 (result: any) => {
                   if (result != null) {
+                    console.log(result);
                     // let body = JSON.parse(result._body);
                     // self.address = body.results[0].formatted_address;
                     //
@@ -123,6 +124,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
                       self.util.savePreference(self.util.constants.longitude, self.longitude);
                       self.util.savePreference(self.util.constants.city_name, self.city_name);
                       self.util.savePreference(self.util.constants.country_code, country_code);
+                      self.util.savePreference(self.util.constants.country_name, result.countryName);
                       self.get_banners(self.city_name);
                     }
                   }
@@ -236,13 +238,29 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
    }
 
    public find_categories(){
-     this.navCtrl.push(CategoriesPage);
+     let self = this;
+     if(this.city_name){
+       this.navCtrl.push(CategoriesPage, {
+         "latitude" : self.latitude,
+         "longitude" : self.longitude
+       });
+     }else{
+       this.translateService.get("error_9").subscribe((res) => {
+         let toast = self.toastCtrl.create({
+           message: res,
+           duration: 3000,
+           position: 'top'
+         });
+         toast.present();
+       })
+
+     }
    }
 
    public share(){
      var self=this;
      this.translateService.get('mensaje_compartir',{value: "VPE"+this.user.id}).subscribe((res) => {
- 
+
        this.socialSharing.share(res, 'VePorEl', [], 'http://veporel.com').then(() => {
 
        }).catch((e) => {

@@ -57,6 +57,7 @@ import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition} from '@ionic-native/speech-recognition'
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { IsDebug } from '@ionic-native/is-debug';
 
 
 // The translate loader needs to know where to load i18n files
@@ -124,6 +125,7 @@ export function providers() {
     SpeechRecognition,
     LaunchNavigator,
     Push,
+    IsDebug,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

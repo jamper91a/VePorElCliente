@@ -23,7 +23,8 @@ export class DirectoryPage {
   public language="";
 
   data:{
-    country_id:string
+    country_id:string,
+    country_name:string,
     city_id:number,
     category:string,
     name:string,
@@ -34,6 +35,7 @@ export class DirectoryPage {
     diferent_city:boolean
   }={
     country_id:"",
+    country_name:"",
     city_id:0,
     category:"",
     name:"",
@@ -171,6 +173,13 @@ export class DirectoryPage {
 
   change_country(event:any, country_code:string){
     let self=this;
+    //Get conuntry name
+    for (var i = 0; i < self.countries.length; i++) {
+      if(self.countries[i].code == country_code){
+        self.data.country_name=self.countries[i].name;
+      }
+    }
+
     //Obtengo las ciudades de ese pais
     this.veporel.get_cities_by_country(country_code,1).subscribe((result:any)=>{
       let body =  result._body;
@@ -198,7 +207,7 @@ export class DirectoryPage {
         self.city_name=self.cities[i].name;
         self.data.city_latitude= self.cities[i].latitude;
         self.data.city_longitude= self.cities[i].longitude;
-        self.veporel.get_categories(self.city_name).subscribe((result:any)=>{
+        self.veporel.get_categories(self.data.country_name,self.data.country_id, self.data.city_latitude, self.data.city_longitude,self.city_name).subscribe((result:any)=>{
           if(result!=null){
             let body = result._body;
             self.categories = JSON.parse(body);
