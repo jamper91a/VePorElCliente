@@ -62,12 +62,12 @@ export class VePorEl {
       type=1;
     }
     let body ={
-      city_name : city_name
+      city_name : city_name,
+      type: type
     };
 
     let seq = this.api.post('banners/get', body).share();
     seq
-      //.map(res => res.json())
       .subscribe(res => {
         let aux= res.json();
         if(aux.length==0 && type==1){
@@ -80,18 +80,22 @@ export class VePorEl {
           }];
           res._body=JSON.stringify(aux);
           return res.json();
-        }else
-          return res.json();
+        }else{
+          return aux;
+        }
+
       }, err => {
         console.error('ERROR', err);
       });
     return seq;
   }
-  get_address(latitude:number, longitude:number){
+  get_address(latitude:number, longitude:number, force_update?:boolean){
+    if(force_update==null)
+      force_update=false;
     this.get_translation();
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     let self=this;
-    if(!this.util.getPreference(this.util.constants.address)){
+    if(!this.util.getPreference(this.util.constants.address) || force_update){
     if(this.platform.is('cordova')){
       let seq =  Observable.create(observer => {
 
@@ -99,8 +103,6 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
-              console.log("NativeGeocoderReverseResult: ");
-              console.log(result);
               dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
               observer.next(result);
               // observer.onCompleted();
@@ -132,6 +134,7 @@ export class VePorEl {
             //busco en los address componene hasta encontrr cada elemento
 
             var result = {
+              countryName:"",
               countryCode:"",
               city:"",
               street: body.results[0].formatted_address,
@@ -144,6 +147,7 @@ export class VePorEl {
                   result.city=element.short_name;
                 }
                 if(element.types[0]=="country"){
+                  result.countryName=element.long_name;
                   result.countryCode=element.short_name;
                 }
               }
@@ -164,6 +168,7 @@ export class VePorEl {
     }else{
       let seq =  Observable.create(observer => {
         var result = {
+          countryName:this.util.getPreference(this.util.constants.country_name),
           countryCode:this.util.getPreference(this.util.constants.country_code),
           city:this.util.getPreference(this.util.constants.city_name),
           street: this.util.getPreference(this.util.constants.address),

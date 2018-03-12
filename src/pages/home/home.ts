@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {NavController, NavParams, ToastController, MenuController, AlertController, Platform} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, NavParams, ToastController, MenuController, AlertController, Platform, Slides} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
@@ -31,6 +31,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
    private latitude:number;
    private longitude:number;
    private city_name:string;
+   private country_name:string;
    private country_code:string;
    private user:any;
 
@@ -63,37 +64,44 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
    ionViewDidLoad() {
      let self = this;
+     //Variable para saber si ya obtuve la ubicacion
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
+       console.log("city_name: "+this.city_name);
        if(this.city_name){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
          this.city_name = this.navParams.get(this.util.constants.city_name);
          this.country_code = this.navParams.get(this.util.constants.country_code);
-         self.util.savePreference(this.util.constants.address, this.address);
+         this.country_name = this.navParams.get(this.util.constants.country_name);
          self.util.savePreference(this.util.constants.latitude, this.latitude);
          self.util.savePreference(this.util.constants.longitude, this.longitude);
          self.util.savePreference(this.util.constants.city_name, this.city_name);
          self.util.savePreference(this.util.constants.country_code, this.country_code);
+         self.util.savePreference(this.util.constants.country_name, this.country_name);
          self.get_banners(this.city_name);
        }else{
-         //Valido si tengo una direccion almacenada
-         if(self.util.getPreference(this.util.constants.city_name)){
-           this.address = self.util.getPreference(this.util.constants.address);
-           this.latitude = self.util.getPreference(this.util.constants.latitude);
-           this.longitude = self.util.getPreference(this.util.constants.longitude);
-           this.city_name= self.util.getPreference(this.util.constants.city_name);
-           self.get_banners(this.city_name);
-         }else{
-           self.get_location();
+           //Valido si tengo una direccion almacenada
+            console.log("constants.city_name: "+self.util.getPreference(this.util.constants.city_name));
+           if(self.util.getPreference(this.util.constants.city_name)){
+             this.latitude = self.util.getPreference(this.util.constants.latitude);
+             this.longitude = self.util.getPreference(this.util.constants.longitude);
+             this.city_name= self.util.getPreference(this.util.constants.city_name);
+             this.country_name= self.util.getPreference(this.util.constants.country_name);
+             self.get_banners(this.city_name);
+           }else{
+             self.get_location();
 
-         }
+           }
+
        }
 
      } catch (e) {
+       console.log(e);
      }
    }
+
 
   get_location(){
     let self = this;
@@ -105,10 +113,9 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
             self.geolocation.getCurrentPosition().then((resp) => {
               self.latitude = resp.coords.latitude;
               self.longitude = resp.coords.longitude;
-              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, false).subscribe(
                 (result: any) => {
                   if (result != null) {
-                    console.log(result);
                     // let body = JSON.parse(result._body);
                     // self.address = body.results[0].formatted_address;
                     //
@@ -119,7 +126,6 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
                     let country_code =  result.countryCode;
                     if (self.city_name) {
                       //Almaceno
-                      self.util.savePreference(self.util.constants.address, self.address);
                       self.util.savePreference(self.util.constants.latitude, self.latitude);
                       self.util.savePreference(self.util.constants.longitude, self.longitude);
                       self.util.savePreference(self.util.constants.city_name, self.city_name);
@@ -127,14 +133,14 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
                       self.util.savePreference(self.util.constants.country_name, result.countryName);
                       self.get_banners(self.city_name);
                     }
+                  }else{
+                    console.log("error getting location: ");
+                    console.log(result);
                   }
-                },
-                error => {
-
                 }
               );
             }).catch((error) => {
-              console.log('Error getting location', error);
+              self.util.show_toast(error);
             });
           }else{
 
@@ -170,23 +176,52 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
           console.error(error);
         });
       }else{
-        self.diagnostic.requestLocationAuthorization().then(function (status) {
-          if(status=='GRANTED'){
-            self.get_location();
-          }else{
-            if (self.platform.is('android')) {
-              self.platform.exitApp();
-            }else{
-              self.navCtrl.pop();
-              self.util.show_toast('error_16');
-            }
-          }
-        }).catch(function (error) {
 
+        self.translateService.get(["ubicacion", "mensaje_ubicacion","salir","activar"]).subscribe((res) => {
+          let confirm = self.alertCtrl.create({
+            title: res.ubicacion,
+            message: res.mensaje_ubicacion,
+            buttons: [
+              {
+                text: res.salir,
+                handler: () => {
+                  if (this.platform.is('android')) {
+                    self.platform.exitApp();
+                  }else{
+                    self.navCtrl.pop();
+                    this.util.show_toast('error_16');
+                  }
+                }
+              },
+              {
+                text: res.activar,
+                handler: () => {
+                  self.diagnostic.requestLocationAuthorization().then(function (status) {
+                    if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
+                      self.get_location();
+                    }else{
+                      if (self.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        self.util.show_toast('error_16');
+                      }
+                    }
+                  }).catch(function (error) {
+                    console.log("requestLocationAuthorization :"+error);
+                  });
+                }
+              }
+            ]
+          });
+          confirm.present();
         });
-      }
-    }).catch(function () {
 
+
+
+      }
+    }).catch(function (error) {
+      console.log("isLocationAuthorized :"+error);
     });
 
 
@@ -197,8 +232,9 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
    private get_banners(city_name:string){
      let self = this;
      //Obtengo los banners
-     this.veporel.get_banners(city_name).subscribe(
+     this.veporel.get_banners(city_name,2).subscribe(
        (result:any) =>{
+
          let body =  result._body;
          if(body!=null)
          {
@@ -259,9 +295,13 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
    public share(){
      var self=this;
-     this.translateService.get('mensaje_compartir',{value: "VPE"+this.user.id}).subscribe((res) => {
+     this.translateService.get('mensaje_compartir',{
+       value: "VPE"+this.user.id,
+       google_play: "https://play.google.com/store/apps/details?id=co.colombiaapps.vpeclientes",
+       app_store: "https://itunes.apple.com/nl/app/veporel/id1318648947?mt=8"
+     }).subscribe((res) => {
 
-       this.socialSharing.share(res, 'VePorEl', [], 'http://veporel.com').then(() => {
+       this.socialSharing.share(res, 'VePorEl', []).then(() => {
 
        }).catch((e) => {
         alert(e);

@@ -14,6 +14,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
+import { HTTP } from '@ionic-native/http';
 
 
 @Component({
@@ -34,9 +35,10 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     public alertCtrl: AlertController,
     public push: Push,
-    public veporel: VePorEl
+    public veporel: VePorEl,
+    private http: HTTP
   ) {
-
+    this.http.acceptAllCerts(true);
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);

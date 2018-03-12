@@ -26,10 +26,18 @@ export class CompaniesPage {
     let self = this;
     this.veporel.get_companies_by_city_categorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
       if(result!=null){
-        self.branchs = JSON.parse(result._body);
+        var body = JSON.parse(result._body);
+        try {
+          this.navParams.data.pagetoken = body.pagetoken;
+        } catch (e) {
+          this.navParams.data.pagetoken = "";
+        }
+        self.branchs = body.branchs;
         if(self.branchs.length==0){
           this.navCtrl.pop();
           this.util.show_toast('error_13');
+        }else{
+          self.get_banners();
         }
       }
     });
@@ -45,12 +53,18 @@ export class CompaniesPage {
 
   doInfinite(infiniteScroll) {
     var self=this;
-    this.page=this.page+50;
+    this.page=this.page+20;
     this.veporel.get_companies_by_city_categorie_and_name(this.navParams.data, this.page).subscribe((result:any)=>{
       infiniteScroll.complete();
 
       if(result!=null){
-        let new_Branchs= JSON.parse(result._body);
+        var body = JSON.parse(result._body);
+        try {
+          this.navParams.data.pagetoken = body.pagetoken;
+        } catch (e) {
+          this.navParams.data.pagetoken = "";
+        }
+        let new_Branchs = body.branchs;
         if(new_Branchs==0){
         }else{
           self.branchs = self.branchs.concat(new_Branchs);
@@ -68,6 +82,26 @@ export class CompaniesPage {
     }else{
       return (d/1000).toFixed(0)+ " Kms"
     }
+  }
+
+  private banners:any;
+  private get_banners(){
+    let city_name = this.util.getPreference(this.util.constants.city_name);
+    let self = this;
+    //Obtengo los banners
+    this.veporel.get_banners(city_name, 3).subscribe(
+      (result:any) =>{
+        let body =  result._body;
+        if(body!=null)
+        {
+          self.banners = JSON.parse(body);
+        }else{
+        }
+
+      },
+      error =>{
+      }
+    );
   }
 
 

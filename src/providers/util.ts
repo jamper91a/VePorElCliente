@@ -51,15 +51,18 @@ export class Util{
       language: 'language',
       push_code: 'push_code',
       topics: 'topics',
-      company_name: 'company_name'
+      company_name: 'company_name',
+      get_location_first_time: 'get_location_first_time'
     };
     this.isDebug.getIsDebug()
       .then(function (isDebug: boolean){
         console.log(isDebug);
         if(isDebug==false)
           self.url = "https://backend.veporel.com.co:85/";
-        else
+        else{
           self.url = "http://192.168.1.72:1337/";
+        }
+
       })
       .catch(function (error: any) {
         console.log("Error is debug");

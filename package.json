@@ -25,13 +25,16 @@
     "@ionic-native/diagnostic": "^4.1.0",
     "@ionic-native/facebook": "^3.12.1",
     "@ionic-native/file": "^3.12.1",
+    "@ionic-native/file-transfer": "^4.5.3",
     "@ionic-native/geolocation": "^3.11.0",
     "@ionic-native/google-analytics": "^3.12.1",
     "@ionic-native/google-maps": "^3.11.0",
+    "@ionic-native/http": "^4.5.3",
     "@ionic-native/is-debug": "^4.5.3",
     "@ionic-native/launch-navigator": "^4.2.1",
     "@ionic-native/native-geocoder": "^3.12.1",
     "@ionic-native/push": "^4.5.3",
+    "@ionic-native/qr-scanner": "^4.5.3",
     "@ionic-native/screen-orientation": "^3.12.1",
     "@ionic-native/social-sharing": "^3.12.1",
     "@ionic-native/speech-recognition": "^4.2.1",
@@ -46,6 +49,8 @@
     "cordova-android": "~6.3.0",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-add-swift-support": "^1.6.0",
+    "cordova-plugin-advanced-http": "^1.11.0",
+    "cordova-plugin-certificates": "^0.6.4",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-dialogs": "^2.0.1",
@@ -69,7 +74,7 @@
     "es6-promise-plugin": "^4.1.0",
     "ionic": "3.7.0",
     "ionic-angular": "3.3.0",
-    "ionic-image-loader": "^3.2.1",
+    "ionic-image-loader": "4.2.1",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionic2-rating": "^1.2.2",
     "ionicons": "3.0.0",
@@ -116,7 +121,9 @@
       "phonegap-plugin-push": {
         "FCM_VERSION": "11.6.2"
       },
-      "cordova-plugin-is-debug": {}
+      "cordova-plugin-is-debug": {},
+      "cordova-plugin-certificates": {},
+      "cordova-plugin-advanced-http": {}
     },
     "platforms": [
       "android"

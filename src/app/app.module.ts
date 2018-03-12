@@ -58,6 +58,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition} from '@ionic-native/speech-recognition'
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { IsDebug } from '@ionic-native/is-debug';
+import { HTTP } from '@ionic-native/http';
+
 
 
 // The translate loader needs to know where to load i18n files
@@ -126,6 +128,7 @@ export function providers() {
     LaunchNavigator,
     Push,
     IsDebug,
+    HTTP,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

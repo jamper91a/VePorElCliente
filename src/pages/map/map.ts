@@ -25,6 +25,7 @@ export class MapPage {
   private longitude:number;
   private city_name:string;
   private country_code:string;
+  private country_name:string;
 
   constructor(
     private googleMaps: GoogleMaps,
@@ -96,8 +97,8 @@ export class MapPage {
           console.error(error);
         });
       }else{
-        self.diagnostic.requestLocationAuthorization().then(function (status) {
-          if(status=='GRANTED'){
+        self.diagnostic.requestLocationAuthorization('always').then(function (status) {
+          if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
             self.get_location();
           }else{
             if (self.platform.is('android')) {
@@ -164,9 +165,10 @@ export class MapPage {
         if(result!=null){
 
           var aux = result.street + " "+ result.houseNumber;
-          self.city_name = result.city
+          self.city_name = result.city;
           self.address = aux;
           self.country_code = result.countryCode;
+          self.country_name = result.countryName;
           // let body = JSON.parse(result._body);
           // var aux = body.results[0].formatted_address;
           // self.city_name = body.results[0].address_components[5].short_name;
@@ -183,9 +185,10 @@ export class MapPage {
       latitude: this.latitude,
       longitude: this.longitude,
       city_name: this.city_name,
-      country_code: this.country_code
-    }
-    console.log(parameters);
+      country_code: this.country_code,
+      country_name: this.country_name
+    };
+    this.util.savePreference(this.util.constants.address,"true");
     this.navCtrl.push(HomePage, parameters);
   }
 }

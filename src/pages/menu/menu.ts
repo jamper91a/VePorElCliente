@@ -58,7 +58,8 @@ export class MenuPage {
 
   public openPage(p){
     this.menuCtrl.close();
-    this.rootPage = p;
+    //this.rootPage = p;
+    this.navCtrl.setRoot(p);
   }
 
   logout(){

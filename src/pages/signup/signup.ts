@@ -29,8 +29,10 @@ export class SignupPage {
     birthday: string,
     sex: string,
     subcategories: number[],
-    city_id: number,
-    country_id: string,
+    country_name:string,
+    country_code:string,
+    departament_name:string,
+    city_name:string,
     r_password: string,
     refer_code:string
   }={
@@ -44,8 +46,10 @@ export class SignupPage {
     birthday: "",
     sex: "",
     subcategories: [],
-    city_id: 0,
-    country_id: "",
+    country_name:"",
+    country_code:"",
+    departament_name:"",
+    city_name:"",
     r_password: "",
     refer_code:""
   };
@@ -80,17 +84,6 @@ export class SignupPage {
 
   ) {
 
-
-
-
-
-
-
-
-  }
-
-  ionViewWillEnter(){
-
     this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR','validando_informacion']).subscribe((values) => {
       this.serverErrorString = values.SERVER_ERROR;
     });
@@ -106,6 +99,17 @@ export class SignupPage {
     this.get_messages();
     this.get_location();
     this.veporel.get_translation();
+
+
+
+
+
+
+  }
+
+  ionViewWillEnter(){
+
+
   }
 
   get_messages(){
@@ -176,60 +180,40 @@ export class SignupPage {
 
   }
 
-  change_country(event:any, country_code:string){
-    let self=this;
-    //Obtengo las ciudades de ese pais
-    this.veporel.get_cities_by_country(country_code).subscribe((result:any)=>{
-      let body =  result._body;
-      if(body!=null) {
-        self.cities = JSON.parse(body);
-        for (var i = 0; i < self.cities.length; i++) {
-          if(self.cities[i].name == self.city_name){
-            self.account.city_id = self.cities[i].id;
-            return;
-          }
-        }
-      }
-    });
-  }
-
   showPassword(): any {
     this.inputP.type = this.inputP.type === 'password' ?  'text' : 'password';
     this.inputRP.type = this.inputRP.type === 'password' ?  'text' : 'password';
   }
 
   get_location(){
+
+    console.log("1");
     let self = this;
     self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+      console.log("2: "+isAuthorized);
       if(isAuthorized){
         self.diagnostic.isLocationEnabled().then(function(isAvailable){
+          console.log("3:"+isAvailable);
           if(isAvailable){
             let dialog = self.util.show_dialog(self.messages.obteniendo_tu_ubicacion);
             self.geolocation.getCurrentPosition().then((resp) => {
-
-              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+              console.log("4");
+              console.log(resp);
+              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
                 (result: any) => {
-                  if (result != null) {
-                    self.city_name =result.city;
-                    self.country_name = result.countryCode;
-                  }
+                  console.log("5");
+                  console.log(resp);
                   dialog.dismiss();
+                  if(!result.countryName || !result.countryCode || !result.city){
+                    self.util.show_toast('error_17');
+                    self.navCtrl.pop();
+                  }else{
+                    self.account.country_name= result.countryName;
+                    self.account.country_code= result.countryCode;
+                    self.account.city_name= result.city;
 
-                  //Obtengo los paises
-                  self.veporel.get_countries().subscribe((result:any)=>{
-                    let body =  result._body;
-                    if(body!=null){
-                      self.countries = JSON.parse(body);
-                      self.account.country_id = self.country_name;
-                      self.veporel.get_categories().subscribe((result:any)=>{
-                        if(result!=null){
-                          let body = result._body;
-                          self.subcategories = JSON.parse(body);
-                        }
-                      });
-                    }
+                  }
 
-                  });
                 },
                 (error) => {
                   alert(error);
@@ -274,37 +258,51 @@ export class SignupPage {
           alert(error);
         });
       }else{
-        /*self.diagnostic.requestLocationAuthorization().then(function (status) {
-          if(status=='GRANTED'){
-            self.get_location();
-          }else{
-            if (self.platform.is('android')) {
-              self.platform.exitApp();
-            }else{
-              self.navCtrl.pop();
-              self.util.show_toast('error_16');
-            }
-          }
-        }).catch(function (error) {
-          alert(error);
-        });*/
 
-
-        //Obtengo los paises
-        self.veporel.get_countries().subscribe((result:any)=>{
-          let body =  result._body;
-          if(body!=null){
-            self.countries = JSON.parse(body);
-            //self.account.country_id = self.country_name;
-            self.veporel.get_categories().subscribe((result:any)=>{
-              if(result!=null){
-                let body = result._body;
-                self.subcategories = JSON.parse(body);
+        self.translateService.get(["ubicacion", "mensaje_ubicacion","salir","activar"]).subscribe((res) => {
+          let confirm = self.alertCtrl.create({
+            title: res.ubicacion,
+            message: res.mensaje_ubicacion,
+            buttons: [
+              {
+                text: res.salir,
+                handler: () => {
+                  if (this.platform.is('android')) {
+                    self.platform.exitApp();
+                  }else{
+                    self.navCtrl.pop();
+                    this.util.show_toast('error_16');
+                  }
+                }
+              },
+              {
+                text: res.activar,
+                handler: () => {
+                  self.diagnostic.requestLocationAuthorization().then(function (status) {
+                    if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
+                      self.get_location();
+                    }else{
+                      if (self.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        self.util.show_toast('error_16');
+                      }
+                    }
+                  }).catch(function (error) {
+                    alert(error);
+                  });
+                }
               }
-            });
-          }
-
+            ]
+          });
+          confirm.present();
         });
+
+
+
+
+
       }
     }).catch(function (error) {
       alert(error);
