@@ -53,6 +53,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -126,6 +127,7 @@ export function providers() {
     NativeGeocoder,
     GoogleAnalytics,
     ScreenOrientation,
+    AppVersion,
     Diagnostic,
     SpeechRecognition,
     LaunchNavigator,
