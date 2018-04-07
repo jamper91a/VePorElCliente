@@ -12,15 +12,11 @@
     <ion-list>
       <ion-item>
         <ion-label stacked>{{ 'pais' | translate }}</ion-label>
-        <ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="account.country_id" name="country_id" (ionChange)="change_country($event, account.country_id)">
-          <ion-option *ngFor="let country of countries" value="{{country.code}}" >{{country.name}}</ion-option>
-        </ion-select>
+        <ion-input type="text" [(ngModel)]="account.country_name" name="country_name" [disabled]=true value="{{account.country_name}}"></ion-input>
       </ion-item>
-      <ion-item *ngIf="account.country_id">
+      <ion-item *ngIf="account.country_name">
         <ion-label stacked>{{ 'ciudad' | translate }}</ion-label>
-        <ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="account.city_id">
-          <ion-option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</ion-option>
-        </ion-select>
+        <ion-input type="text" [(ngModel)]="account.city_name" name="city_name" [disabled]=true value="{{account.city_name}}"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -34,13 +30,24 @@
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>{{ 'fecha_nacimiento' | translate }} {{ 'optional' | translate }}</ion-label>
+        <ion-label stacked>
+          {{ 'fecha_nacimiento' | translate }}
+          <ng-container *ngIf="!platform.is('android')">
+            {{ 'optional' | translate }}
+          </ng-container>
+
+        </ion-label>
         <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MMMM-DD" [(ngModel)]="account.birthday" name="birthday" placeholder="{{'fecha_nacimiento' | translate}}" cancelText="{{'Cancel' | translate}}" doneText="{{'Done' | translate}}"></ion-datetime>
         <!--<ion-input placeholder="{{'fecha_nacimiento' | translate}}" type="name" [(ngModel)]="account.birthday" name="birthday" (click)="showCalendar()" readonly></ion-input>-->
       </ion-item>
 
       <ion-item>
-        <ion-label stacked>{{ 'sex' | translate }} {{ 'optional' | translate }}</ion-label>
+        <ion-label stacked>
+          {{ 'sex' | translate }}
+          <ng-container *ngIf="!platform.is('android')">
+            {{ 'optional' | translate }}
+          </ng-container>
+        </ion-label>
         <ion-select placeholder="{{'escoger_sexo' | translate}}" [(ngModel)]="account.sex" name="sex" cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
           <ion-option value="M">Masculino</ion-option>
           <ion-option value="F">Femenino</ion-option>
@@ -48,7 +55,12 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label stacked>{{ 'celular' | translate }} {{ 'optional' | translate }}</ion-label>
+        <ion-label stacked>
+          {{ 'celular' | translate }}
+          <ng-container *ngIf="!platform.is('android')">
+            {{ 'optional' | translate }}
+          </ng-container>
+        </ion-label>
         <ion-input placeholder="{{'celular' | translate}}" type="number" [(ngModel)]="account.cellphone" name="cellphone"></ion-input>
       </ion-item>
 
@@ -73,13 +85,6 @@
         <ion-label for="checkbox" *ngIf="!passwordCheckbox">{{'mostrar_contrasena'| translate}}</ion-label>
         <ion-label for="checkbox" *ngIf="passwordCheckbox">{{'ocultar_contrasena' | translate}}</ion-label>
         <ion-checkbox  class="marginTop" id="checkbox" name="checkbox" style="border-style: none;" [(ngModel)]="passwordCheckbox" (click)="showPassword()"></ion-checkbox>
-      </ion-item>
-
-      <ion-item text-wrap>
-        <ion-label stacked>{{ 'productos_favoritos' | translate }}</ion-label>
-          <ion-select  placeholder="{{'escoger_tus_productos_favoritos' | translate}}" [(ngModel)]="account.subcategories" multiple="true" name="subcategories" text-wrap cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
-            <ion-option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}" text-wrap>{{subcategory.name}}</ion-option>
-        </ion-select>
       </ion-item>
 
       <ion-item text-wrap>

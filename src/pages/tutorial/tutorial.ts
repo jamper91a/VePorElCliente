@@ -43,17 +43,22 @@ export class TutorialPage {
               {
                 title: values.TUTORIAL_SLIDE1_TITLE,
                 description: values.TUTORIAL_SLIDE1_DESCRIPTION,
-                image: 'assets/img/logo.png',
+                image: 'assets/img/tuto/tuto_1.png',
               },
               {
                 title: values.TUTORIAL_SLIDE2_TITLE,
                 description: values.TUTORIAL_SLIDE2_DESCRIPTION,
-                image: 'assets/img/logo.png',
+                image: 'assets/img/tuto/tuto_2.png',
               },
               {
                 title: values.TUTORIAL_SLIDE3_TITLE,
                 description: values.TUTORIAL_SLIDE3_DESCRIPTION,
-                image: 'assets/img/logo.png',
+                image: 'assets/img/tuto/tuto_3.png',
+              },
+              {
+                title: values.TUTORIAL_SLIDE3_TITLE,
+                description: values.TUTORIAL_SLIDE3_DESCRIPTION,
+                image: 'assets/img/tuto/tuto_4.png',
               }
             ];
           });
@@ -80,7 +85,7 @@ export class TutorialPage {
   }
 
   onSlideChangeStart(slider) {
-    this.showSkip = !slider.isEnd;
+    this.showSkip = !slider.isEnd();
   }
 
   ionViewDidEnter() {

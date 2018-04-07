@@ -25,6 +25,7 @@ import { OptionsPage } from '../pages/options/options';
 import { DirectoryPage } from '../pages/directory/directory';
 import { CompaniesPage } from '../pages/companies/companies';
 import { CompanyPage } from '../pages/company/company';
+import { ResentEmailPage } from '../pages/resent-email/resent-email';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -52,11 +53,15 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition} from '@ionic-native/speech-recognition'
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { IsDebug } from '@ionic-native/is-debug';
+import { HTTP } from '@ionic-native/http';
+
 
 
 // The translate loader needs to know where to load i18n files
@@ -93,6 +98,8 @@ let pages = [
   DirectoryPage,
   CompaniesPage,
   CompanyPage,
+  ResentEmailPage
+
 ];
 
 export function declarations() {
@@ -120,10 +127,13 @@ export function providers() {
     NativeGeocoder,
     GoogleAnalytics,
     ScreenOrientation,
+    AppVersion,
     Diagnostic,
     SpeechRecognition,
     LaunchNavigator,
     Push,
+    IsDebug,
+    HTTP,
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ];

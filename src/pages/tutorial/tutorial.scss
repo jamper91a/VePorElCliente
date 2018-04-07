@@ -13,8 +13,6 @@ page-tutorial {
   }
 
   .slide-image {
-    max-height: 40%;
-    max-width: 60%;
     margin: 36px 0;
   }
 
@@ -34,6 +32,10 @@ page-tutorial {
   }
   ion-slides {
     height: auto;
+  }
+  div.swiper-pagination {
+    top:20px;
+    bottom:inherit;
   }
 
 }

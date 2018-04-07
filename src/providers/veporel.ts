@@ -48,7 +48,8 @@ export class VePorEl {
           "solicitando_contrasena_temporal",
           "cambiando_contrasena",
           "obteniendo_companias",
-          "obteniendo_información_del_negocio"
+          "obteniendo_información_del_negocio",
+          "resent_email"
         ]
       ).subscribe(
         (values) => {
@@ -62,12 +63,12 @@ export class VePorEl {
       type=1;
     }
     let body ={
-      city_name : city_name
+      city_name : city_name,
+      type: type
     };
 
     let seq = this.api.post('banners/get', body).share();
     seq
-      //.map(res => res.json())
       .subscribe(res => {
         let aux= res.json();
         if(aux.length==0 && type==1){
@@ -80,18 +81,22 @@ export class VePorEl {
           }];
           res._body=JSON.stringify(aux);
           return res.json();
-        }else
-          return res.json();
+        }else{
+          return aux;
+        }
+
       }, err => {
         console.error('ERROR', err);
       });
     return seq;
   }
-  get_address(latitude:number, longitude:number){
+  get_address(latitude:number, longitude:number, force_update?:boolean){
+    if(force_update==null)
+      force_update=false;
     this.get_translation();
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     let self=this;
-    if(!this.util.getPreference(this.util.constants.address)){
+    if(!this.util.getPreference(this.util.constants.address) || force_update){
     if(this.platform.is('cordova')){
       let seq =  Observable.create(observer => {
 
@@ -130,6 +135,7 @@ export class VePorEl {
             //busco en los address componene hasta encontrr cada elemento
 
             var result = {
+              countryName:"",
               countryCode:"",
               city:"",
               street: body.results[0].formatted_address,
@@ -142,6 +148,7 @@ export class VePorEl {
                   result.city=element.short_name;
                 }
                 if(element.types[0]=="country"){
+                  result.countryName=element.long_name;
                   result.countryCode=element.short_name;
                 }
               }
@@ -162,6 +169,7 @@ export class VePorEl {
     }else{
       let seq =  Observable.create(observer => {
         var result = {
+          countryName:this.util.getPreference(this.util.constants.country_name),
           countryCode:this.util.getPreference(this.util.constants.country_code),
           city:this.util.getPreference(this.util.constants.city_name),
           street: this.util.getPreference(this.util.constants.address),
@@ -203,11 +211,28 @@ export class VePorEl {
     return seq;
 
   }
-  get_categories(city_name?:string):any{
+  get_categories(country_name?:string, country_code?:string, latitude?:number, longitude?:number, city_name?:string):any{
     if(!city_name)
       city_name="";
+    if(!country_name)
+      country_name="";
+    if(!country_code)
+      country_code="";
+    if(!latitude)
+      latitude=0;
+    if(!longitude)
+      longitude=0;
     let dialog = this.util.show_dialog(this.messages.obteniendo_las_categorias);
-    let seq = this.api.get('categories',{city_name:city_name}).share();
+    let seq = this.api.get(
+      'categories',
+      {
+        city_name:city_name,
+        country_name: country_name,
+        country_code: country_code,
+        latitude: latitude,
+        longitude: longitude
+      }
+      ).share();
     seq
       .subscribe(res => {
         dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
@@ -456,6 +481,29 @@ export class VePorEl {
 
     return seq;
   }
+
+  resent_email(email:string):any{
+    if(!email){
+      return;
+    }
+
+    let body = {
+      email: email
+    };
+    let dialog = this.util.show_dialog(this.messages.resent_email);
+    let seq = this.api.get('send_validate_email', body).share();
+    seq
+      .subscribe(res => {
+        dialog.dismiss();
+        return res.json();
+      }, err => {
+        dialog.dismiss();
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
   get_companies_by_city_categorie_and_name(body:any, page:number):any{
     let dialog = this.util.show_dialog(this.messages.obteniendo_companias);
     body.page = page;
@@ -472,10 +520,11 @@ export class VePorEl {
 
     return seq;
   }
-  get_company_by_id(company_id:number):any{
+  get_company_by_id(company_id:number, branch_id:number):any{
     let dialog = this.util.show_dialog(this.messages.obteniendo_información_del_negocio);
     let body = {
-      company_id: company_id
+      company_id: company_id,
+      branch_id: branch_id
     };
     let seq = this.api.post('companies/find_by_company_id', body).share();
     seq

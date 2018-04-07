@@ -19,65 +19,65 @@
 				<img src="assets/img/avatar_saludo.png" />
 			</ion-col>
 			<ion-col col-8 text-center>
-				<p> Hola {{city_name}}</p>
-			</ion-col>
-		</ion-row>
-		<ion-row align-items-start>
-			<ion-col text-wrap  text-left>
-
-				<button ion-button block (click)="change_address()" text-wrap color="gray" no-padding>
-					<ion-img src="assets/img/button_actualizacion_direccion_icon.png" no-padding></ion-img>
-              		<div>{{'cambiar_direccion' | translate}}</div>
-            	</button>
-			</ion-col>
-			<ion-col col-auto >
-				<button ion-button block (click)="share()" color="gray" no-padding text-wrap>
-					<img src="assets/img/button_compartir_icon.png"/>
-            	</button>
+        <ion-row>
+          <ion-col col-12 text-center style="top: 0;">
+            <p> Hola {{user.names}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12 text-center>
+            <p> Estás en {{city_name}}</p>
+          </ion-col>
+        </ion-row>
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col col-12-auto>
-				<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap>
+			<ion-col>
+				<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap class="hm-button">
 					<ion-img src="assets/img/button_ofertas.png"></ion-img>
 					<div >{{'buscar_promociones' | translate}}</div>
 				</button>
 			</ion-col>
+      <ion-col col-auto >
+        <button ion-button block (click)="share()" color="gray" no-padding text-wrap class="hm-button">
+          <img src="assets/img/button_compartir_icon.png"/>
+        </button>
+      </ion-col>
 		</ion-row>
-		<ion-row>
+		<!--<ion-row>
 			<ion-col col-12-auto>
 				<button ion-button block (click)="find_categories()" color="primary" no-padding text-wrap>
 					<div>{{'busqueda_manual' | translate}}</div>
 					<ion-img  src="assets/img/button_ofertas_cercanas.png"></ion-img>
 				</button>
 			</ion-col>
-		</ion-row>
+		</ion-row>-->
 		<ion-row>
-			<ion-col col-10>
-				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap>
-					<img src="assets/img/button_negocios_servicios.png"/>
-					<div>{{'directorio_negocios' | translate}}</div>
+			<ion-col col-12>
+				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap class="hm-button">
+					<img src="assets/img/button_negocios_servicios_1.png"/>
+					<!--<div>{{'directorio_negocios' | translate}}</div>-->
 				</button>
 			</ion-col>
-			<ion-col col-2>
+			<!--<ion-col col-2>
 		        <button ion-button block icon-only (click)="listenForSpeech()" color="yellow">
 		          <ion-icon name="mic"></ion-icon>
 		        </button>
-			</ion-col>
+			</ion-col>-->
 		</ion-row>
 
 		<ion-row>
-			<ion-col col-12>
-				<ion-slides pager>
+			<ion-col col-12 >
+				<ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">
 					<ion-slide *ngFor="let banner of banners">
-            <a href="{{banner.url_destination}}" target="_blank">
-              <img-loader src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            <a href="{{banner.url_destination}}" target="_blank" class="{{util.url}}{{banner.url_photo}}">
+              <img-loader src="{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
             </a>
 					</ion-slide>
 				</ion-slides>
 			</ion-col>
 		</ion-row>
-			
+
 	</ion-grid>
 
 </ion-content>

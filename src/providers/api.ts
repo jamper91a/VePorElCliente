@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { Util } from './util';
-
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
@@ -10,7 +12,7 @@ import { Util } from './util';
  @Injectable()
  export class Api {
 
-
+  private timeOut:number=15000;
    constructor(
      public http: Http,
      public util: Util,
@@ -43,9 +45,9 @@ import { Util } from './util';
        options.search = !options.search && p || options.search;
      }
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options);
+       return this.http.get(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.get(this.util.url + endpoint, options);
+       return this.http.get(this.util.url + endpoint, options).timeout(this.timeOut);
    }
 
    post(endpoint: string, body: any, options?: RequestOptions):any {
@@ -60,30 +62,30 @@ import { Util } from './util';
        options.headers = headers;
      }
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options);
+       return this.http.get(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.post(this.util.url + endpoint, body, options);
+       return this.http.post(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
    put(endpoint: string, body: any, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options);
+       return this.http.get(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.put(this.util.url + endpoint, body, options);
+       return this.http.put(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
    delete(endpoint: string, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options);
+       return this.http.get(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.delete(this.util.url + endpoint, options);
+       return this.http.delete(this.util.url + endpoint, options).timeout(this.timeOut);
    }
 
    patch(endpoint: string, body: any, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options);
+       return this.http.get(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.put(this.util.url + endpoint, body, options);
+       return this.http.put(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
  }

@@ -9,6 +9,7 @@ import { OptionsPage } from "../options/options";
 import { InformationPage } from "../information/information";
 import { FindPromotiosPage } from "../find-promotios/find-promotios";
 import { MenuController } from 'ionic-angular';
+import { AppVersion } from '@ionic-native/app-version';
 
 /**
  * Generated class for the MenuPage page.
@@ -29,11 +30,13 @@ export class MenuPage {
   private optionsPage;
   private isLogged = false;
   private user:any;
+  private version='';
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public util: Util,
     public menuCtrl: MenuController,
+    private appVersion: AppVersion
   ) {
     this.rootPage = HomePage;
     this.loginPage = LoginPage;
@@ -48,6 +51,8 @@ export class MenuPage {
       this.isLogged = true;
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
     }
+
+    this.version= '1.2.5'
   }
 
   public pushPage(p){
@@ -58,7 +63,8 @@ export class MenuPage {
 
   public openPage(p){
     this.menuCtrl.close();
-    this.rootPage = p;
+    //this.rootPage = p;
+    this.navCtrl.setRoot(p);
   }
 
   logout(){

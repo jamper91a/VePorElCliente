@@ -14,7 +14,9 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
+import { HTTP } from '@ionic-native/http';
 
+declare var chcp: any;
 
 @Component({
   templateUrl: 'app.html'
@@ -34,9 +36,10 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     public alertCtrl: AlertController,
     public push: Push,
-    public veporel: VePorEl
+    public veporel: VePorEl,
+    private http: HTTP
   ) {
-
+    this.http.acceptAllCerts(true);
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
@@ -58,8 +61,31 @@ export class MyApp {
         })
         .catch(e => console.log('Error starting GoogleAnalytics', e));
       this.initPushNotification();
+
+      this.fetchUpdate();
     });
   }
+
+  fetchUpdate() {
+    const options = {
+      'config-file': 'http://192.168.1.69:3000/updates/chcp.json'
+    };
+    chcp.fetchUpdate(this.updateCallback, options);
+  }
+  updateCallback(error, data) {
+    if (error) {
+      console.error(error);
+    } else {
+      chcp.installUpdate(error => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log('Update installed...');
+        }
+      });
+    }
+  }
+
 
   ionViewDidLoad() {
   }
@@ -91,17 +117,6 @@ export class MyApp {
 
       });
 
-// to initialize push notifications
-    let topics = [];
-    try{
-      topics = JSON.parse(this.util.getPreference(this.util.constants.topics));
-      if(topics==null)
-        topics=[];
-    }catch(e){
-
-    }
-
-    let aux_topic = topics.map((a) =>  {return  self.util.removeDiacritics(a.name)});
     const options: any = {
       android: {
         sound: true,

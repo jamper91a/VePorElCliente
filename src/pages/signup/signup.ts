@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, ToastController, NavParams, Platform, AlertController} from 'ionic-angular';
+import {NavController, NavParams, Platform, AlertController} from 'ionic-angular';
 
 
 import { User } from '../../providers/user';
@@ -29,8 +29,10 @@ export class SignupPage {
     birthday: string,
     sex: string,
     subcategories: number[],
-    city_id: number,
-    country_id: string,
+    country_name:string,
+    country_code:string,
+    departament_name:string,
+    city_name:string,
     r_password: string,
     refer_code:string
   }={
@@ -44,8 +46,10 @@ export class SignupPage {
     birthday: "",
     sex: "",
     subcategories: [],
-    city_id: 0,
-    country_id: "",
+    country_name:"",
+    country_code:"",
+    departament_name:"",
+    city_name:"",
     r_password: "",
     refer_code:""
   };
@@ -53,14 +57,7 @@ export class SignupPage {
   private signup_by_facebook=false;
 
   // Our translated text strings
-  private signupErrorString: string;
-  private countries:any;
-  private cities:any;
-  private subcategories:any;
-  private city_name="";
-  private country_name="";
   private messages:any;
-  private serverErrorString: string;
 
 
   @ViewChild('password') inputP;
@@ -69,7 +66,6 @@ export class SignupPage {
     public navCtrl: NavController,
     public user: User,
     public navParams: NavParams,
-    public toastCtrl: ToastController,
     public translateService: TranslateService,
     private geolocation: Geolocation,
     public util:Util,
@@ -79,22 +75,6 @@ export class SignupPage {
     private alertCtrl: AlertController,
 
   ) {
-
-
-
-
-
-
-
-
-  }
-
-  ionViewWillEnter(){
-
-    this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR','validando_informacion']).subscribe((values) => {
-      this.serverErrorString = values.SERVER_ERROR;
-    });
-    let self=this;
 
     this.account.username = this.navParams.get('username');
     this.account.password = this.navParams.get('password');
@@ -106,15 +86,29 @@ export class SignupPage {
     this.get_messages();
     this.get_location();
     this.veporel.get_translation();
+
+
+
+
+
+
+  }
+
+  ionViewWillEnter(){
+
+
   }
 
   get_messages(){
-    this.translateService.get([
+    var self=this;
+    self.translateService.get([
       'SIGNUP_ERROR',
       'error_3',
-      'obteniendo_tu_ubicacion'
+      'obteniendo_tu_ubicacion',
+      'registrando',
+      'SERVER_ERROR'
     ]).subscribe((value) => {
-      this.messages = value;
+      self.messages = value;
     }, (err)=>{
       alert(err);
     });
@@ -123,9 +117,9 @@ export class SignupPage {
   doSignup() {
     var self=this;
 
-    if(this.account.r_password == this.account.password)
+    if(this.account.r_password == self.account.password)
     {
-      let dialog = this.util.show_dialog("Registrando");
+      let dialog = self.util.show_dialog(self.messages.registrando);
       if(!self.account.birthday){
         self.account.birthday="2017-01-01";
       }
@@ -134,63 +128,28 @@ export class SignupPage {
       }
 
       if(!self.account.cellphone){
-        alert("cellphone vacio");
         self.account.cellphone="0000000000";
       }
-      this.user.signup(this.account).subscribe((resp) => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+      this.user.signup(self.account).subscribe((resp) => {
+        dialog.dismiss();
+        self.util.show_toast("validate_email");
         this.navCtrl.push(WelcomePage);
       }, (err) => {
-        console.log("Error cuando intento registrar");
-        console.log(err);
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss();
         try {
           let body = JSON.parse(err._body);
-          if (body.code=="E_VALIDATION") {
-            let toast = self.toastCtrl.create({
-              message: "Correo existente. Por favor intente su registro con un nuevo correo o diríjase a la opción: Olvidé la Contraseña",
-              duration: 3000,
-              position: 'top'
-            });
-            toast.present();
+          if (body.code=="-1") {
+            self.util.show_toast("error_19");
           }
         } catch (e) {
-          console.error(e);
-          let toast = self.toastCtrl.create({
-            message: self.serverErrorString,
-            duration: 3000,
-            position: 'bottom'
-          });
-          toast.present();
+          self.util.show_toast(self.messages.SERVER_ERROR);
         }
       });
     }else{
       // Unable to sign up
-      let toast = this.toastCtrl.create({
-        message: this.messages.error_3,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
+      self.util.show_toast("error_3");
     }
 
-  }
-
-  change_country(event:any, country_code:string){
-    let self=this;
-    //Obtengo las ciudades de ese pais
-    this.veporel.get_cities_by_country(country_code).subscribe((result:any)=>{
-      let body =  result._body;
-      if(body!=null) {
-        self.cities = JSON.parse(body);
-        for (var i = 0; i < self.cities.length; i++) {
-          if(self.cities[i].name == self.city_name){
-            self.account.city_id = self.cities[i].id;
-            return;
-          }
-        }
-      }
-    });
   }
 
   showPassword(): any {
@@ -199,6 +158,7 @@ export class SignupPage {
   }
 
   get_location(){
+
     let self = this;
     self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
       if(isAuthorized){
@@ -206,37 +166,25 @@ export class SignupPage {
           if(isAvailable){
             let dialog = self.util.show_dialog(self.messages.obteniendo_tu_ubicacion);
             self.geolocation.getCurrentPosition().then((resp) => {
-
-              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude).subscribe(
+              console.log(resp);
+              self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
                 (result: any) => {
-                  if (result != null) {
-                    self.city_name =result.city;
-                    self.country_name = result.countryCode;
-                  }
                   dialog.dismiss();
+                  if(!result.countryName || !result.countryCode || !result.city){
+                    self.navCtrl.pop();
+                  }else{
+                    self.account.country_name= result.countryName;
+                    self.account.country_code= result.countryCode;
+                    self.account.city_name= result.city;
 
-                  //Obtengo los paises
-                  self.veporel.get_countries().subscribe((result:any)=>{
-                    let body =  result._body;
-                    if(body!=null){
-                      self.countries = JSON.parse(body);
-                      self.account.country_id = self.country_name;
-                      self.veporel.get_categories().subscribe((result:any)=>{
-                        if(result!=null){
-                          let body = result._body;
-                          self.subcategories = JSON.parse(body);
-                        }
-                      });
-                    }
+                  }
 
-                  });
                 },
                 (error) => {
                   alert(error);
                 }
               );
             }).catch((error) => {
-              console.error(error);
               alert(error);
             });
           }else{
@@ -250,11 +198,11 @@ export class SignupPage {
                   {
                     text: res.salir,
                     handler: () => {
-                      if (this.platform.is('android')) {
+                      if (self.platform.is('android')) {
                         self.platform.exitApp();
                       }else{
                         self.navCtrl.pop();
-                        this.util.show_toast('error_16');
+                        self.util.show_toast('error_16');
                       }
                     }
                   },
@@ -274,37 +222,51 @@ export class SignupPage {
           alert(error);
         });
       }else{
-        /*self.diagnostic.requestLocationAuthorization().then(function (status) {
-          if(status=='GRANTED'){
-            self.get_location();
-          }else{
-            if (self.platform.is('android')) {
-              self.platform.exitApp();
-            }else{
-              self.navCtrl.pop();
-              self.util.show_toast('error_16');
-            }
-          }
-        }).catch(function (error) {
-          alert(error);
-        });*/
 
-
-        //Obtengo los paises
-        self.veporel.get_countries().subscribe((result:any)=>{
-          let body =  result._body;
-          if(body!=null){
-            self.countries = JSON.parse(body);
-            //self.account.country_id = self.country_name;
-            self.veporel.get_categories().subscribe((result:any)=>{
-              if(result!=null){
-                let body = result._body;
-                self.subcategories = JSON.parse(body);
+        self.translateService.get(["ubicacion", "mensaje_ubicacion","salir","activar"]).subscribe((res) => {
+          let confirm = self.alertCtrl.create({
+            title: res.ubicacion,
+            message: res.mensaje_ubicacion,
+            buttons: [
+              {
+                text: res.salir,
+                handler: () => {
+                  if (self.platform.is('android')) {
+                    self.platform.exitApp();
+                  }else{
+                    self.navCtrl.pop();
+                    self.util.show_toast('error_16');
+                  }
+                }
+              },
+              {
+                text: res.activar,
+                handler: () => {
+                  self.diagnostic.requestLocationAuthorization().then(function (status) {
+                    if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
+                      self.get_location();
+                    }else{
+                      if (self.platform.is('android')) {
+                        self.platform.exitApp();
+                      }else{
+                        self.navCtrl.pop();
+                        self.util.show_toast('error_16');
+                      }
+                    }
+                  }).catch(function (error) {
+                    alert(error);
+                  });
+                }
               }
-            });
-          }
-
+            ]
+          });
+          confirm.present();
         });
+
+
+
+
+
       }
     }).catch(function (error) {
       alert(error);

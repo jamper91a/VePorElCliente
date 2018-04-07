@@ -7,19 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12>
-        <ion-slides pager>
-          <ion-slide *ngFor="let banner of banners">
-            <a href="{{banner.url_destination}}" target="_blank">
-              <img-loader src="{{util.url}}{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
-            </a>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
   <ion-list>
     <ion-item *ngFor="let branch of branchs" (click)="go_to_map(branch)">
       <ion-thumbnail item-start>
@@ -27,6 +15,9 @@
       </ion-thumbnail>
       <h2>{{branch.name}}</h2>
       <p>{{transform_distance(branch.distance)}}</p>
+      <div *ngIf="branch.suscripcion>0">
+        <p><ion-icon name="star" color="primary"></ion-icon>Premium</p>
+      </div>
     </ion-item>
   </ion-list>
 
@@ -35,3 +26,21 @@
   </ion-infinite-scroll>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar no-border>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12>
+          <ion-slides *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">
+            <ion-slide *ngFor="let banner of banners">
+              <a href="{{banner.url_destination}}" target="_blank">
+                <img-loader src="{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              </a>
+            </ion-slide>
+          </ion-slides>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

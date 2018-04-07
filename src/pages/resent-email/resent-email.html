@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'resent' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>{{ 'email' | translate }}</ion-label>
+        <ion-input type="email" [(ngModel)]="account.email" name="username" placeholder="email@email.com"></ion-input>
+      </ion-item>
+      <div padding>
+        <button ion-button color="primary" block (click)="resent_email()">{{ 'resent' | translate }}</button>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

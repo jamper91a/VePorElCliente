@@ -30,11 +30,19 @@ export class CategoriesPage {
     translateService.get('LANG').subscribe(
       lang => {
         self.language=lang;
-        let city_name=self.util.getPreference(this.util.constants.city_name);
-        self.veporel.get_categories(city_name).subscribe(
+        let latitude = self.navParams.get(self.util.constants.latitude);
+        let longitude = self.navParams.get(self.util.constants.longitude);
+        let city_name=self.util.getPreference(self.util.constants.city_name);
+        let country_name=self.util.getPreference(self.util.constants.country_name);
+        let country_code=self.util.getPreference(self.util.constants.country_code);
+        self.veporel.get_categories( country_name, country_code, latitude, longitude, city_name).subscribe(
           (result: any) => {
             if (result != null) {
               self.categories = JSON.parse(result._body);
+              if(self.categories.length==0){
+                self.navCtrl.pop();
+                this.util.show_toast('error_13');
+              }
             }
           },
           error => {
