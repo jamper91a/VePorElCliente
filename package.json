@@ -20,6 +20,7 @@
     "@angular/http": "4.1.2",
     "@angular/platform-browser": "4.1.2",
     "@angular/platform-browser-dynamic": "4.1.2",
+    "@ionic-native/app-version": "^4.6.0",
     "@ionic-native/camera": "3.11.0",
     "@ionic-native/core": "3.10.2",
     "@ionic-native/diagnostic": "^4.1.0",
@@ -47,9 +48,11 @@
     "@ngx-translate/http-loader": "0.0.3",
     "angular2-moment": "^1.3.3",
     "cordova-android": "~6.3.0",
+    "cordova-hot-code-push-plugin": "^1.5.3",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-add-swift-support": "^1.6.0",
     "cordova-plugin-advanced-http": "^1.11.0",
+    "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-certificates": "^0.6.4",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
@@ -123,7 +126,9 @@
       },
       "cordova-plugin-is-debug": {},
       "cordova-plugin-certificates": {},
-      "cordova-plugin-advanced-http": {}
+      "cordova-plugin-advanced-http": {},
+      "cordova-plugin-app-version": {},
+      "cordova-hot-code-push-plugin": {}
     },
     "platforms": [
       "android"

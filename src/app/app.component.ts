@@ -16,6 +16,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
 import { HTTP } from '@ionic-native/http';
 
+declare var chcp: any;
 
 @Component({
   templateUrl: 'app.html'
@@ -60,8 +61,31 @@ export class MyApp {
         })
         .catch(e => console.log('Error starting GoogleAnalytics', e));
       this.initPushNotification();
+
+      this.fetchUpdate();
     });
   }
+
+  fetchUpdate() {
+    const options = {
+      'config-file': 'http://192.168.1.69:3000/updates/chcp.json'
+    };
+    chcp.fetchUpdate(this.updateCallback, options);
+  }
+  updateCallback(error, data) {
+    if (error) {
+      console.error(error);
+    } else {
+      chcp.installUpdate(error => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log('Update installed...');
+        }
+      });
+    }
+  }
+
 
   ionViewDidLoad() {
   }
