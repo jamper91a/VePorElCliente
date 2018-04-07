@@ -17,16 +17,17 @@ export class CompanyPage {
     public veporel:VePorEl,
     public util:Util,
   ) {
-    this.company_id = this.navParams.get(this.util.constants.company).company_id;
+    this.company_id = this.navParams.get(this.util.constants.company).id;
     this.branch=this.navParams.get(this.util.constants.company);
   }
 
   ionViewDidLoad() {
     let self = this;
-    this.veporel.get_company_by_id(this.company_id).subscribe((result:any)=>{
+    this.veporel.get_company_by_id(this.company_id, this.branch.b_id).subscribe((result:any)=>{
       if(result!=null){
-        self.company = JSON.parse(result._body);
-        console.log(self.company);
+        var body = JSON.parse(result._body);
+        self.company = body.company;
+        self.branch = body.branch;
       }
     });
   }

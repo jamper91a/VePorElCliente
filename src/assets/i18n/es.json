@@ -59,6 +59,9 @@
   "error_16": "Sin tu ubicación, no podemos encontrar ofertar para ti",
   "error_17": "Tenemos incovenientes al tratar de obtener tu ubicación, por favor intentalo de nuevo",
   "error_18": "Todos los campos son requeridos",
+  "error_19": "Correo existente. Por favor intente su registro con un nuevo correo o diríjase a la opción: Olvidé la Contraseña",
+  "error_20": "Correo no válido",
+  "error_21": "Por favor validar su registro ingresando a su e-mail y dando clic en el enlace que fue enviado por VEPOREL",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",
@@ -192,7 +195,7 @@
   "recibir_contrasena_temp": "Recibir contraseña temporal",
   "ya_tengo_contrasena_temp": "Ya tengo contraseña temporal",
   "notificaciones": "Notificaciones",
-  "rango": "Rango de búsqueda",
+  "rango": "Rango de búsqueda mis Ofertas",
   "guardar": "Guardar",
   "compartir": "Compartir",
   "mensaje_compartir": "!Mira!, estoy usando la nueva App VePorEl para obtener descuentos en los productos que más consumo. Descarga la app en Google Play: {{google_play}} o en AppStore: {{app_store}} y registrate con el código: {{value}}",
@@ -238,5 +241,11 @@
   "editar_mi_negocio": "Editar este negocio",
   "mensaje_compartir_offer": "Encontre esta oferta  {{offer}}-{{company}} cerca a mi. Descarga la app y encuentra ofertas cercanas a tí",
   "optional": "(opcional)",
-  "mensaje_ubicacion": "Necesitamos tu ubicación para ofrecerte un mejor servicio. Tú ubicación sera usada para encontrar negocios cercanos a tu ubicación y para encontrar ofertas cercanas a tú ubicación. Nosotros no almazenamos tu ubicación en nuestros servidores"
+  "mensaje_ubicacion": "Necesitamos tu ubicación para ofrecerte un mejor servicio.  Esta información será usada exclusivamente para encontrar negocios y ofertas cercanas a tu lugar de ubicación. Nosotros no almacenamos tu ubicación en nuestros servidores",
+  "validate_email": "Registro realizado con éxito, por favor revisa tu correo para validar el proceso",
+  "registrando": "Registrando",
+  "resenting_email":"Enviando correo de validación",
+  "sent_email":"Enviar correo de validación",
+  "email_sent": "Correo enviado",
+  "resent": "Reenviar"
 }

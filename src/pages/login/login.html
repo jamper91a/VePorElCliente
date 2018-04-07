@@ -22,8 +22,9 @@
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block (click)="doLogin(validations_form.value)" [disabled]="!validations_form.valid">{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block (click)="doLogin(validations_form.value)" [disabled]="!validations_form.valid">{{ 'LOGIN_BUTTON' | translate }}</button><br>
         <button ion-button color="primary" block (click)="olvide_contrasena()">{{ 'olvide_la_contraseña' | translate }}</button>
+        <button ion-button color="primary" block (click)="resent_confirmation_email()">{{ 'sent_email' | translate }}</button>
       </div>
 
     </ion-list>

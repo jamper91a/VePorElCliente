@@ -48,7 +48,8 @@ export class VePorEl {
           "solicitando_contrasena_temporal",
           "cambiando_contrasena",
           "obteniendo_companias",
-          "obteniendo_información_del_negocio"
+          "obteniendo_información_del_negocio",
+          "resent_email"
         ]
       ).subscribe(
         (values) => {
@@ -480,6 +481,29 @@ export class VePorEl {
 
     return seq;
   }
+
+  resent_email(email:string):any{
+    if(!email){
+      return;
+    }
+
+    let body = {
+      email: email
+    };
+    let dialog = this.util.show_dialog(this.messages.resent_email);
+    let seq = this.api.get('send_validate_email', body).share();
+    seq
+      .subscribe(res => {
+        dialog.dismiss();
+        return res.json();
+      }, err => {
+        dialog.dismiss();
+        console.error('ERROR', err);
+      });
+
+    return seq;
+  }
+
   get_companies_by_city_categorie_and_name(body:any, page:number):any{
     let dialog = this.util.show_dialog(this.messages.obteniendo_companias);
     body.page = page;
@@ -496,10 +520,11 @@ export class VePorEl {
 
     return seq;
   }
-  get_company_by_id(company_id:number):any{
+  get_company_by_id(company_id:number, branch_id:number):any{
     let dialog = this.util.show_dialog(this.messages.obteniendo_información_del_negocio);
     let body = {
-      company_id: company_id
+      company_id: company_id,
+      branch_id: branch_id
     };
     let seq = this.api.post('companies/find_by_company_id', body).share();
     seq

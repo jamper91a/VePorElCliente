@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
-import {CompanyPage} from "../company/company";
 import {MapOfferPage} from "../map-offer/map-offer";
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
+import {AlertController, NavController, NavParams, Platform} from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -17,9 +17,6 @@ import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechReco
 })
 export class DirectoryPage {
 
-  private countries:any;
-  private cities:any;
-  private categories:any;
   private city_name="";
   private country_name="";
   public language="";
@@ -71,6 +68,16 @@ export class DirectoryPage {
 
   }
 
+  ionViewWillLeave(){
+    this.all_dialogs.forEach(function (dialog) {
+      try {
+        dialog.dismissAll();
+      } catch (e) {
+      }
+    })
+  }
+
+  private all_dialogs=[];
 
   get_location(){
     let self = this;
@@ -79,6 +86,7 @@ export class DirectoryPage {
         self.diagnostic.isLocationEnabled().then(function(isAvailable){
           if(isAvailable){
             let dialog = self.util.show_dialog('Obteniendo tu ubicación');
+            self.all_dialogs.push(dialog);
             self.geolocation.getCurrentPosition().then((resp) => {
               self.data.latitude = resp.coords.latitude;
               self.data.longitude = resp.coords.longitude;
@@ -95,14 +103,16 @@ export class DirectoryPage {
                     self.data.city_name= result.city;
                     self.city_name = result.city;
 
+                    self.util.savePreference(self.util.constants.latitude, self.data.latitude);
+                    self.util.savePreference(self.util.constants.longitude, self.data.longitude);
+                    self.util.savePreference(self.util.constants.city_name, self.data.city_name);
+                    self.util.savePreference(self.util.constants.country_code, self.data.country_code);
+                    self.util.savePreference(self.util.constants.country_name, self.data.country_name);
                   }
-
-
-
                 }
               );
             }).catch((error) => {
-              console.error(error);
+              dialog.dismissAll();
             });
           }else{
 

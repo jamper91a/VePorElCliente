@@ -60,7 +60,7 @@ export class Util{
         if(isDebug==false)
           self.url = "https://backend.veporel.com.co:85/";
         else{
-          self.url = "http://192.168.1.72:1337/";
+          self.url = "http://192.168.1.69:1337/";
         }
 
       })

@@ -25,6 +25,7 @@ import { OptionsPage } from '../pages/options/options';
 import { DirectoryPage } from '../pages/directory/directory';
 import { CompaniesPage } from '../pages/companies/companies';
 import { CompanyPage } from '../pages/company/company';
+import { ResentEmailPage } from '../pages/resent-email/resent-email';
 
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
@@ -96,6 +97,8 @@ let pages = [
   DirectoryPage,
   CompaniesPage,
   CompanyPage,
+  ResentEmailPage
+
 ];
 
 export function declarations() {

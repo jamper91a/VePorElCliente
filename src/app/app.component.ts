@@ -93,17 +93,6 @@ export class MyApp {
 
       });
 
-// to initialize push notifications
-    let topics = [];
-    try{
-      topics = JSON.parse(this.util.getPreference(this.util.constants.topics));
-      if(topics==null)
-        topics=[];
-    }catch(e){
-
-    }
-
-    let aux_topic = topics.map((a) =>  {return  self.util.removeDiacritics(a.name)});
     const options: any = {
       android: {
         sound: true,

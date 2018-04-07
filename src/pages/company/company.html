@@ -17,23 +17,23 @@
       <ion-grid>
         <ion-row>
             <ion-col col-6 text-center>
-                 <div *ngIf="company.cellphone">
-                  <a href="tel:{{company.cellphone}}" target="_blank" item-end>
+                 <div *ngIf="branch.telephone">
+                  <a href="tel:{{branch.telephone}}" target="_blank" item-end>
                     <ion-icon name="call" item-start [color]="primary"></ion-icon>
                   </a>
                 </div>
-              <div *ngIf="!company.cellphone">
+              <div *ngIf="!branch.telephone">
                   <ion-icon name="call" item-start></ion-icon>
               </div>
 
             </ion-col>
             <ion-col col-6 text-center>
-              <div *ngIf="company.fanpage && util.isUrlValid(company.fanpage)">
-                <a href="{{company.fanpage}}" target="_blank" item-end>
+              <div *ngIf="branch.website && util.isUrlValid(branch.website)">
+                <a href="{{branch.website}}" target="_blank" item-end>
                   <ion-icon name="globe" item-start [color]="primary"></ion-icon>
                 </a>
               </div>
-              <div *ngIf="!company.fanpage || !util.isUrlValid(company.fanpage)">
+              <div *ngIf="!branch.website || !util.isUrlValid(branch.website)">
                   <ion-icon name="globe" item-start> </ion-icon>
               </div>
             </ion-col>
@@ -52,7 +52,7 @@
           <ion-col>
             <ion-item>
               <b>{{'calificacion_negocio' | translate}}</b>
-              <rating item-end [(ngModel)]="company.calification" readOnly="true">
+              <rating item-end [(ngModel)]="branch.rating" readOnly="true">
               </rating>
             </ion-item>
           </ion-col>
@@ -79,12 +79,12 @@
       <ion-grid>
         <ion-row>
           <ion-col col-4 text-center>
-               <div *ngIf="company.cellphone">
-                <a href="tel:{{company.cellphone}}" target="_blank" item-end>
+               <div *ngIf="branch.telephone">
+                <a href="tel:{{branch.telephone}}" target="_blank" item-end>
                   <ion-icon name="call" item-start [color]="primary"></ion-icon>
                 </a>
               </div>
-            <div *ngIf="!company.cellphone">
+            <div *ngIf="!branch.telephone">
                 <ion-icon name="call" item-start></ion-icon>
             </div>
 
@@ -101,12 +101,12 @@
 
           </ion-col>
           <ion-col col-4 text-center>
-            <div *ngIf="company.fanpage && util.isUrlValid(company.fanpage)">
-              <a href="{{company.fanpage}}" target="_blank" item-end>
+            <div *ngIf="branch.website && util.isUrlValid(branch.website)">
+              <a href="{{branch.website}}" target="_blank" item-end>
                 <ion-icon name="globe" item-start [color]="primary"></ion-icon>
               </a>
             </div>
-            <div *ngIf="!company.fanpage || !util.isUrlValid(company.fanpage)">
+            <div *ngIf="!branch.website || !util.isUrlValid(branch.website)">
                 <ion-icon name="globe" item-start> </ion-icon>
             </div>
           </ion-col>
@@ -129,7 +129,7 @@
           <ion-col>
             <ion-item>
               <b>{{'calificacion_negocio' | translate}}</b>
-              <rating item-end [(ngModel)]="company.calification" readOnly="true">
+              <rating item-end [(ngModel)]="branch.rating" readOnly="true">
               </rating>
             </ion-item>
           </ion-col>

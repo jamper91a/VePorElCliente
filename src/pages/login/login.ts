@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 
 import { MenuPage } from '../menu/menu';
 import { ForgetPasswordPage } from '../forget-password/forget-password';
+import { ResentEmailPage } from '../resent-email/resent-email';
 
 import { User } from '../../providers/user';
 
@@ -26,9 +27,7 @@ export class LoginPage {
   };
 
   // Our translated text strings
-  private loginErrorString: string;
-  private serverErrorString: string;
-  private validando_informacion:string;
+  private messages;
 
 
   validations_form: FormGroup;
@@ -48,9 +47,7 @@ export class LoginPage {
     this.account.password = this.navParams.get('password');
     if (!this.util.getPreference(this.util.constants.logged)) {
       this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR','validando_informacion']).subscribe((values) => {
-        this.loginErrorString = values.LOGIN_ERROR;
-        this.serverErrorString = values.SERVER_ERROR;
-        this.validando_informacion= values.validando_informacion;
+        this.messages=values;
       });
       this.account.username = this.navParams.get('username');
       this.account.password = this.navParams.get('password');
@@ -70,39 +67,25 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
-    let dialog = this.util.show_dialog(this.validando_informacion);
+    let dialog = this.util.show_dialog(this.messages.validando_informacion);
     let self=this;
     this.user.login(this.account).subscribe((resp) => {
-      dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+      dialog.dismiss();
       self.util.savePreference(self.util.constants.logged, true);
       self.navCtrl.setRoot(MenuPage);
     }, (err) => {
-      dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+      dialog.dismiss();
       try {
         let body = JSON.parse(err._body);
         if (body.code==-1) {
-          let toast = self.toastCtrl.create({
-            message: self.loginErrorString,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
+          self.util.show_toast(self.messages.LOGIN_ERROR);
         }else if(body.code==-2){
-          let toast = self.toastCtrl.create({
-            message: "Usuario no existe",
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
+          self.util.show_toast("error_20");
+        }else if(body.code==-3){
+          self.util.show_toast("error_21");
         }
       } catch (e) {
-        console.error(e);
-        let toast = self.toastCtrl.create({
-          message: self.serverErrorString,
-          duration: 3000,
-          position: 'bottom'
-        });
-        toast.present();
+        self.util.show_toast(self.messages.SERVER_ERROR);
       }
 
     });
@@ -110,6 +93,9 @@ export class LoginPage {
 
   public olvide_contrasena(){
     this.navCtrl.push(ForgetPasswordPage);
+  }
+  public resent_confirmation_email(){
+    this.navCtrl.push(ResentEmailPage);
   }
 
 

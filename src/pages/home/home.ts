@@ -1,17 +1,15 @@
-import {Component, ViewChild} from '@angular/core';
-import {NavController, NavParams, ToastController, MenuController, AlertController, Platform, Slides} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ToastController, MenuController, AlertController, Platform} from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { Geolocation } from '@ionic-native/geolocation';
-import { MapPage } from '../map/map';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
-import { CategoriesPage } from '../categories/categories';
 import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, } from '@ionic-native/push';
 
 
 /**
@@ -61,14 +59,12 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
 
    }
-
-   ionViewDidLoad() {
+  ionViewWillEnter() {
      let self = this;
      //Variable para saber si ya obtuve la ubicacion
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
-       console.log("city_name: "+this.city_name);
        if(this.city_name){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
@@ -83,8 +79,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
          self.get_banners(this.city_name);
        }else{
            //Valido si tengo una direccion almacenada
-            console.log("constants.city_name: "+self.util.getPreference(this.util.constants.city_name));
-           if(self.util.getPreference(this.util.constants.city_name)){
+           if(self.util.getPreference(this.util.constants.city_name)!=this.city_name){
              this.latitude = self.util.getPreference(this.util.constants.latitude);
              this.longitude = self.util.getPreference(this.util.constants.longitude);
              this.city_name= self.util.getPreference(this.util.constants.city_name);
@@ -103,7 +98,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
    }
 
 
-  get_location(){
+  private get_location(){
     let self = this;
     self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
       if(isAuthorized){
@@ -116,12 +111,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
               self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, false).subscribe(
                 (result: any) => {
                   if (result != null) {
-                    // let body = JSON.parse(result._body);
-                    // self.address = body.results[0].formatted_address;
-                    //
-                    // let city_name = body.results[0].address_components[5].short_name;
-                    self.address = result.city
-
+                    self.address = result.city;
                     self.city_name =  result.city;
                     let country_code =  result.countryCode;
                     if (self.city_name) {
@@ -152,11 +142,11 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
                   {
                     text: res.salir,
                     handler: () => {
-                      if (this.platform.is('android')) {
+                      if (self.platform.is('android')) {
                         self.platform.exitApp();
                       }else{
                         self.navCtrl.pop();
-                        this.util.show_toast('error_16');
+                        self.util.show_toast('error_16');
                       }
                     }
                   },
@@ -185,11 +175,11 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
               {
                 text: res.salir,
                 handler: () => {
-                  if (this.platform.is('android')) {
+                  if (self.platform.is('android')) {
                     self.platform.exitApp();
                   }else{
                     self.navCtrl.pop();
-                    this.util.show_toast('error_16');
+                    self.util.show_toast('error_16');
                   }
                 }
               },
@@ -229,7 +219,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
   }
 
-   private get_banners(city_name:string){
+  private get_banners(city_name:string){
      let self = this;
      //Obtengo los banners
      this.veporel.get_banners(city_name,2).subscribe(
@@ -248,11 +238,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
      );
    }
 
-  public change_address(){
-     this.navCtrl.push(MapPage);
-   }
-
-   public find_promotios(){
+  public find_promotios(){
      let self = this;
      if(this.city_name){
        this.navCtrl.push(FindPromotiosPage, {
@@ -273,28 +259,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
      }
    }
 
-   public find_categories(){
-     let self = this;
-     if(this.city_name){
-       this.navCtrl.push(CategoriesPage, {
-         "latitude" : self.latitude,
-         "longitude" : self.longitude
-       });
-     }else{
-       this.translateService.get("error_9").subscribe((res) => {
-         let toast = self.toastCtrl.create({
-           message: res,
-           duration: 3000,
-           position: 'top'
-         });
-         toast.present();
-       })
-
-     }
-   }
-
-   public share(){
-     var self=this;
+  public share(){
      this.translateService.get('mensaje_compartir',{
        value: "VPE"+this.user.id,
        google_play: "https://play.google.com/store/apps/details?id=co.colombiaapps.vpeclientes",
@@ -309,101 +274,9 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
      });
    }
 
-   public go_to_directory(){
+  public go_to_directory(){
      this.navCtrl.push(DirectoryPage);
    }
 
-  async isSpeechSupported(): Promise<boolean> {
-    let isAvailable = await this.speech.isRecognitionAvailable();
-    return isAvailable;
-  }
-  async getPermission(): Promise<void> {
-    try {
-      let permission = await this.speech.requestPermission();
-      return permission;
-    }
-    catch (e) {
-      console.error(e);
-    }
-  }
-  async hasPermission(): Promise<boolean> {
-    try {
-      let permission = await this.speech.hasPermission();
-      return permission;
-    }
-    catch (e) {
-      console.error(e);
-    }
-  }
-  async getSupportedLanguages(): Promise<Array<string>> {
-    try {
-      let languages = await this.speech.getSupportedLanguages();
-      return languages;
-    }
-    catch (e) {
-      console.error(e);
-    }
-  }
-  listenForSpeech(): void {
-     var self=this;
-     this.isSpeechSupported().then((isSupported:boolean)=>{
-       if(isSupported){
-         self.hasPermission().then((hasPermission:boolean)=>{
-           if(hasPermission){
-             self.androidOptions = {
-               prompt: 'Cual producto deseas buscarle ofertas',
-               language: 'es-MX'
-             }
-
-             self.iosOptions = {
-               language: 'es-MX'
-             }
-
-             if (self.platform.is('android')) {
-               self.speech.startListening(self.androidOptions).subscribe(data => {
-                 let confirm = self.alertCtrl.create({
-                   title:  "Buscar ofertas",
-                   message: "Deseas buscar ofertas del producto "+data[0]+"?",
-                   buttons: [
-                     {
-                       text: "Cancelar",
-                       handler: () => {
-
-                       }
-                     },
-                     {
-                       text: "Buscar",
-                       handler: () => {
-                         self.get_offers(data[0]);
-                       }
-                     }
-                   ]
-                 });
-                 confirm.present();
-               }, error => console.log(error));
-             }
-             else if (self.platform.is('ios')) {
-               self.speech.startListening(self.iosOptions).subscribe(data => self.speechList = data, error => console.log(error));
-             }
-           }else{
-             self.getPermission();
-           }
-         });
-
-
-       }else{
-
-       }
-     });
-
-
-  }
-
-  public get_offers(subcategory_name:string){
-    this.navCtrl.push(FindPromotiosPage,{
-      "type_find_promotio": this.util.constants.find_promotion_by_subcategory_name,
-      "subcategory_name": subcategory_name
-    })
-  }
 
  }

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, ToastController, NavParams, Platform, AlertController} from 'ionic-angular';
+import {NavController, NavParams, Platform, AlertController} from 'ionic-angular';
 
 
 import { User } from '../../providers/user';
@@ -57,14 +57,7 @@ export class SignupPage {
   private signup_by_facebook=false;
 
   // Our translated text strings
-  private signupErrorString: string;
-  private countries:any;
-  private cities:any;
-  private subcategories:any;
-  private city_name="";
-  private country_name="";
   private messages:any;
-  private serverErrorString: string;
 
 
   @ViewChild('password') inputP;
@@ -73,7 +66,6 @@ export class SignupPage {
     public navCtrl: NavController,
     public user: User,
     public navParams: NavParams,
-    public toastCtrl: ToastController,
     public translateService: TranslateService,
     private geolocation: Geolocation,
     public util:Util,
@@ -83,11 +75,6 @@ export class SignupPage {
     private alertCtrl: AlertController,
 
   ) {
-
-    this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR','validando_informacion']).subscribe((values) => {
-      this.serverErrorString = values.SERVER_ERROR;
-    });
-    let self=this;
 
     this.account.username = this.navParams.get('username');
     this.account.password = this.navParams.get('password');
@@ -113,12 +100,15 @@ export class SignupPage {
   }
 
   get_messages(){
-    this.translateService.get([
+    var self=this;
+    self.translateService.get([
       'SIGNUP_ERROR',
       'error_3',
-      'obteniendo_tu_ubicacion'
+      'obteniendo_tu_ubicacion',
+      'registrando',
+      'SERVER_ERROR'
     ]).subscribe((value) => {
-      this.messages = value;
+      self.messages = value;
     }, (err)=>{
       alert(err);
     });
@@ -127,9 +117,9 @@ export class SignupPage {
   doSignup() {
     var self=this;
 
-    if(this.account.r_password == this.account.password)
+    if(this.account.r_password == self.account.password)
     {
-      let dialog = this.util.show_dialog("Registrando");
+      let dialog = self.util.show_dialog(self.messages.registrando);
       if(!self.account.birthday){
         self.account.birthday="2017-01-01";
       }
@@ -138,44 +128,26 @@ export class SignupPage {
       }
 
       if(!self.account.cellphone){
-        alert("cellphone vacio");
         self.account.cellphone="0000000000";
       }
-      this.user.signup(this.account).subscribe((resp) => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+      this.user.signup(self.account).subscribe((resp) => {
+        dialog.dismiss();
+        self.util.show_toast("validate_email");
         this.navCtrl.push(WelcomePage);
       }, (err) => {
-        console.log("Error cuando intento registrar");
-        console.log(err);
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss();
         try {
           let body = JSON.parse(err._body);
-          if (body.code=="E_VALIDATION") {
-            let toast = self.toastCtrl.create({
-              message: "Correo existente. Por favor intente su registro con un nuevo correo o diríjase a la opción: Olvidé la Contraseña",
-              duration: 3000,
-              position: 'top'
-            });
-            toast.present();
+          if (body.code=="-1") {
+            self.util.show_toast("error_19");
           }
         } catch (e) {
-          console.error(e);
-          let toast = self.toastCtrl.create({
-            message: self.serverErrorString,
-            duration: 3000,
-            position: 'bottom'
-          });
-          toast.present();
+          self.util.show_toast(self.messages.SERVER_ERROR);
         }
       });
     }else{
       // Unable to sign up
-      let toast = this.toastCtrl.create({
-        message: this.messages.error_3,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
+      self.util.show_toast("error_3");
     }
 
   }
@@ -187,25 +159,18 @@ export class SignupPage {
 
   get_location(){
 
-    console.log("1");
     let self = this;
     self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
-      console.log("2: "+isAuthorized);
       if(isAuthorized){
         self.diagnostic.isLocationEnabled().then(function(isAvailable){
-          console.log("3:"+isAvailable);
           if(isAvailable){
             let dialog = self.util.show_dialog(self.messages.obteniendo_tu_ubicacion);
             self.geolocation.getCurrentPosition().then((resp) => {
-              console.log("4");
               console.log(resp);
               self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
                 (result: any) => {
-                  console.log("5");
-                  console.log(resp);
                   dialog.dismiss();
                   if(!result.countryName || !result.countryCode || !result.city){
-                    self.util.show_toast('error_17');
                     self.navCtrl.pop();
                   }else{
                     self.account.country_name= result.countryName;
@@ -220,7 +185,6 @@ export class SignupPage {
                 }
               );
             }).catch((error) => {
-              console.error(error);
               alert(error);
             });
           }else{
@@ -234,11 +198,11 @@ export class SignupPage {
                   {
                     text: res.salir,
                     handler: () => {
-                      if (this.platform.is('android')) {
+                      if (self.platform.is('android')) {
                         self.platform.exitApp();
                       }else{
                         self.navCtrl.pop();
-                        this.util.show_toast('error_16');
+                        self.util.show_toast('error_16');
                       }
                     }
                   },
@@ -267,11 +231,11 @@ export class SignupPage {
               {
                 text: res.salir,
                 handler: () => {
-                  if (this.platform.is('android')) {
+                  if (self.platform.is('android')) {
                     self.platform.exitApp();
                   }else{
                     self.navCtrl.pop();
-                    this.util.show_toast('error_16');
+                    self.util.show_toast('error_16');
                   }
                 }
               },
