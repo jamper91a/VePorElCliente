@@ -24,6 +24,8 @@ export class VePorEl {
     public translate: TranslateService,
   ) {
 
+    this.get_translation();
+
 
 
 
@@ -31,31 +33,34 @@ export class VePorEl {
 
   public get_translation(){
     var self=this;
-    this.platform.ready().then(() => {
-      self.translate.get(
-        [
-          "obteniendo_tu_ubicacion",
-          "obteniendo_las_ofertas",
-          "obteniendo_las_categorias",
-          "obteniendo_las_subcategorias",
-          "obteniendo_las_ofertas",
-          "buscando_la_oferta",
-          "tomando_la_oferta",
-          "calificando",
-          "enviando_mensaje",
-          "listando_los_paises",
-          "listando_las_ciudades",
-          "solicitando_contrasena_temporal",
-          "cambiando_contrasena",
-          "obteniendo_companias",
-          "obteniendo_información_del_negocio",
-          "resent_email"
-        ]
-      ).subscribe(
-        (values) => {
-          self.messages=values;
-        });
-    });
+    if(!this.messages) {
+      this.platform.ready().then(() => {
+        self.translate.get(
+          [
+            "obteniendo_tu_ubicacion",
+            "obteniendo_las_ofertas",
+            "obteniendo_las_categorias",
+            "obteniendo_las_subcategorias",
+            "obteniendo_las_ofertas",
+            "buscando_la_oferta",
+            "tomando_la_oferta",
+            "calificando",
+            "enviando_mensaje",
+            "listando_los_paises",
+            "listando_las_ciudades",
+            "solicitando_contrasena_temporal",
+            "cambiando_contrasena",
+            "obteniendo_companias",
+            "obteniendo_información_del_negocio",
+            "resent_email"
+          ]
+        ).subscribe(
+          (values) => {
+            self.messages = values;
+          });
+      });
+    }else{
+    }
   }
   get_banners(city_name:string, type?:number):any {
     this.get_translation();
@@ -93,7 +98,8 @@ export class VePorEl {
   get_address(latitude:number, longitude:number, force_update?:boolean){
     if(force_update==null)
       force_update=false;
-    this.get_translation();
+    if(!this.messages)
+      this.get_translation();
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     let self=this;
     if(!this.util.getPreference(this.util.constants.address) || force_update){
@@ -144,7 +150,7 @@ export class VePorEl {
             for(var i=0; i<body.results.length;i++){
               for(var j=0; j<body.results[i].address_components.length;j++){
                 var element = body.results[i].address_components[j];
-                if(element.types[0]=="postal_town"){
+                if(element.types[0]=="postal_town" ||  element.types[0]=="locality"){
                   result.city=element.short_name;
                 }
                 if(element.types[0]=="country"){
@@ -507,6 +513,7 @@ export class VePorEl {
   get_companies_by_city_categorie_and_name(body:any, page:number):any{
     let dialog = this.util.show_dialog(this.messages.obteniendo_companias);
     body.page = page;
+    body.language = this.util.getPreference(this.util.constants.language);
     let seq = this.api.post('companies/find', body).share();
     seq
 

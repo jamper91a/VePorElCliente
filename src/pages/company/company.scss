@@ -14,5 +14,34 @@ page-company {
   },
   ion-icon {
         font-size: 1.5em; //Preferred size here
+  }
+
+  @media (min-width: 0px) {
+    .logo_company img {
+      max-height: 200px;
     }
+  }
+
+  @media (min-width: 576px) {
+    .logo_company img {
+      max-height: 400px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .logo_company img {
+      max-height: 600px;
+    }
+  }
+  @media (min-width: 992px) {
+    .logo_company img {
+      max-height: 800px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .logo_company img {
+      max-height: 1000px;
+    }
+}
+
 }

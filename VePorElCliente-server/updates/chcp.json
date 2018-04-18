@@ -1,8 +1,0 @@
-{
-  "name": "VePorElCliente",
-  "ios_identifier": "co.colombiaapps.vpeclientes",
-  "android_identifier": "co.colombiaapps.vpeclientes",
-  "update": "resume",
-  "content_url": "http://192.168.1.69:3000/updates",
-  "release": "2018.04.07-16.43.56"
-}

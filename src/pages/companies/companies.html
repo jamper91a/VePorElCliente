@@ -11,7 +11,13 @@
   <ion-list>
     <ion-item *ngFor="let branch of branchs" (click)="go_to_map(branch)">
       <ion-thumbnail item-start>
-        <img-loader src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        <div *ngIf="util.isUrlValid(branch.url_photo)">
+          <img-loader src="{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        </div>
+        <div *ngIf="!util.isUrlValid(branch.url_photo)">
+          <img-loader src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+        </div>
+
       </ion-thumbnail>
       <h2>{{branch.name}}</h2>
       <p>{{transform_distance(branch.distance)}}</p>

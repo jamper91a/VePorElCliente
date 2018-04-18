@@ -39,13 +39,20 @@ export class MyApp {
     public veporel: VePorEl,
     private http: HTTP
   ) {
+    this.initTranslate();
+    let self = this;
     this.http.acceptAllCerts(true);
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+        this.fetchUpdate();
+        this.ga.startTrackerWithId('UA-101368936-1')
+          .then(() => {
+          })
+          .catch(e => console.log('Error starting GoogleAnalytics', e));
+        this.initPushNotification();
       }
-      this.initTranslate();
-      let self = this;
+
       if (this.util.getPreference(this.util.constants.logged)) {
         self.rootPage = MenuPage;
       }else{
@@ -56,19 +63,15 @@ export class MyApp {
       }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.ga.startTrackerWithId('UA-101368936-1')
-        .then(() => {
-        })
-        .catch(e => console.log('Error starting GoogleAnalytics', e));
-      this.initPushNotification();
 
-      this.fetchUpdate();
+
+
     });
   }
 
   fetchUpdate() {
     const options = {
-      'config-file': 'http://192.168.1.69:3000/updates/chcp.json'
+      'config-file': 'https://veporel.com.co/admin/update/chcp.json'
     };
     chcp.fetchUpdate(this.updateCallback, options);
   }
@@ -91,6 +94,7 @@ export class MyApp {
   }
 
   initTranslate() {
+    console.log("Language: "+this.translate.getBrowserLang());
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('es');
     if (this.translate.getBrowserLang() !== undefined) {
@@ -100,7 +104,6 @@ export class MyApp {
     }
 
     this.translate.get(['BACK_BUTTON_TEXT', 'obteniendo_tu_ubicacion']).subscribe(values => {
-      console.log(values);
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
@@ -110,9 +113,8 @@ export class MyApp {
       .then((res: any) => {
 
         if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
+          //console.log('We have permission to send push notifications');
         } else {
-          console.log('We do not have permission to send push notifications');
         }
 
       });
@@ -136,7 +138,6 @@ export class MyApp {
     const pushObject: PushObject = this.push.init(options);
 
     pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
       //if user using app and push notification comes
       if (data.additionalData.foreground) {
 
@@ -149,7 +150,6 @@ export class MyApp {
     });
 
     pushObject.on('registration').subscribe((registration: any) => {
-      console.log('Device registered', registration)
       self.util.savePreference(self.util.constants.push_code, registration.registrationId);
     });
 

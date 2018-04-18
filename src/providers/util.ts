@@ -56,17 +56,17 @@ export class Util{
     };
     this.isDebug.getIsDebug()
       .then(function (isDebug: boolean){
-        console.log(isDebug);
         if(isDebug==false)
           self.url = "https://backend.veporel.com.co:85/";
         else{
-          self.url = "http://192.168.1.69:1337/";
+          self.url = "https://backend.veporel.com.co:85/";
+          //self.url = "http://192.168.1.69:1337/";
         }
 
       })
       .catch(function (error: any) {
-        console.log("Error is debug");
-        self.url = "https://backend.veporel.com.co:85/"
+        self.url = "https://backend.veporel.com.co:85/";
+        //self.url = "http://192.168.1.69:1337/";
       });
 
 
@@ -114,11 +114,16 @@ export class Util{
 
   }
   public isUrlValid(userInput:string) {
-    var res = userInput.match(/http(s)?:\/\/.?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    if(res == null)
+    if(userInput!=null){
+      var res = userInput.match(/http(s)?:\/\/.?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      if(res == null)
         return false;
-    else
+      else
         return true;
+    }else{
+      return false;
+    }
+
   }
 
   public removeDiacritics (str) {
