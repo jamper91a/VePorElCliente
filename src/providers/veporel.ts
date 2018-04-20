@@ -209,6 +209,7 @@ export class VePorEl {
       }, err => {
         dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         console.error('ERROR', err);
+        return err;
       });
 
     return seq;
