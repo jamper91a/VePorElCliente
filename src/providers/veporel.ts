@@ -135,10 +135,6 @@ export class VePorEl {
           .map(res => res.json())
           .subscribe(res => {
             let body = res;
-            // self.address = body.results[0].formatted_address;
-            //
-            // let city_name = body.results[0].address_components[5].short_name;
-            //busco en los address componene hasta encontrr cada elemento
 
             var result = {
               countryName:"",
@@ -163,7 +159,8 @@ export class VePorEl {
             observer.next(result);
           }, err => {
             dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            console.error('ERROR', err);
+            console.error('ERROR gettin address', err);
+            return observer.error(err);
           });
 
       });

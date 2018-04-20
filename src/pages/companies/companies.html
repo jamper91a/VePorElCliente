@@ -11,10 +11,10 @@
   <ion-list>
     <ion-item *ngFor="let branch of branchs" (click)="go_to_map(branch)">
       <ion-thumbnail item-start>
-        <div *ngIf="util.isUrlValid(branch.url_photo)">
+        <div *ngIf="valid_photo(branch)">
           <img-loader src="{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
         </div>
-        <div *ngIf="!util.isUrlValid(branch.url_photo)">
+        <div *ngIf="!valid_photo(branch.url_photo)">
           <img-loader src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
         </div>
 

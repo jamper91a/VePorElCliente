@@ -197,16 +197,15 @@ export class DirectoryPage {
       });
     } else {
       //Obtengo las coordenadas actuales
-      let dialog = self.util.show_dialog('Obteniendo tu ubicación');
-      self.all_dialogs.push(dialog);
+      /*let dialog = self.util.show_dialog('Obteniendo tu ubicación');
+      self.all_dialogs.push(dialog);*/
 
       self.data.latitude = self.util.getPreference(self.util.constants.latitude);
       self.data.longitude = self.util.getPreference(self.util.constants.longitude);
       self.veporel.get_address(self.data.latitude, self.data.longitude, true).subscribe(
         (result: any) => {
-          dialog.dismiss();
+          //dialog.dismiss();
           if (!result.countryName || !result.countryCode || !result.city) {
-            console.log(result);
             self.util.show_toast('error_17');
             self.navCtrl.pop();
           } else {
@@ -222,6 +221,14 @@ export class DirectoryPage {
             self.util.savePreference(self.util.constants.country_code, self.data.country_code);
             self.util.savePreference(self.util.constants.country_name, self.data.country_name);
           }
+        }, (err:any) => {
+          console.log("Reciviendo error");
+          //dialog.dismiss();
+          self.country_name = self.util.getPreference(self.util.constants.country_name);
+          self.data.country_name = self.util.getPreference(self.util.constants.country_name);
+          self.data.country_code = self.util.getPreference(self.util.constants.country_code);
+          self.data.city_name = self.util.getPreference(self.util.constants.city_name);
+          self.city_name = self.util.getPreference(self.util.constants.city_name);
         }
       );
     }

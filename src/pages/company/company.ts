@@ -11,6 +11,7 @@ export class CompanyPage {
   private company:any;
   private branch:any;
   private company_id:any;
+  private photos:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,6 +27,12 @@ export class CompanyPage {
     this.veporel.get_company_by_id(this.company_id, this.branch.b_id).subscribe((result:any)=>{
       if(result!=null){
         var body = JSON.parse(result._body);
+        //Analizo la columna de la imagen de la foto, para determinar si hay varias
+        let url_photo = body.company.url_photo;
+        if(url_photo)
+          self.photos= url_photo.split(";");
+        else
+          self.photos=[];
         self.company = body.company;
         self.branch = body.branch;
       }

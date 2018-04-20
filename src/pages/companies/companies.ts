@@ -83,6 +83,15 @@ export class CompaniesPage {
     }
   }
 
+  public valid_photo(branch){
+
+    if(branch && branch.url_photo) {
+      branch.url_photo = branch.url_photo.split(";")[0];
+      return this.util.isUrlValid(branch.url_photo);
+    }else
+      return false;
+  }
+
   private banners:any;
   private get_banners(){
     let city_name = this.util.getPreference(this.util.constants.city_name);

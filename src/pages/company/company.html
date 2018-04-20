@@ -10,7 +10,22 @@
   <div *ngIf="company">
     <div *ngIf="company.suscripcion==0">
       <div text-center>
-        <img-loader src="assets/img/logo_horizontal.png" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+        <div *ngIf="photos.length>1">
+          <ion-slides #pager autoplay="5000" pager="true"   loop="true" speed="300">
+            <ion-slide *ngFor="let photo of photos">
+              <img-loader *ngIf="util.isUrlValid(photo)" src="{{photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader *ngIf="!util.isUrlValid(photo)" src="{{util.url}}{{photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            </ion-slide>
+          </ion-slides>
+        </div>
+        <div *ngIf="photos.length==1">
+          <div *ngIf="util.isUrlValid(company.url_photo)">
+            <img-loader class="logo_company" src="{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+          </div>
+          <div *ngIf="!util.isUrlValid(company.url_photo)">
+            <img-loader class="logo_company" src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+          </div>
+        </div>
       </div>
       <h2 text-center> {{company.name}}</h2>
 
@@ -84,12 +99,23 @@
     <div *ngIf="company.suscripcion==1">
       <h2 text-center> {{company.name}}</h2>
       <div text-center>
-        <div *ngIf="util.isUrlValid(company.url_photo)">
-          <img-loader class="logo_company" src="{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+        <div *ngIf="photos.length>1">
+          <ion-slides #pager autoplay="5000" pager="true"   loop="true" speed="300">
+            <ion-slide *ngFor="let photo of photos">
+                <img-loader *ngIf="util.isUrlValid(photo)" src="{{photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+                <img-loader *ngIf="!util.isUrlValid(photo)" src="{{util.url}}{{photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+            </ion-slide>
+          </ion-slides>
         </div>
-        <div *ngIf="!util.isUrlValid(company.url_photo)">
-          <img-loader class="logo_company" src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+        <div *ngIf="photos.length==1">
+          <div *ngIf="util.isUrlValid(company.url_photo)">
+            <img-loader class="logo_company" src="{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+          </div>
+          <div *ngIf="!util.isUrlValid(company.url_photo)">
+            <img-loader class="logo_company" src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+          </div>
         </div>
+
 
       </div>
       <ion-grid>
