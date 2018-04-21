@@ -71,7 +71,8 @@
 				<ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">
 					<ion-slide *ngFor="let banner of banners">
             <a href="{{banner.url_destination}}" target="_blank" class="{{util.url}}{{banner.url_photo}}">
-              <img-loader src="{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
             </a>
 					</ion-slide>
 				</ion-slides>
