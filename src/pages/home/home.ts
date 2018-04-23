@@ -125,17 +125,21 @@ import { Push, } from '@ionic-native/push';
                         self.get_banners(self.city_name);
                       }
                     }else{
-                      console.log("error getting location: ");
-                      console.log(result);
+                      self.util.show_toast('error_22');
                     }
+                  },
+                  (error)=>{
+                    if(error)
+                      self.util.show_toast(error);
                   }
                 );
               }).catch((error) => {
-                self.util.show_toast(error);
+                if(error)
+                  self.util.show_toast(error);
               });
             }else{
-
-              self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+              self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe(
+                (res) => {
                 let confirm = self.alertCtrl.create({
                   title: res.ubicacion,
                   message: res.activar_ubicacion,
@@ -160,11 +164,13 @@ import { Push, } from '@ionic-native/push';
                   ]
                 });
                 confirm.present();
-              });
-
+              },
+                ()=>{
+                  self.util.show_toast('error_22');
+                });
             }
           }).catch((error)=>{
-            console.error(error);
+            self.util.show_toast(error);
           });
         }else{
 
@@ -199,7 +205,7 @@ import { Push, } from '@ionic-native/push';
                         }
                       }
                     }).catch(function (error) {
-                      console.log("requestLocationAuthorization :"+error);
+                      self.util.show_toast(error);
                     });
                   }
                 }
@@ -212,11 +218,13 @@ import { Push, } from '@ionic-native/push';
 
         }
       }).catch(function (error) {
-        console.log("isLocationAuthorized :"+error);
+        if(error)
+          self.util.show_toast(error);
       });
     }else{
       //Obtengo las coordenadas actuales
-      self.geolocation.getCurrentPosition().then((resp) => {
+      self.geolocation.getCurrentPosition().then(
+        (resp) => {
         self.latitude = resp.coords.latitude;
         self.longitude = resp.coords.longitude;
         self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, false).subscribe(
@@ -238,10 +246,16 @@ import { Push, } from '@ionic-native/push';
               console.log("error getting location: ");
               console.log(result);
             }
+          },
+          (error)=>{
+            if(error)
+              self.util.show_toast(error);
           }
         );
-      }).catch((error) => {
-        self.util.show_toast(error.message);
+      }
+        ).catch((error) => {
+        if(error)
+          self.util.show_toast(error);
       });
     }
 

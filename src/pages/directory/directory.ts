@@ -86,14 +86,11 @@ export class DirectoryPage {
         if (isAuthorized) {
           self.diagnostic.isLocationEnabled().then(function (isAvailable) {
             if (isAvailable) {
-              let dialog = self.util.show_dialog('Obteniendo tu ubicación');
-              self.all_dialogs.push(dialog);
               self.geolocation.getCurrentPosition().then((resp) => {
                 self.data.latitude = resp.coords.latitude;
                 self.data.longitude = resp.coords.longitude;
                 self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
                   (result: any) => {
-                    dialog.dismiss();
                     if (!result.countryName || !result.countryCode || !result.city) {
                       self.util.show_toast('error_17');
                       self.navCtrl.pop();
@@ -110,10 +107,15 @@ export class DirectoryPage {
                       self.util.savePreference(self.util.constants.country_code, self.data.country_code);
                       self.util.savePreference(self.util.constants.country_name, self.data.country_name);
                     }
+                  },
+                  ()=>{
+                    self.util.show_toast('error_17');
+                    self.navCtrl.pop();
                   }
                 );
               }).catch((error) => {
-                dialog.dismissAll();
+                this.util.show_toast('error_22');
+                self.navCtrl.pop();
               });
             } else {
 
@@ -143,11 +145,15 @@ export class DirectoryPage {
                   ]
                 });
                 confirm.present();
+              },()=>{
+                this.util.show_toast('error_22');
+                self.navCtrl.pop();
               });
 
             }
           }).catch((error) => {
-            console.error(error);
+            this.util.show_toast('error_22');
+            self.navCtrl.pop();
           });
         } else {
 
@@ -189,16 +195,20 @@ export class DirectoryPage {
               ]
             });
             confirm.present();
-          });
+          },
+            ()=>{
+              this.util.show_toast('error_22');
+              self.navCtrl.pop();
+            });
 
 
         }
       }).catch(function () {
+        this.util.show_toast('error_22');
+        self.navCtrl.pop();
       });
     } else {
       //Obtengo las coordenadas actuales
-      /*let dialog = self.util.show_dialog('Obteniendo tu ubicación');
-      self.all_dialogs.push(dialog);*/
 
       self.data.latitude = self.util.getPreference(self.util.constants.latitude);
       self.data.longitude = self.util.getPreference(self.util.constants.longitude);
@@ -221,9 +231,7 @@ export class DirectoryPage {
             self.util.savePreference(self.util.constants.country_code, self.data.country_code);
             self.util.savePreference(self.util.constants.country_name, self.data.country_name);
           }
-        }, (err:any) => {
-          console.log("Reciviendo error");
-          //dialog.dismiss();
+        }, () => {
           self.country_name = self.util.getPreference(self.util.constants.country_name);
           self.data.country_name = self.util.getPreference(self.util.constants.country_name);
           self.data.country_code = self.util.getPreference(self.util.constants.country_code);
