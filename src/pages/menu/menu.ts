@@ -52,7 +52,7 @@ export class MenuPage {
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
     }
 
-    this.version= '1.7.0'
+    this.version= '1.8.0'
   }
 
   public pushPage(p){

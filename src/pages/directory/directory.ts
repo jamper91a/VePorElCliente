@@ -62,7 +62,6 @@ export class DirectoryPage {
     translateService.get('LANG').subscribe(
       lang => {
         self.language=lang;
-        self.get_location();
       }
     );
 
@@ -80,6 +79,7 @@ export class DirectoryPage {
   private all_dialogs=[];
 
   get_location(){
+
     let self = this;
     if (this.platform.is('cordova')) {
       self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
@@ -119,7 +119,7 @@ export class DirectoryPage {
               });
             } else {
 
-
+              console.log("activar_ubicacion");
               self.translateService.get(["ubicacion", "activar_ubicacion", "salir", "activar"]).subscribe((res) => {
                 let confirm = self.alertCtrl.create({
                   title: res.ubicacion,
@@ -128,11 +128,11 @@ export class DirectoryPage {
                     {
                       text: res.salir,
                       handler: () => {
-                        if (this.platform.is('android')) {
+                        if (self.platform.is('android')) {
                           self.platform.exitApp();
                         } else {
                           self.navCtrl.pop();
-                          this.util.show_toast('error_16');
+                          self.util.show_toast('error_16');
                         }
                       }
                     },
@@ -156,7 +156,6 @@ export class DirectoryPage {
             self.navCtrl.pop();
           });
         } else {
-
           self.translateService.get(["ubicacion", "mensaje_ubicacion", "salir", "activar"]).subscribe((res) => {
             let confirm = self.alertCtrl.create({
               title: res.ubicacion,
@@ -165,11 +164,11 @@ export class DirectoryPage {
                 {
                   text: res.salir,
                   handler: () => {
-                    if (this.platform.is('android')) {
+                    if (self.platform.is('android')) {
                       self.platform.exitApp();
                     } else {
                       self.navCtrl.pop();
-                      this.util.show_toast('error_16');
+                      self.util.show_toast('error_16');
                     }
                   }
                 },
