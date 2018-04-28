@@ -41,9 +41,10 @@ export class MyApp {
   ) {
     this.initTranslate();
     let self = this;
-    this.http.acceptAllCerts(true);
+
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
+        this.http.acceptAllCerts(true);
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
         this.fetchUpdate();
         this.ga.startTrackerWithId('UA-101368936-1')
@@ -51,6 +52,8 @@ export class MyApp {
           })
           .catch(e => console.log('Error starting GoogleAnalytics', e));
         this.initPushNotification();
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
       }
 
       if (this.util.getPreference(this.util.constants.logged)) {
@@ -61,8 +64,7 @@ export class MyApp {
         else
           self.rootPage = WelcomePage;
       }
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
 
 
 
@@ -76,6 +78,7 @@ export class MyApp {
     chcp.fetchUpdate(this.updateCallback, options);
   }
   updateCallback(error, data) {
+    console.log(data);
     if (error) {
       console.error(error);
     } else {

@@ -62,7 +62,7 @@
   "error_19": "Correo existente. Por favor intente su registro con un nuevo correo o diríjase a la opción: Olvidé la Contraseña",
   "error_20": "Correo no válido",
   "error_21": "Por favor validar su registro ingresando a su e-mail y dando clic en el enlace que fue enviado por VEPOREL",
-  "error_22": "No podemos obtener tu ubicación, por favor intenta mas tarde o reinicia tu dispositivo",
+  "error_22": "No podemos obtener tu ubicación, por favor intenta mas tarde o reinicia tu dispositivo ",
   "username": "Usuario",
   "password": "Contraseña",
   "login": "Ingresar",

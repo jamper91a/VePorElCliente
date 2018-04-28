@@ -52,7 +52,8 @@ export class Util{
       push_code: 'push_code',
       topics: 'topics',
       company_name: 'company_name',
-      get_location_first_time: 'get_location_first_time'
+      get_location_first_time: 'get_location_first_time',
+      logs: 'logs'
     };
     this.isDebug.getIsDebug()
       .then(function (isDebug: boolean){
@@ -65,8 +66,8 @@ export class Util{
 
       })
       .catch(function (error: any) {
-        self.url = "https://backend.veporel.com.co:85/";
-        //self.url = "http://192.168.1.69:1337/";
+        //self.url = "https://backend.veporel.com.co:85/";
+        self.url = "http://192.168.1.69:1337/";
       });
 
 
@@ -222,4 +223,20 @@ export class Util{
   return str;
 
 }
+  public setLogs(msn:string){
+    let logs = this.getPreference(this.constants.logs);
+    if(logs)
+      logs = logs+"\n"+msn+";";
+    else
+      logs = msn+";";
+    this.savePreference(this.constants.logs, logs);
+  }
+
+  public clearLogs(){
+    this.savePreference(this.constants.logs, "");
+  }
+
+  public getLogs(){
+    return this.getPreference(this.constants.logs);
+  }
 }

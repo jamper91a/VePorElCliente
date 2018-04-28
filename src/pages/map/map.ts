@@ -52,69 +52,130 @@ export class MapPage {
   }
 
   get_location(){
-    let self = this;
-    self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
-      if(isAuthorized){
-        self.diagnostic.isLocationEnabled().then(function(isAvailable){
-          if(isAvailable){
-            //Obtengo las coordenadas actuales
-            self.geolocation.getCurrentPosition().then((resp) => {
-              self.loadMap(resp.coords.latitude,resp.coords.longitude);
-            }).catch((error) => {
-              console.log('Error getting location', error);
-            });
-          }else{
 
-            self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
-              let confirm = self.alertCtrl.create({
-                title: res.ubicacion,
-                message: res.activar_ubicacion,
-                buttons: [
-                  {
-                    text: res.salir,
-                    handler: () => {
-                      if (this.platform.is('android')) {
-                        self.platform.exitApp();
-                      }else{
-                        self.navCtrl.pop();
-                        this.util.show_toast('error_16');
+    let self = this;
+    let options= JSON.parse(this.util.getPreference("options"));
+    if(!options){
+      options={
+        notifications:true,
+        range : 2,
+        debug: false
+      }
+    }
+    if (!options.debug) {
+      if (this.platform.is('cordova')) {
+        self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+          if (isAuthorized) {
+            self.diagnostic.isLocationEnabled().then(function (isAvailable) {
+              if (isAvailable) {
+                self.geolocation.getCurrentPosition().then((resp) => {
+                  self.loadMap(resp.coords.latitude,resp.coords.longitude);
+                }).catch((error) => {
+                  this.util.show_toast('error_22');
+                  self.navCtrl.pop();
+                });
+              } else {
+                self.translateService.get(["ubicacion", "activar_ubicacion", "salir", "activar"]).subscribe((res) => {
+                  let confirm = self.alertCtrl.create({
+                    title: res.ubicacion,
+                    message: res.activar_ubicacion,
+                    buttons: [
+                      {
+                        text: res.salir,
+                        handler: () => {
+                          if (self.platform.is('android')) {
+                            self.platform.exitApp();
+                          } else {
+                            self.navCtrl.pop();
+                            self.util.show_toast('error_16');
+                          }
+                        }
+                      },
+                      {
+                        text: res.activar,
+                        handler: () => {
+                          self.diagnostic.switchToLocationSettings();
+                        }
+                      }
+                    ]
+                  });
+                  confirm.present();
+                }, () => {
+                  this.util.show_toast('error_22');
+                  self.navCtrl.pop();
+                });
+
+              }
+            }).catch((error) => {
+              this.util.show_toast('error_22');
+              self.navCtrl.pop();
+            });
+          } else {
+            self.translateService.get(["ubicacion", "mensaje_ubicacion", "salir", "activar"]).subscribe((res) => {
+                let confirm = self.alertCtrl.create({
+                  title: res.ubicacion,
+                  message: res.mensaje_ubicacion,
+                  buttons: [
+                    {
+                      text: res.salir,
+                      handler: () => {
+                        if (self.platform.is('android')) {
+                          self.platform.exitApp();
+                        } else {
+                          self.navCtrl.pop();
+                          self.util.show_toast('error_16');
+                        }
+                      }
+                    },
+                    {
+                      text: res.activar,
+                      handler: () => {
+                        self.diagnostic.requestLocationAuthorization().then(function (status) {
+                          if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
+                            self.get_location();
+                          } else {
+                            if (self.platform.is('android')) {
+                              self.platform.exitApp();
+                            } else {
+                              self.navCtrl.pop();
+                              self.util.show_toast('error_16');
+                            }
+                          }
+                        }).catch(function (error) {
+
+                        });
                       }
                     }
-                  },
-                  {
-                    text: res.activar,
-                    handler: () => {
-                      self.diagnostic.switchToLocationSettings();
-                    }
-                  }
-                ]
+                  ]
+                });
+                confirm.present();
+              },
+              () => {
+                this.util.show_toast('error_22');
+                self.navCtrl.pop();
               });
-              confirm.present();
-            });
+
 
           }
-        }).catch((error)=>{
-          console.error(error);
-        });
-      }else{
-        self.diagnostic.requestLocationAuthorization('always').then(function (status) {
-          if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
-            self.get_location();
-          }else{
-            if (self.platform.is('android')) {
-              self.platform.exitApp();
-            }else{
-              self.navCtrl.pop();
-              self.util.show_toast('error_16');
-            }
-          }
-        }).catch(function (error) {
-
+        }).catch(function () {
+          this.util.show_toast('error_22');
+          self.navCtrl.pop();
         });
       }
-    }).catch(function () {
+      else {
+        //Obtengo las coordenadas actuales
 
-    });
+        let latitude = self.util.getPreference(self.util.constants.latitude);
+        let longitude = self.util.getPreference(self.util.constants.longitude);
+        self.loadMap(latitude,longitude);
+
+      }
+    }else{
+      let latitude = self.util.getPreference(self.util.constants.latitude);
+      let longitude = self.util.getPreference(self.util.constants.longitude);
+      self.loadMap(latitude,longitude);
+
+    }
 
 
 

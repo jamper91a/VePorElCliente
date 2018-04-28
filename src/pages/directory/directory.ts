@@ -79,51 +79,97 @@ export class DirectoryPage {
   private all_dialogs=[];
 
   get_location(){
-
     let self = this;
-    if (this.platform.is('cordova')) {
-      self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
-        if (isAuthorized) {
-          self.diagnostic.isLocationEnabled().then(function (isAvailable) {
-            if (isAvailable) {
-              self.geolocation.getCurrentPosition().then((resp) => {
-                self.data.latitude = resp.coords.latitude;
-                self.data.longitude = resp.coords.longitude;
-                self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
-                  (result: any) => {
-                    if (!result.countryName || !result.countryCode || !result.city) {
+    self.util.setLogs("Obteniendo ubicación...");
+    let options= JSON.parse(this.util.getPreference("options"));
+    if(!options){
+      options={
+        notifications:true,
+        range : 2,
+        debug: false
+      }
+    }
+
+    self.util.setLogs("Options: "+JSON.stringify(options));
+    if (!options.debug) {
+      if (this.platform.is('cordova')) {
+        self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+          if (isAuthorized) {
+            self.diagnostic.isLocationEnabled().then(function (isAvailable) {
+              if (isAvailable) {
+                self.geolocation.getCurrentPosition().then((resp) => {
+                  self.data.latitude = resp.coords.latitude;
+                  self.data.longitude = resp.coords.longitude;
+                  self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
+                    (result: any) => {
+                      self.util.setLogs("Results 1: "+JSON.stringify(result));
+                      if (!result.countryName || !result.countryCode || !result.city) {
+                        self.util.show_toast('error_17');
+                        self.navCtrl.pop();
+                      } else {
+                        self.country_name = result.countryName;
+                        self.data.country_name = result.countryName;
+                        self.data.country_code = result.countryCode;
+                        self.data.city_name = result.city;
+                        self.city_name = result.city;
+
+                        self.util.savePreference(self.util.constants.latitude, self.data.latitude);
+                        self.util.savePreference(self.util.constants.longitude, self.data.longitude);
+                        self.util.savePreference(self.util.constants.city_name, self.data.city_name);
+                        self.util.savePreference(self.util.constants.country_code, self.data.country_code);
+                        self.util.savePreference(self.util.constants.country_name, self.data.country_name);
+                      }
+                    },
+                    () => {
                       self.util.show_toast('error_17');
                       self.navCtrl.pop();
-                    } else {
-                      self.country_name = result.countryName;
-                      self.data.country_name = result.countryName;
-                      self.data.country_code = result.countryCode;
-                      self.data.city_name = result.city;
-                      self.city_name = result.city;
-
-                      self.util.savePreference(self.util.constants.latitude, self.data.latitude);
-                      self.util.savePreference(self.util.constants.longitude, self.data.longitude);
-                      self.util.savePreference(self.util.constants.city_name, self.data.city_name);
-                      self.util.savePreference(self.util.constants.country_code, self.data.country_code);
-                      self.util.savePreference(self.util.constants.country_name, self.data.country_name);
                     }
-                  },
-                  ()=>{
-                    self.util.show_toast('error_17');
-                    self.navCtrl.pop();
-                  }
-                );
-              }).catch((error) => {
-                this.util.show_toast('error_22');
-                self.navCtrl.pop();
-              });
-            } else {
+                  );
+                }).catch((error) => {
+                  this.util.show_toast('error_22');
+                  self.navCtrl.pop();
+                });
+              } else {
+                self.translateService.get(["ubicacion", "activar_ubicacion", "salir", "activar"]).subscribe((res) => {
+                  let confirm = self.alertCtrl.create({
+                    title: res.ubicacion,
+                    message: res.activar_ubicacion,
+                    buttons: [
+                      {
+                        text: res.salir,
+                        handler: () => {
+                          if (self.platform.is('android')) {
+                            self.platform.exitApp();
+                          } else {
+                            self.navCtrl.pop();
+                            self.util.show_toast('error_16');
+                          }
+                        }
+                      },
+                      {
+                        text: res.activar,
+                        handler: () => {
+                          self.diagnostic.switchToLocationSettings();
+                        }
+                      }
+                    ]
+                  });
+                  confirm.present();
+                }, () => {
+                  this.util.show_toast('error_22');
+                  self.navCtrl.pop();
+                });
 
-              console.log("activar_ubicacion");
-              self.translateService.get(["ubicacion", "activar_ubicacion", "salir", "activar"]).subscribe((res) => {
+              }
+            }).catch((error) => {
+              this.util.show_toast('error_22');
+              self.navCtrl.pop();
+            });
+          } else {
+            self.translateService.get(["ubicacion", "mensaje_ubicacion", "salir", "activar"]).subscribe((res) => {
                 let confirm = self.alertCtrl.create({
                   title: res.ubicacion,
-                  message: res.activar_ubicacion,
+                  message: res.mensaje_ubicacion,
                   buttons: [
                     {
                       text: res.salir,
@@ -139,80 +185,81 @@ export class DirectoryPage {
                     {
                       text: res.activar,
                       handler: () => {
-                        self.diagnostic.switchToLocationSettings();
+                        self.diagnostic.requestLocationAuthorization().then(function (status) {
+                          if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
+                            self.get_location();
+                          } else {
+                            if (self.platform.is('android')) {
+                              self.platform.exitApp();
+                            } else {
+                              self.navCtrl.pop();
+                              self.util.show_toast('error_16');
+                            }
+                          }
+                        }).catch(function (error) {
+
+                        });
                       }
                     }
                   ]
                 });
                 confirm.present();
-              },()=>{
+              },
+              () => {
                 this.util.show_toast('error_22');
                 self.navCtrl.pop();
               });
 
-            }
-          }).catch((error) => {
-            this.util.show_toast('error_22');
-            self.navCtrl.pop();
-          });
-        } else {
-          self.translateService.get(["ubicacion", "mensaje_ubicacion", "salir", "activar"]).subscribe((res) => {
-            let confirm = self.alertCtrl.create({
-              title: res.ubicacion,
-              message: res.mensaje_ubicacion,
-              buttons: [
-                {
-                  text: res.salir,
-                  handler: () => {
-                    if (self.platform.is('android')) {
-                      self.platform.exitApp();
-                    } else {
-                      self.navCtrl.pop();
-                      self.util.show_toast('error_16');
-                    }
-                  }
-                },
-                {
-                  text: res.activar,
-                  handler: () => {
-                    self.diagnostic.requestLocationAuthorization().then(function (status) {
-                      if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
-                        self.get_location();
-                      } else {
-                        if (self.platform.is('android')) {
-                          self.platform.exitApp();
-                        } else {
-                          self.navCtrl.pop();
-                          self.util.show_toast('error_16');
-                        }
-                      }
-                    }).catch(function (error) {
 
-                    });
-                  }
-                }
-              ]
-            });
-            confirm.present();
-          },
-            ()=>{
-              this.util.show_toast('error_22');
+          }
+        }).catch(function () {
+          this.util.show_toast('error_22');
+          self.navCtrl.pop();
+        });
+      }
+      else {
+        //Obtengo las coordenadas actuales
+
+        self.data.latitude = self.util.getPreference(self.util.constants.latitude);
+        self.data.longitude = self.util.getPreference(self.util.constants.longitude);
+        self.veporel.get_address(self.data.latitude, self.data.longitude, true).subscribe(
+          (result: any) => {
+            //dialog.dismiss();
+            if (!result.countryName || !result.countryCode || !result.city) {
+              self.util.show_toast('error_17');
               self.navCtrl.pop();
-            });
+            } else {
+              self.country_name = result.countryName;
+              self.data.country_name = result.countryName;
+              self.data.country_code = result.countryCode;
+              self.data.city_name = result.city;
+              self.city_name = result.city;
 
-
-        }
-      }).catch(function () {
-        this.util.show_toast('error_22');
-        self.navCtrl.pop();
-      });
-    } else {
-      //Obtengo las coordenadas actuales
-
+              self.util.savePreference(self.util.constants.latitude, self.data.latitude);
+              self.util.savePreference(self.util.constants.longitude, self.data.longitude);
+              self.util.savePreference(self.util.constants.city_name, self.data.city_name);
+              self.util.savePreference(self.util.constants.country_code, self.data.country_code);
+              self.util.savePreference(self.util.constants.country_name, self.data.country_name);
+            }
+          }, () => {
+            self.country_name = self.util.getPreference(self.util.constants.country_name);
+            self.data.country_name = self.util.getPreference(self.util.constants.country_name);
+            self.data.country_code = self.util.getPreference(self.util.constants.country_code);
+            self.data.city_name = self.util.getPreference(self.util.constants.city_name);
+            self.city_name = self.util.getPreference(self.util.constants.city_name);
+          }
+        );
+      }
+    }else{
+      self.util.setLogs("Esta en debug, obteniendo datos ...");
       self.data.latitude = self.util.getPreference(self.util.constants.latitude);
       self.data.longitude = self.util.getPreference(self.util.constants.longitude);
+
+      self.util.setLogs("Latitude: "+self.data.latitude);
+      self.util.setLogs("Longitude: "+self.data.longitude);
       self.veporel.get_address(self.data.latitude, self.data.longitude, true).subscribe(
         (result: any) => {
+          self.util.setLogs("Results: "+JSON.stringify(result));
           //dialog.dismiss();
           if (!result.countryName || !result.countryCode || !result.city) {
             self.util.show_toast('error_17');
@@ -230,7 +277,8 @@ export class DirectoryPage {
             self.util.savePreference(self.util.constants.country_code, self.data.country_code);
             self.util.savePreference(self.util.constants.country_name, self.data.country_name);
           }
-        }, () => {
+        }, (err) => {
+          self.util.setLogs("Error obteniendo la ubicación: "+err);
           self.country_name = self.util.getPreference(self.util.constants.country_name);
           self.data.country_name = self.util.getPreference(self.util.constants.country_name);
           self.data.country_code = self.util.getPreference(self.util.constants.country_code);
@@ -351,5 +399,6 @@ export class DirectoryPage {
 
 
   }
+
 
 }

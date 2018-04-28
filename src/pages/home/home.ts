@@ -10,6 +10,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
 import { Push, } from '@ionic-native/push';
+import {MapPage} from "../map/map";
 
 
 /**
@@ -33,9 +34,11 @@ import { Push, } from '@ionic-native/push';
    private country_code:string;
    private user:any;
 
-  speechList: Array<string> = [];
-  androidOptions: SpeechRecognitionListeningOptionsAndroid;
-  iosOptions: SpeechRecognitionListeningOptionsIOS;
+  private options:{
+    notifications:boolean,
+    range:number,
+    debug:boolean
+  };
 
    constructor(
      public navCtrl: NavController,
@@ -54,6 +57,14 @@ import { Push, } from '@ionic-native/push';
      private push: Push,
      )
    {
+     this.options= JSON.parse(this.util.getPreference("options"));
+     if(!this.options){
+       this.options={
+         notifications:true,
+         range : 2,
+         debug: false
+       }
+     }
       this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
       menu.enable(true);
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
@@ -65,6 +76,7 @@ import { Push, } from '@ionic-native/push';
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
+       self.util.setLogs("Recibiendo informacion de mapas: "+JSON.stringify(self.navParams));
        if(this.city_name){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
@@ -324,6 +336,10 @@ import { Push, } from '@ionic-native/push';
   public go_to_directory(){
      this.navCtrl.push(DirectoryPage);
    }
+
+  public change_address(){
+    this.navCtrl.push(MapPage);
+  }
 
 
  }

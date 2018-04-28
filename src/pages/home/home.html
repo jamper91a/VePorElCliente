@@ -44,14 +44,13 @@
         </button>
       </ion-col>
 		</ion-row>
-		<!--<ion-row>
+		<ion-row *ngIf="options.debug">
 			<ion-col col-12-auto>
-				<button ion-button block (click)="find_categories()" color="primary" no-padding text-wrap>
-					<div>{{'busqueda_manual' | translate}}</div>
-					<ion-img  src="assets/img/button_ofertas_cercanas.png"></ion-img>
-				</button>
+        <button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>
+          {{'cambiar_direccion' | translate}}
+        </button>
 			</ion-col>
-		</ion-row>-->
+		</ion-row>
 		<ion-row>
 			<ion-col col-12>
 				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap class="hm-button">
