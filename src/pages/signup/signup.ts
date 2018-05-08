@@ -72,7 +72,8 @@ export class SignupPage {
               public veporel: VePorEl,
               private diagnostic: Diagnostic,
               private platform: Platform,
-              private alertCtrl: AlertController,) {
+              private alertCtrl: AlertController,
+              private translate: TranslateService) {
 
     this.account.username = this.navParams.get('username');
     this.account.password = this.navParams.get('password');
@@ -133,6 +134,8 @@ export class SignupPage {
           let body = JSON.parse(err._body);
           if (body.code == "-1") {
             self.util.show_toast("error_19");
+          }else{
+            self.util.show_toast(self.messages.SERVER_ERROR);
           }
         } catch (e) {
           self.util.show_toast(self.messages.SERVER_ERROR);
@@ -153,118 +156,101 @@ export class SignupPage {
   get_location() {
 
     let self = this;
-    self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
-      if (isAuthorized) {
-        self.diagnostic.isLocationEnabled().then(function (isAvailable) {
-          if (isAvailable) {
-            let dialog = self.util.show_dialog(self.messages.obteniendo_tu_ubicacion);
-            self.geolocation.getCurrentPosition().then(
-              (resp) => {
-                self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, true).subscribe(
-                  (result: any) => {
-                    dialog.dismiss();
-                    if (!result.countryName || !result.countryCode || !result.city) {
-                      self.navCtrl.pop();
-                    } else {
-                      self.account.country_name = result.countryName;
-                      self.account.country_code = result.countryCode;
-                      self.account.city_name = result.city;
-
-                    }
-
-                  },
-                  (error) => {
-                    if (error)
-                      self.util.show_toast(error);
-                  }
-                );
-              }).catch((error) => {
-              if (error)
-                self.util.show_toast(error);
-            });
-          }
-          else {
-
-            self.translateService.get(["ubicacion", "activar_ubicacion", "salir", "activar"]).subscribe(
-              (res) => {
-                let confirm = self.alertCtrl.create({
-                  title: res.ubicacion,
-                  message: res.activar_ubicacion,
-                  buttons: [
-                    {
-                      text: res.salir,
-                      handler: () => {
-                        if (self.platform.is('android')) {
-                          self.platform.exitApp();
-                        } else {
-                          self.navCtrl.pop();
-                          self.util.show_toast('error_16');
+    let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
+    self.veporel.get_coordenates(dialog).subscribe( (location)=> {
+      console.log(location);
+      switch (location.code) {
+        case 1:
+          self.veporel.get_address(location.lat, location.lon, true).subscribe(
+            (result: any) => {
+              dialog.dismiss();
+              self.account.country_name = result.countryName;
+              self.account.country_code = result.countryCode;
+              self.account.city_name = result.city;
+            },
+            (error) => {
+              dialog.dismiss();
+              console.log("Entrando a error obtener dirección");
+              self.util.setLogs(JSON.stringify(error));
+              self.translate.get(["ubicacion","error_22", "reintentar", "salir"]).subscribe(
+                (res) => {
+                  let confirm = self.alertCtrl.create({
+                    title: res.ubicacion,
+                    message: res.error_22,
+                    buttons: [
+                      {
+                        text: res.salir,
+                        handler: () => {
+                          if (self.platform.is('android')) {
+                            self.platform.exitApp();
+                          }else{
+                            self.util.show_toast('error_22');
+                          }
+                        }
+                      },
+                      {
+                        text: res.reintentar,
+                        handler: () => {
+                          self.get_location();
                         }
                       }
-                    },
-                    {
-                      text: res.activar,
-                      handler: () => {
-                        self.diagnostic.switchToLocationSettings();
-                      }
-                    }
-                  ]
+                    ]
+                  });
+                  confirm.present();
                 });
-                confirm.present();
-              });
-
-          }
-        }).catch((error) => {
-          if(error)
-            self.util.show_toast(error);
-        });
-      } else {
-
-        self.translateService.get(["ubicacion", "mensaje_ubicacion", "salir", "activar"]).subscribe((res) => {
-          let confirm = self.alertCtrl.create({
-            title: res.ubicacion,
-            message: res.mensaje_ubicacion,
-            buttons: [
-              {
-                text: res.salir,
-                handler: () => {
-                  if (self.platform.is('android')) {
-                    self.platform.exitApp();
-                  } else {
-                    self.navCtrl.pop();
-                    self.util.show_toast('error_16');
+            }
+          );
+          break;
+        case 6:
+          self.get_location();
+          break;
+        case 3:
+          self.navCtrl.pop();
+          self.diagnostic.switchToLocationSettings();
+          break;
+      }
+    },
+      (err)=>{
+        dialog.dismiss();
+        self.util.setLogs(JSON.stringify(err));
+        switch (err.code){
+          case 3:
+          case 5:
+          case 7:
+              self.util.show_toast('error_16');
+              self.navCtrl.pop();
+            break;
+          case 1:
+          case 2:
+            let confirm = self.alertCtrl.create({
+              title: self.messages.ubicacion,
+              message: self.messages.error_22,
+              buttons: [
+                {
+                  text: self.messages.salir,
+                  handler: () => {
+                    if (self.platform.is('android')) {
+                      self.platform.exitApp();
+                    }else{
+                      self.util.show_toast('error_22');
+                    }
+                  }
+                },
+                {
+                  text: self.messages.reintentar,
+                  handler: () => {
+                    self.get_location();
                   }
                 }
-              },
-              {
-                text: res.activar,
-                handler: () => {
-                  self.diagnostic.requestLocationAuthorization().then(function (status) {
-                    if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
-                      self.get_location();
-                    } else {
-                      if (self.platform.is('android')) {
-                        self.platform.exitApp();
-                      } else {
-                        self.navCtrl.pop();
-                        self.util.show_toast('error_16');
-                      }
-                    }
-                  }).catch(function (error) {
-                    alert(error);
-                  });
-                }
-              }
-            ]
-          });
-          confirm.present();
-        });
-
-
-      }
-    }).catch(function (error) {
-      alert(error);
-    });
+              ]
+            });
+            confirm.present();
+            break;
+          default:
+            self.util.show_toast(err.message);
+            break;
+        }
+      });
 
 
   }

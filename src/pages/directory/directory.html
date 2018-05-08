@@ -38,6 +38,40 @@
 
       <div padding>
         <ion-row>
+          <ion-col>
+            <img (click)="find('Comida')" src="assets/iconos/ic_comida.png"/>
+          </ion-col>
+          <ion-col>
+            <img (click)="find('Belleza')" src="assets/iconos/ic_belleza.png"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_parqueadero.png" (click)="find('Parqueadero')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_estacion.png" (click)="find('Gas')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_drogeria.png" (click)="find('Droguería')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/ic_educacion.png" (click)="find('Educación')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_diversion.png" (click)="find('Entretenimiento')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_tecnologia.png" (click)="find('Tecnología')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_hotel.png" (click)="find('Hotel')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_gimnasio.png" (click)="find('Gimnasio')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col col-10>
             <button ion-button color="primary" block (click)="find()">{{ 'buscar' | translate }}</button>
           </ion-col>

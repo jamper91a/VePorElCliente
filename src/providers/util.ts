@@ -11,6 +11,7 @@ export class Util{
 
   public constants;
   public url:string;
+  public version:string;
   public google_api_key:string;
   constructor(
     public toastCtrl: ToastController,
@@ -61,18 +62,19 @@ export class Util{
           self.url = "https://backend.veporel.com.co:85/";
         else{
           self.url = "https://backend.veporel.com.co:85/";
-          //self.url = "http://192.168.1.69:1337/";
+          //self.url = "http://192.168.1.65:1337/";
         }
 
       })
       .catch(function (error: any) {
-        //self.url = "https://backend.veporel.com.co:85/";
-        self.url = "http://192.168.1.69:1337/";
+        self.url = "https://backend.veporel.com.co:85/";
+        //self.url = "http://192.168.1.65:1337/";
       });
 
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
+    this.version = "2.6.0";
   }
 
   public savePreference(key:string, value:any)
@@ -106,6 +108,7 @@ export class Util{
   }
 
   public show_dialog(message:string):Loading{
+    console.log("Creando dialogo: "+message);
     let loading = this.loadingCtrl.create({
       content: message,
       dismissOnPageChange: false
@@ -230,6 +233,7 @@ export class Util{
     else
       logs = msn+";";
     this.savePreference(this.constants.logs, logs);
+    console.log(msn);
   }
 
   public clearLogs(){

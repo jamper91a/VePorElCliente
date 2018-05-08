@@ -51,8 +51,6 @@ export class MenuPage {
       this.isLogged = true;
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
     }
-
-    this.version= '2.3.3'
   }
 
   public pushPage(p){

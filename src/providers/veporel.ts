@@ -6,8 +6,11 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import {Observable} from "rxjs/Observable";
-import { Platform } from 'ionic-angular';
+import {AlertController, Platform} from 'ionic-angular';
 import {TranslateService} from "@ngx-translate/core";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {Geolocation} from '@ionic-native/geolocation';
+
 
 
 @Injectable()
@@ -16,12 +19,15 @@ export class VePorEl {
 
   private messages:any;
   constructor(
-    public http: Http,
-    public api: Api,
-    public util: Util,
+    private http: Http,
+    private api: Api,
+    private util: Util,
     private nativeGeocoder: NativeGeocoder,
     private platform: Platform,
-    public translate: TranslateService,
+    private translate: TranslateService,
+    private diagnostic:Diagnostic,
+    private geolocation: Geolocation,
+    private alertCtrl: AlertController,
   ) {
 
     this.get_translation();
@@ -52,7 +58,12 @@ export class VePorEl {
             "cambiando_contrasena",
             "obteniendo_companias",
             "obteniendo_información_del_negocio",
-            "resent_email"
+            "resent_email",
+            "ubicacion",
+            "activar_ubicacion",
+            "salir",
+            "activar",
+            "mensaje_ubicacion"
           ]
         ).subscribe(
           (values) => {
@@ -62,7 +73,7 @@ export class VePorEl {
     }else{
     }
   }
-  get_banners(city_name:string, type?:number):any {
+  public get_banners(city_name:string, type?:number):any {
     this.get_translation();
     if(type==null){
       type=1;
@@ -95,12 +106,212 @@ export class VePorEl {
       });
     return seq;
   }
+
+  public get_coordenates(dialog?){
+    let self=this;
+    let seq =  Observable.create(observer => {
+      if (self.platform.is('cordova')) {
+      //if (true) {
+        self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+          if (isAuthorized) {
+            self.diagnostic.isLocationEnabled().then(function (isAvailable) {
+              if (isAvailable) {
+                self.geolocation.getCurrentPosition().then(
+                  (resp) => {
+                    if(resp.coords.latitude && resp.coords.longitude){
+                      let result={
+                        code: 1,
+                        lat: resp.coords.latitude,
+                        lon: resp.coords.longitude
+                      };
+                      observer.next(result);
+
+                    }else{
+                      let error="";
+                      try {
+                        error = JSON.stringify(resp);
+                      } catch (e) {
+                        error= "";
+                      }
+                      return observer.error({
+                        code:1,
+                        message: "Coordenadas no validas",
+                        error: error
+                      });
+                    }
+
+                  }).catch((err) => {
+                  return observer.error({
+                    code:2,
+                    message: "Error obteniendo las coordenadas.",
+                    error: err.message
+                  });
+
+                });
+              }
+              else {
+                console.log("Creando alert activar ubicación");
+                dialog.dismiss();
+;                let confirm = self.alertCtrl.create({
+                  title: self.messages.ubicacion,
+                  message: self.messages.activar_ubicacion,
+                  buttons: [
+                    {
+                      text: self.messages.salir,
+                      handler: () => {
+                        observer.error({
+                          code:3,
+                          message: "Usuario no activo la ubicación",
+                          error: ""
+                        });
+                      }
+                    },
+                    {
+                      text: self.messages.activar,
+                      handler: () => {
+                        observer.next({
+                          code:3,
+                          message: "Usuario activo la ubicación"
+                        });
+                      }
+                    }
+                  ]
+                });
+                confirm.present();
+
+              }
+            }).catch((err) => {
+              try {
+                err = JSON.stringify(err);
+              } catch (e) {
+                err = '';
+              }
+              return observer.error({
+                code:4,
+                message: "Error activando la ubicación",
+                error: err
+              });
+            });
+          } else {
+            dialog.dismiss();
+            let confirm = self.alertCtrl.create({
+              title: self.messages.ubicacion,
+              message: self.messages.mensaje_ubicacion,
+              buttons: [
+                {
+                  text: self.messages.salir,
+                  handler: () => {
+                    return observer.error({
+                      code:5,
+                      message: "Usuario no autorizó la ubicación",
+                      error: ""
+                    });
+                  }
+                },
+                {
+                  text: self.messages.activar,
+                  handler: () => {
+                    self.diagnostic.requestLocationAuthorization().then(function (status) {
+                      if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
+                        observer.next({
+                          code:6,
+                          message: "Usuario autorizo la ubicación",
+                          status: status
+                        });
+                      } else {
+                        observer.error({
+                          code:7,
+                          message: "Usuario no autorizó la ubicación",
+                          error: ""
+                        });
+                      }
+                    }).catch(function (error) {
+                      try {
+                        error = JSON.stringify(error);
+                      } catch (e) {
+                        error = '';
+                      }
+                       observer.error({
+                        code:8,
+                        message: "Error autorizando la ubicación",
+                        error: error
+                      });
+                    });
+                  }
+                }
+              ]
+            });
+            confirm.present();
+
+
+          }
+        }).catch(function (error) {
+          try {
+            error = JSON.stringify(error);
+          } catch (e) {
+            error = '';
+          }
+          return observer.error({
+            code:9,
+            message: "Error autorizando la ubicación",
+            error: error
+          });
+        });
+      }
+      else {
+        //Obtengo las coordenadas actuales
+        self.geolocation.getCurrentPosition().then(
+          (resp) => {
+            if(resp.coords.latitude && resp.coords.longitude){
+              let result={
+                code: 1,
+                lat: resp.coords.latitude,
+                lon: resp.coords.longitude
+              };
+              observer.next(result);
+
+            }else{
+              let error="";
+              try {
+                error = JSON.stringify(resp);
+              } catch (e) {
+                error= "";
+              }
+              return observer.error({
+                code:10,
+                message: "Coordenadas no validas",
+                error: error
+              });
+            }
+
+          }
+        ).catch((error) => {
+          try {
+            error = JSON.stringify(error);
+          } catch (e) {
+            error = '';
+          }
+          return observer.error({
+            code:11,
+            message: "Error obteniendo coordenadas",
+            error: error
+          });
+        });
+      }
+
+    });
+    return seq;
+
+
+
+  }
+
   get_address(latitude:number, longitude:number, force_update?:boolean){
     if(force_update==null)
       force_update=false;
     if(!this.messages)
       this.get_translation();
-    let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
+    //let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     let self=this;
     if(!this.util.getPreference(this.util.constants.address) || force_update){
     if(this.platform.is('cordova')){
@@ -110,18 +321,31 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
-              dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-              observer.next(result);
+              if (!result.countryName || !result.countryCode || !result.city) {
+                observer.error({
+                  code:1,
+                  message: "Datos obteniedos de ubicación no validos",
+                  error: result
+                });
+              } else {
+                observer.next(result);
+
+              }
               // observer.onCompleted();
             }
           )
           .catch((error: any) => {
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            return error});
+            observer.error({
+              code: 2,
+              message: "Error obteniendo informacion",
+              error: error
+            });
+          });
 
       });
       return seq;
-    }else{
+    }
+    else{
 
       let seq =  Observable.create(observer => {
 
@@ -155,12 +379,22 @@ export class VePorEl {
                 }
               }
               }
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            observer.next(result);
+            if (!result.countryName || !result.countryCode || !result.city) {
+              observer.error({
+                code:1,
+                message: "Datos obteniedos de ubicación no validos",
+                error: result
+              });
+            } else {
+              observer.next(result);
+
+            }
           }, err => {
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            console.error('ERROR gettin address', err);
-            return observer.error(err);
+            observer.error({
+              code:2,
+              message: "Error obteniendo ubicación",
+              error: err
+            });
           });
 
       });
@@ -178,10 +412,7 @@ export class VePorEl {
           street: this.util.getPreference(this.util.constants.address),
           houseNumber: ''
         };
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         observer.next(result);
-        // observer.onCompleted();
-
       });
       return seq;
     }

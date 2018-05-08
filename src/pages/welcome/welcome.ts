@@ -22,10 +22,12 @@ import {VePorEl} from "../../providers/veporel";
 })
 export class WelcomePage {
 
-  account: { username: string, password: string } = {
+  private account: { username: string, password: string, push_code: string } = {
     username: '',
-    password: ''
+    password: '',
+    push_code: ''
   };
+  private messages;
   private loginErrorString: string;
   private serverErrorString: string;
   constructor(
@@ -38,9 +40,10 @@ export class WelcomePage {
     public veporel: VePorEl
   ) {
     if (!this.util.getPreference(this.util.constants.logged)) {
-      this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR']).subscribe((values) => {
+      this.translateService.get(['LOGIN_ERROR', 'SERVER_ERROR','validando_informacion']).subscribe((values) => {
         this.loginErrorString = values.LOGIN_ERROR;
         this.serverErrorString = values.SERVER_ERROR;
+        this.messages = values;
       })
     }else{
       this.navCtrl.setRoot(MenuPage);
@@ -54,6 +57,32 @@ export class WelcomePage {
 
   login() {
     this.navCtrl.push(LoginPage);
+  }
+  demo() {
+    let dialog = this.util.show_dialog(this.messages.validando_informacion);
+    let self=this;
+    this.account.username="demo@veporel.com";
+    this.account.password="demo123";
+    this.user.login(this.account).subscribe((resp) => {
+      dialog.dismiss();
+      self.util.savePreference(self.util.constants.logged, true);
+      self.navCtrl.setRoot(MenuPage);
+    }, (err) => {
+      dialog.dismiss();
+      try {
+        let body = JSON.parse(err._body);
+        if (body.code==-1) {
+          self.util.show_toast(self.messages.LOGIN_ERROR);
+        }else if(body.code==-2){
+          self.util.show_toast("error_20");
+        }else if(body.code==-3){
+          self.util.show_toast("error_21");
+        }
+      } catch (e) {
+        self.util.show_toast(self.messages.SERVER_ERROR);
+      }
+
+    });
   }
 
   signup() {

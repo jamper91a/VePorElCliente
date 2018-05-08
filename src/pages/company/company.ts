@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import { VePorEl, Util } from '../../providers/providers';
 import { FindPromotiosPage } from '../find-promotios/find-promotios';
 @Component({
@@ -8,10 +8,13 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
 })
 export class CompanyPage {
 
+  @ViewChild(Content) content: Content;
+
   private company:any;
   private branch:any;
   private company_id:any;
   private photos:any;
+  private mas_info:boolean=false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -44,6 +47,12 @@ export class CompanyPage {
       "type_find_promotio": this.util.constants.find_promotion_by_user_id
     })
   }
+
+  show_mas_info(){
+    this.mas_info=true;
+    this.content.scrollToBottom(200);
+  }
+
 
 
 }

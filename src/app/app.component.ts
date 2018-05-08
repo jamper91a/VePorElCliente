@@ -15,6 +15,7 @@ import {TutorialPage} from "../pages/tutorial/tutorial";
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
 import { HTTP } from '@ionic-native/http';
+import {IsDebug} from "@ionic-native/is-debug";
 
 declare var chcp: any;
 
@@ -34,17 +35,15 @@ export class MyApp {
     private util: Util,
     private ga: GoogleAnalytics,
     private screenOrientation: ScreenOrientation,
-    public alertCtrl: AlertController,
     public push: Push,
     public veporel: VePorEl,
-    private http: HTTP
+    private isDebug: IsDebug
   ) {
     this.initTranslate();
     let self = this;
 
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
-        this.http.acceptAllCerts(true);
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
         this.fetchUpdate();
         this.ga.startTrackerWithId('UA-101368936-1')
@@ -72,24 +71,39 @@ export class MyApp {
   }
 
   fetchUpdate() {
+    var self=this;
     const options = {
       'config-file': 'https://veporel.com.co/admin/update/chcp.json'
     };
-    chcp.fetchUpdate(this.updateCallback, options);
+    chcp.fetchUpdate(function(error,data){
+      self.util.setLogs(JSON.stringify(data));
+      console.log(data);
+      if (error) {
+        console.error(error);
+      } else {
+        chcp.installUpdate(error => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log('Update installed...');
+          }
+        });
+      }
+    }, options);
+    /*this.isDebug.getIsDebug()
+      .then(function (isDebug: boolean){
+        if(isDebug==false)
+
+
+      })
+
+  .catch(function (error: any) {
+        chcp.fetchUpdate(this.updateCallback, options);
+      });*/
+
   }
   updateCallback(error, data) {
-    console.log(data);
-    if (error) {
-      console.error(error);
-    } else {
-      chcp.installUpdate(error => {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log('Update installed...');
-        }
-      });
-    }
+
   }
 
 

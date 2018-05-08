@@ -248,5 +248,10 @@
   "resenting_email":"Enviando correo de validación",
   "sent_email":"Enviar correo de validación",
   "email_sent": "Correo enviado",
-  "resent": "Reenviar"
+  "resent": "Reenviar",
+  "horario": "Horario",
+  "mas_info": "Más info",
+  "reintentar": "Reintentar",
+  "version": "Versión",
+  "ingresando": "Ingresando"
 }
