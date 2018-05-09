@@ -45,7 +45,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
-        this.fetchUpdate();
         this.ga.startTrackerWithId('UA-101368936-1')
           .then(() => {
           })
@@ -63,47 +62,7 @@ export class MyApp {
         else
           self.rootPage = WelcomePage;
       }
-
-
-
-
     });
-  }
-
-  fetchUpdate() {
-    var self=this;
-    const options = {
-      'config-file': 'https://veporel.com.co/admin/update/chcp.json'
-    };
-    chcp.fetchUpdate(function(error,data){
-      self.util.setLogs(JSON.stringify(data));
-      console.log(data);
-      if (error) {
-        console.error(error);
-      } else {
-        chcp.installUpdate(error => {
-          if (error) {
-            console.error(error);
-          } else {
-            console.log('Update installed...');
-          }
-        });
-      }
-    }, options);
-    /*this.isDebug.getIsDebug()
-      .then(function (isDebug: boolean){
-        if(isDebug==false)
-
-
-      })
-
-  .catch(function (error: any) {
-        chcp.fetchUpdate(this.updateCallback, options);
-      });*/
-
-  }
-  updateCallback(error, data) {
-
   }
 
 
@@ -111,7 +70,6 @@ export class MyApp {
   }
 
   initTranslate() {
-    console.log("Language: "+this.translate.getBrowserLang());
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('es');
     if (this.translate.getBrowserLang() !== undefined) {
