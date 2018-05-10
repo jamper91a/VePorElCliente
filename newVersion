@@ -1,6 +1,0 @@
-#!/bin/bash
-
-npm run build --prod
-cordova-hcp build --release
-cd www
-open .

@@ -217,17 +217,18 @@ export class MapPage {
   }
 
   private get_address(latitude:number, longitude:number){
-
+    console.log(latitude);
+    console.log(longitude);
     let self = this;
     this.latitude = latitude;
     this.longitude = longitude;
     this.veporel.get_address(latitude,longitude).subscribe(
       (result:any)=>{
         if(result!=null){
-
-          var aux = result.street + " "+ result.houseNumber;
-          self.city_name = result.city;
-          self.address = aux;
+          console.log(result);
+          //var aux = result.street + " "+ result.houseNumber;
+          self.city_name = result.locality;
+          self.address = "";
           self.country_code = result.countryCode;
           self.country_name = result.countryName;
           // let body = JSON.parse(result._body);
@@ -236,7 +237,9 @@ export class MapPage {
           // self.address = aux;
 
           self.txt_adress.setFocus();
-        } }
+        } },(error)=>{
+          self.util.show_toast(error);
+      }
     );
   }
 

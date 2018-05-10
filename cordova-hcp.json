@@ -1,7 +1,0 @@
-{
-  "name": "VePorElCliente",
-  "ios_identifier": "co.colombiaapps.vpeclientes",
-  "android_identifier": "co.colombiaapps.vpeclientes",
-  "update": "resume",
-  "content_url": "https://veporel.com.co/admin/update/"
-}

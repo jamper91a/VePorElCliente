@@ -9,7 +9,6 @@ import { OptionsPage } from "../options/options";
 import { InformationPage } from "../information/information";
 import { FindPromotiosPage } from "../find-promotios/find-promotios";
 import { MenuController } from 'ionic-angular';
-import { AppVersion } from '@ionic-native/app-version';
 
 /**
  * Generated class for the MenuPage page.
@@ -35,8 +34,7 @@ export class MenuPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public util: Util,
-    public menuCtrl: MenuController,
-    private appVersion: AppVersion
+    public menuCtrl: MenuController
   ) {
     this.rootPage = HomePage;
     this.loginPage = LoginPage;

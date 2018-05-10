@@ -74,7 +74,7 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.6.0";
+    this.version = "2.6.6";
   }
 
   public savePreference(key:string, value:any)

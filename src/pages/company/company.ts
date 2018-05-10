@@ -10,11 +10,11 @@ export class CompanyPage {
 
   @ViewChild(Content) content: Content;
 
-  private company:any;
+  public company:any;
   private branch:any;
   private company_id:any;
   private photos:any;
-  private mas_info:boolean=false;
+  public mas_info:boolean=false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

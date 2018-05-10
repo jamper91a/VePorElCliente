@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Config, Nav, AlertController} from 'ionic-angular';
+import {Platform, Config, Nav} from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -12,10 +12,10 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
-import { HTTP } from '@ionic-native/http';
-import {IsDebug} from "@ionic-native/is-debug";
+import { ImageLoaderConfig } from 'ionic-image-loader';
+
 
 declare var chcp: any;
 
@@ -37,7 +37,7 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     public push: Push,
     public veporel: VePorEl,
-    private isDebug: IsDebug
+    private imageLoaderConfig: ImageLoaderConfig
   ) {
     this.initTranslate();
     let self = this;
@@ -45,13 +45,12 @@ export class MyApp {
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
-        this.fetchUpdate();
         this.ga.startTrackerWithId('UA-101368936-1')
           .then(() => {
           })
           .catch(e => console.log('Error starting GoogleAnalytics', e));
-        this.initPushNotification();
-        this.statusBar.styleDefault();
+        //this.initPushNotification();
+        //this.statusBar.styleDefault();
         this.splashScreen.hide();
       }
 
@@ -63,47 +62,9 @@ export class MyApp {
         else
           self.rootPage = WelcomePage;
       }
-
-
-
-
     });
-  }
-
-  fetchUpdate() {
-    var self=this;
-    const options = {
-      'config-file': 'https://veporel.com.co/admin/update/chcp.json'
-    };
-    chcp.fetchUpdate(function(error,data){
-      self.util.setLogs(JSON.stringify(data));
-      console.log(data);
-      if (error) {
-        console.error(error);
-      } else {
-        chcp.installUpdate(error => {
-          if (error) {
-            console.error(error);
-          } else {
-            console.log('Update installed...');
-          }
-        });
-      }
-    }, options);
-    /*this.isDebug.getIsDebug()
-      .then(function (isDebug: boolean){
-        if(isDebug==false)
-
-
-      })
-
-  .catch(function (error: any) {
-        chcp.fetchUpdate(this.updateCallback, options);
-      });*/
-
-  }
-  updateCallback(error, data) {
-
+    this.imageLoaderConfig.enableDebugMode();
+    this.imageLoaderConfig.setFallbackUrl('assets/img/logo_horizontal.png');
   }
 
 
@@ -111,7 +72,6 @@ export class MyApp {
   }
 
   initTranslate() {
-    console.log("Language: "+this.translate.getBrowserLang());
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('es');
     if (this.translate.getBrowserLang() !== undefined) {

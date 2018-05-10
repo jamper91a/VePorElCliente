@@ -307,6 +307,7 @@ export class VePorEl {
   }
 
   get_address(latitude:number, longitude:number, force_update?:boolean){
+    console.log("Getting address");
     if(force_update==null)
       force_update=false;
     if(!this.messages)
@@ -321,14 +322,20 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
-              if (!result.countryName || !result.countryCode || !result.city) {
+              console.log(result);
+              result = result[0];
+              if(!result.locality){
+                result.locality = result.subAdministrativeArea;
+              }
+              if (result.countryName && result.countryCode && result.locality) {
+                observer.next(result);
+              } else {
+
                 observer.error({
                   code:1,
                   message: "Datos obteniedos de ubicación no validos",
                   error: result
                 });
-              } else {
-                observer.next(result);
 
               }
               // observer.onCompleted();
@@ -363,7 +370,7 @@ export class VePorEl {
             var result = {
               countryName:"",
               countryCode:"",
-              city:"",
+              locality:"",
               street: body.results[0].formatted_address,
               houseNumber: ''
             };
@@ -371,7 +378,7 @@ export class VePorEl {
               for(var j=0; j<body.results[i].address_components.length;j++){
                 var element = body.results[i].address_components[j];
                 if(element.types[0]=="postal_town" ||  element.types[0]=="locality"){
-                  result.city=element.short_name;
+                  result.locality=element.short_name;
                 }
                 if(element.types[0]=="country"){
                   result.countryName=element.long_name;
@@ -379,14 +386,15 @@ export class VePorEl {
                 }
               }
               }
-            if (!result.countryName || !result.countryCode || !result.city) {
+            if (result.countryName && result.countryCode && result.locality) {
+              observer.next(result);
+            } else {
+
               observer.error({
                 code:1,
                 message: "Datos obteniedos de ubicación no validos",
                 error: result
               });
-            } else {
-              observer.next(result);
 
             }
           }, err => {

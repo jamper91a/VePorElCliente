@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#adb uninstall co.colombiaapps.vpeclientes
+ionic cordova build android --prod --release
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/jorgeandresmorenojaimes/Google\ Drive/VePorEl/Desarrollo/Llaves/colombiaapps.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk jorgemoreno
+rm App.apk
+echo colombiaApps2016
+~/Library/Android/sdk/build-tools/26.0.0/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk App.apk
+#adb install App.apk

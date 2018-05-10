@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class CalificationPage {
 
   private body:any;
-  private reclaimOn=false;
+  public reclaimOn=false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

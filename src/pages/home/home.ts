@@ -139,8 +139,8 @@ import {MapPage} from "../map/map";
             self.veporel.get_address(location.lat, location.lon, true).subscribe(
               (result: any) => {
                 dialog.dismiss();
-                self.address = result.city;
-                self.city_name =  result.city;
+                self.address = result.locality;
+                self.city_name =  result.locality;
                 let country_code =  result.countryCode;
                 if (self.city_name) {
                   //Almaceno
