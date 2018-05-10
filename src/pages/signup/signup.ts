@@ -166,7 +166,7 @@ export class SignupPage {
               dialog.dismiss();
               self.account.country_name = result.countryName;
               self.account.country_code = result.countryCode;
-              self.account.city_name = result.city;
+              self.account.city_name = result.locality;
             },
             (error) => {
               dialog.dismiss();

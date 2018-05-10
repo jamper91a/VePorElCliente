@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Config, Nav, AlertController} from 'ionic-angular';
+import {Platform, Config, Nav} from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -12,10 +12,10 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
-import { HTTP } from '@ionic-native/http';
-import {IsDebug} from "@ionic-native/is-debug";
+import { ImageLoaderConfig } from 'ionic-image-loader';
+
 
 declare var chcp: any;
 
@@ -37,7 +37,7 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     public push: Push,
     public veporel: VePorEl,
-    private isDebug: IsDebug
+    private imageLoaderConfig: ImageLoaderConfig
   ) {
     this.initTranslate();
     let self = this;
@@ -49,8 +49,8 @@ export class MyApp {
           .then(() => {
           })
           .catch(e => console.log('Error starting GoogleAnalytics', e));
-        this.initPushNotification();
-        this.statusBar.styleDefault();
+        //this.initPushNotification();
+        //this.statusBar.styleDefault();
         this.splashScreen.hide();
       }
 
@@ -63,6 +63,8 @@ export class MyApp {
           self.rootPage = WelcomePage;
       }
     });
+    this.imageLoaderConfig.enableDebugMode();
+    this.imageLoaderConfig.setFallbackUrl('assets/img/logo_horizontal.png');
   }
 
 

@@ -123,15 +123,15 @@ export class DirectoryPage {
                 (result: any) => {
                   dialog.dismiss();
                   self.util.setLogs("Results 1: "+JSON.stringify(result));
-                  if (!result.countryName || !result.countryCode || !result.city) {
+                  if (!result.countryName || !result.countryCode || !result.locality) {
                     self.util.show_toast('error_17');
                     self.navCtrl.pop();
                   } else {
                     self.country_name = result.countryName;
                     self.data.country_name = result.countryName;
                     self.data.country_code = result.countryCode;
-                    self.data.city_name = result.city;
-                    self.city_name = result.city;
+                    self.data.city_name = result.locality;
+                    self.city_name = result.locality;
 
                     self.util.savePreference(self.util.constants.latitude, self.data.latitude);
                     self.util.savePreference(self.util.constants.longitude, self.data.longitude);
@@ -228,15 +228,15 @@ export class DirectoryPage {
         (result: any) => {
           self.util.setLogs("Results: "+JSON.stringify(result));
           //dialog.dismiss();
-          if (!result.countryName || !result.countryCode || !result.city) {
+          if (!result.countryName || !result.countryCode || !result.locality) {
             self.util.show_toast('error_17');
             self.navCtrl.pop();
           } else {
             self.country_name = result.countryName;
             self.data.country_name = result.countryName;
             self.data.country_code = result.countryCode;
-            self.data.city_name = result.city;
-            self.city_name = result.city;
+            self.data.city_name = result.locality;
+            self.city_name = result.locality;
 
             self.util.savePreference(self.util.constants.latitude, self.data.latitude);
             self.util.savePreference(self.util.constants.longitude, self.data.longitude);

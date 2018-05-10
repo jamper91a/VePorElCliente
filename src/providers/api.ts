@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Util } from './util';
+import "rxjs/add/operator/share";
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/delay';
@@ -62,30 +63,30 @@ import 'rxjs/add/operator/map';
        options.headers = headers;
      }
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options).timeout(this.timeOut);
+       return this.http.post(endpoint, options).timeout(this.timeOut);
      else
        return this.http.post(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
    put(endpoint: string, body: any, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options).timeout(this.timeOut);
+       return this.http.put(endpoint, options).timeout(this.timeOut);
      else
        return this.http.put(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
    delete(endpoint: string, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options).timeout(this.timeOut);
+       return this.http.delete(endpoint, options).timeout(this.timeOut);
      else
        return this.http.delete(this.util.url + endpoint, options).timeout(this.timeOut);
    }
 
    patch(endpoint: string, body: any, options?: RequestOptions):any {
      if(endpoint.includes("http"))
-       return this.http.get(endpoint, options).timeout(this.timeOut);
+       return this.http.patch(endpoint, options).timeout(this.timeOut);
      else
-       return this.http.put(this.util.url + endpoint, body, options).timeout(this.timeOut);
+       return this.http.patch(this.util.url + endpoint, body, options).timeout(this.timeOut);
    }
 
  }
