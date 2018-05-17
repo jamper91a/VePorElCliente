@@ -55,7 +55,6 @@
 			<ion-col col-12>
 				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap class="hm-button">
 					<img src="assets/img/button_negocios_servicios_1.png"/>
-					<!--<div>{{'directorio_negocios' | translate}}</div>-->
 				</button>
 			</ion-col>
 			<!--<ion-col col-2>
@@ -64,7 +63,13 @@
 		        </button>
 			</ion-col>-->
 		</ion-row>
-
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">
+          <img src="assets/img/button_negocios_exportadores.png"/>
+        </button>
+      </ion-col>
+    </ion-row>
 		<ion-row>
 			<ion-col col-12 >
 				<ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">

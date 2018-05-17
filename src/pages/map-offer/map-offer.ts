@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CalificationPage } from '../calification/calification';
 import { CompanyPage } from '../company/company';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import {Pro} from "@ionic/pro";
 
 declare var google: any;
 @Component({
@@ -66,7 +67,7 @@ export class MapOfferPage {
         this.loadMap(resp.coords.latitude,resp.coords.longitude);
         self.calcRoute();
       }).catch((error) => {
-        console.log('Error getting location', error);
+        Pro.monitoring.exception(error);
       });
     }else{
       this.branch = this.navParams.get(this.util.constants.branch);
@@ -77,7 +78,7 @@ export class MapOfferPage {
         this.loadMap(resp.coords.latitude,resp.coords.longitude);
         self.calcRoute();
       }).catch((error) => {
-        console.log('Error getting location', error);
+        Pro.monitoring.exception(error);
       });
     }
 

@@ -63,8 +63,6 @@ export class MyApp {
           self.rootPage = WelcomePage;
       }
     });
-    this.imageLoaderConfig.enableDebugMode();
-    this.imageLoaderConfig.setFallbackUrl('assets/img/logo_horizontal.png');
   }
 
 

@@ -26,6 +26,8 @@ import { DirectoryPage } from '../pages/directory/directory';
 import { CompaniesPage } from '../pages/companies/companies';
 import { CompanyPage } from '../pages/company/company';
 import { ResentEmailPage } from '../pages/resent-email/resent-email';
+import { ExportersPage } from '../pages/exporters/exporters';
+import { ExporterPage } from '../pages/exporter/exporter';
 
 import { Api } from '../providers/api';
 import { User } from '../providers/user';
@@ -99,8 +101,9 @@ let pages = [
   DirectoryPage,
   CompaniesPage,
   CompanyPage,
-  ResentEmailPage
-
+  ResentEmailPage,
+  ExportersPage,
+  ExporterPage
 ];
 
 export function declarations() {

@@ -8,6 +8,8 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { TranslateService } from '@ngx-translate/core';
 import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
+import {ExportersPage} from "../exporters/exporters";
+import {Pro} from "@ionic/pro";
 
 
 
@@ -35,7 +37,8 @@ export class DirectoryPage {
     name:string,
     latitude:number,
     longitude:number,
-    pagetoken:string
+    pagetoken:string,
+    type:string,//Tipo de busqueda: Negocios o Exportadores
   }={
     country_name:"",
     country_code:"",
@@ -44,7 +47,8 @@ export class DirectoryPage {
     name:"",
     latitude:0,
     longitude:0,
-    pagetoken:""
+    pagetoken:"",
+    type:""
 
   };
   constructor(
@@ -61,6 +65,7 @@ export class DirectoryPage {
     private speech: SpeechRecognition,
   ) {
     let self = this;
+    this.data.type = this.navParams.get('type');
     translateService.get('LANG').subscribe(
       lang => {
         self.language=lang;
@@ -92,6 +97,9 @@ export class DirectoryPage {
       } catch (e) {
       }
     })
+  }
+  ionViewDidLoad() {
+      this.get_location();
   }
 
   private all_dialogs=[];
@@ -260,15 +268,12 @@ export class DirectoryPage {
 
   }
 
-  ionViewDidLoad() {
-    this.get_location();
-  }
+
 
 
   public find(name?:string){
     if(name)
       this.data.name = name;
-    //this.ga.trackEvent('Busqueda negocios', 'Categoria', subcategorie);
     //Valido el termino de busqueda
     if(!this.data.name){
       this.util.show_toast('error_18');
@@ -277,6 +282,20 @@ export class DirectoryPage {
       this.data.city_name=this.city_name;
       this.data.pagetoken="";
       this.navCtrl.push(CompaniesPage,this.data);
+    }
+
+  }
+
+  public find_exporters(name?:string){
+    if(name)
+      this.data.name = name;
+    //Valido el termino de busqueda
+    if(!this.data.name){
+      this.util.show_toast('error_18');
+    }else{
+      //Agrego el nombre de la ciudad al campo de busqueda
+      this.data.city_name=this.city_name;
+      this.navCtrl.push(ExportersPage,this.data);
     }
 
   }
@@ -350,10 +369,10 @@ export class DirectoryPage {
                   ]
                 });
                 confirm.present();
-              }, error => console.log(error));
+              }, error => {Pro.monitoring.exception(error)});
             }
             else if (self.platform.is('ios')) {
-              self.speech.startListening(self.iosOptions).subscribe(data => self.speechList = data, error => console.log(error));
+              self.speech.startListening(self.iosOptions).subscribe(data => self.speechList = data, error => {Pro.monitoring.exception(error)});
             }
           }else{
             self.getPermission();

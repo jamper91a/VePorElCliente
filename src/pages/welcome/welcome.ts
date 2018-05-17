@@ -97,7 +97,7 @@ export class WelcomePage {
           //Getting name and gender properties
           let userId = res.authResponse.userID;
           let params = new Array<string>();
-          self.fb.api("/me?fields=id,first_name,last_name,email,gender,birthday", params)
+          self.fb.api("/me?fields=id,first_name,last_name,email", params)
             .then(function(user) {
               user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
               //Ingreso al usuario en el sistema
@@ -107,10 +107,9 @@ export class WelcomePage {
                 self.util.savePreference(self.util.constants.logged, true);
                 self.navCtrl.setRoot(MenuPage);
               },(err)=>{
-                console.log(err);
+                console.error(err);
                 if(err!=null){
                   let body = JSON.parse(err._body);
-                  console.log(body.code);
                   if(body.code==-1){
                     let toast = self.toastCtrl.create({
                       message: self.loginErrorString,
