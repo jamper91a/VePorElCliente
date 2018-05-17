@@ -8,34 +8,20 @@
 </ion-header>
 
 <ion-content>
-  <form>
+  <form *ngIf="data.type==util.constants.find_business">
     <ion-list>
       <ion-item>
         <ion-label stacked>{{ 'pais' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.country_name" name="country_name" [disabled]=true value="{{data.country_name}}"></ion-input>
-        <!--<ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="data.country_id" name="country_id" (ionChange)="change_country($event, data.country_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
-          <ion-option *ngFor="let country of countries" value="{{country.code}}" >{{country.name}}</ion-option>
-        </ion-select>-->
       </ion-item>
       <ion-item *ngIf="country_name">
         <ion-label stacked>{{ 'ciudad' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.city_name" name="city_name" [disabled]=true value="{{data.city_name}}"></ion-input>
-        <!--<ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="data.city_id" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}" (ionChange)="change_city($event, data.city_id)">
-          <ion-option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</ion-option>
-        </ion-select>-->
       </ion-item>
-      <!--<ion-item *ngIf="categories?.length>0">
-        <ion-label stacked>{{ 'categoria' | translate }}</ion-label>
-        <ion-select  placeholder="{{'escoge_la_cagetoria' | translate}}" [(ngModel)]="data.category" name="categories" (ionChange)="change_category($event, data.category_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
-          <ion-option *ngFor="let category of categories" value="{{category.name}}" >{{get_name(category)}}</ion-option>
-        </ion-select>
-      </ion-item>-->
       <ion-item>
         <ion-label stacked>{{ 'key_word_directory' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
       </ion-item>
-
-
       <div padding>
         <ion-row>
           <ion-col>
@@ -45,7 +31,7 @@
             <img (click)="find('Belleza')" src="assets/iconos/ic_belleza.png"/>
           </ion-col>
           <ion-col>
-            <img src="assets/iconos/ic_parqueadero.png" (click)="find('Parqueadero')"/>
+            <img src="assets/iconos/ic_vestuario.png" (click)="find('Vestuario')"/>
           </ion-col>
           <ion-col>
             <img src="assets/iconos/ic_domicilios.png" (click)="find('Domicilio')"/>
@@ -83,6 +69,27 @@
         </ion-row>
 
 
+      </div>
+
+    </ion-list>
+  </form>
+  <form *ngIf="data.type==util.constants.find_exporters">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>{{ 'product' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
+      </ion-item>
+      <div padding>
+        <ion-row>
+          <ion-col col-10>
+            <button ion-button color="primary" block (click)="find_exporters()">{{ 'buscar' | translate }}</button>
+          </ion-col>
+          <ion-col col-2>
+            <button ion-button block icon-only (click)="listenForSpeech()" color="primary">
+              <ion-icon name="mic"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
       </div>
 
     </ion-list>

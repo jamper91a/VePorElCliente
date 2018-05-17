@@ -54,21 +54,24 @@ export class Util{
       topics: 'topics',
       company_name: 'company_name',
       get_location_first_time: 'get_location_first_time',
-      logs: 'logs'
+      logs: 'logs',
+      find_business: 'find_business',
+      find_exporters: 'find_exporters',
+      exporter: 'exporter'
     };
     this.isDebug.getIsDebug()
       .then(function (isDebug: boolean){
         if(isDebug==false)
           self.url = "https://backend.veporel.com.co:85/";
         else{
-          self.url = "https://backend.veporel.com.co:85/";
-          //self.url = "http://192.168.1.65:1337/";
+          //self.url = "https://backend.veporel.com.co:85/";
+          self.url = "http://192.168.1.65:1337/";
         }
 
       })
       .catch(function (error: any) {
-        self.url = "https://backend.veporel.com.co:85/";
-        //self.url = "http://192.168.1.65:1337/";
+        //self.url = "https://backend.veporel.com.co:85/";
+        self.url = "http://192.168.1.65:1337/";
       });
 
 
@@ -108,7 +111,6 @@ export class Util{
   }
 
   public show_dialog(message:string):Loading{
-    console.log("Creando dialogo: "+message);
     let loading = this.loadingCtrl.create({
       content: message,
       dismissOnPageChange: false
@@ -233,7 +235,6 @@ export class Util{
     else
       logs = msn+";";
     this.savePreference(this.constants.logs, logs);
-    console.log(msn);
   }
 
   public clearLogs(){

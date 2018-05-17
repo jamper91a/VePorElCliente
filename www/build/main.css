@@ -30642,6 +30642,11 @@ page-company ion-icon {
   }
 }
 
+page-exporters ion-thumbnail img {
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
 page-home .location {
   background: url("../assets/img/fondo_ciudad.png");
   width: 100%;

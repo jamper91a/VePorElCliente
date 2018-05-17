@@ -9,6 +9,7 @@ import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import {MapPage} from "../map/map";
+import {ExporterPage} from "../exporter/exporter";
 
 
 /**
@@ -106,7 +107,7 @@ import {MapPage} from "../map/map";
        }
 
      } catch (e) {
-       console.log(e);
+       console.error(e);
      }
    }
 
@@ -131,7 +132,6 @@ import {MapPage} from "../map/map";
     let self = this;
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     self.veporel.get_coordenates(dialog).subscribe( (location)=> {
-        console.log(location);
         switch (location.code) {
           case 1:
             self.latitude = location.lat;
@@ -297,8 +297,19 @@ import {MapPage} from "../map/map";
    }
 
   public go_to_directory(){
-     this.navCtrl.push(DirectoryPage);
-   }
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_business
+    })
+  }
+
+  public go_to_directory_exporters(){
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_exporters
+    })
+  }
+
 
   public change_address(){
     this.navCtrl.push(MapPage);

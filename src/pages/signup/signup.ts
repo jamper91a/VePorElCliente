@@ -158,7 +158,6 @@ export class SignupPage {
     let self = this;
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     self.veporel.get_coordenates(dialog).subscribe( (location)=> {
-      console.log(location);
       switch (location.code) {
         case 1:
           self.veporel.get_address(location.lat, location.lon, true).subscribe(
@@ -170,7 +169,6 @@ export class SignupPage {
             },
             (error) => {
               dialog.dismiss();
-              console.log("Entrando a error obtener dirección");
               self.util.setLogs(JSON.stringify(error));
               self.translate.get(["ubicacion","error_22", "reintentar", "salir"]).subscribe(
                 (res) => {
