@@ -15,9 +15,8 @@
         <img-loader *ngIf="!valid_photo(exporter)" src="{{util.url}}{{exporter.photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
       </ion-thumbnail>
       <h2>{{exporter.name}}</h2>
-      <div *ngIf="exporter.suscripcion>0">
-        <p><ion-icon name="star" color="primary"></ion-icon>Premium</p>
-      </div>
+      <p>{{exporter.city}}, {{exporter.country}}</p>
+      <p *ngIf="exporter.suscripcion>0"><ion-icon name="star" color="primary"></ion-icon>Premium</p>
     </ion-item>
   </ion-list>
 

@@ -54,22 +54,32 @@ export class TutorialPage {
               {
                 title: values.TUTORIAL_SLIDE1_TITLE,
                 description: values.TUTORIAL_SLIDE1_DESCRIPTION,
-                image: 'assets/img/tuto/tuto_1.png',
+                image: 'assets/img/tuto/tuto_1.jpg',
               },
               {
                 title: values.TUTORIAL_SLIDE2_TITLE,
                 description: values.TUTORIAL_SLIDE2_DESCRIPTION,
-                image: 'assets/img/tuto/tuto_2.png',
+                image: 'assets/img/tuto/tuto_2.jpg',
               },
               {
                 title: values.TUTORIAL_SLIDE3_TITLE,
                 description: values.TUTORIAL_SLIDE3_DESCRIPTION,
-                image: 'assets/img/tuto/tuto_3.png',
+                image: 'assets/img/tuto/tuto_3.jpg',
               },
               {
                 title: values.TUTORIAL_SLIDE3_TITLE,
                 description: values.TUTORIAL_SLIDE3_DESCRIPTION,
-                image: 'assets/img/tuto/tuto_4.png',
+                image: 'assets/img/tuto/tuto_4.jpg',
+              },
+              {
+                title: values.TUTORIAL_SLIDE3_TITLE,
+                description: values.TUTORIAL_SLIDE3_DESCRIPTION,
+                image: 'assets/img/tuto/tuto_5.jpg',
+              },
+              {
+                title: values.TUTORIAL_SLIDE3_TITLE,
+                description: values.TUTORIAL_SLIDE3_DESCRIPTION,
+                image: 'assets/img/tuto/tuto_6.jpg',
               }
             ];
           });

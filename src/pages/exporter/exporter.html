@@ -49,9 +49,16 @@
       <ion-grid *ngIf="mas_info">
         <ion-row>
           <ion-col col-12-auto>
-            <ion-item>
-              {{'direccion' | translate}}
-              <p item-end>{{data.address}}</p>
+
+            <ion-item text-wrap text-justify>
+              <p text-wrap text-justify>
+                <b>{{'ciudad' | translate}}: </b>
+                {{data.city}}, {{data.country}}</p>
+            </ion-item>
+            <ion-item text-wrap text-justify>
+              <p>
+                <b>{{'productos' | translate}}: </b>
+                {{data.categories}}</p>
             </ion-item>
 
           </ion-col>
@@ -167,12 +174,12 @@
             <ion-item text-wrap text-justify>
               <p text-wrap text-justify>
                 <b>{{'ciudad' | translate}}: </b>
-                {{data.location.name}}, {{data.location.country_code}}</p>
+                {{data.city}}, {{data.country}}</p>
             </ion-item>
             <ion-item text-wrap text-justify>
               <p>
-                <b>{{'horario' | translate}}: </b>
-                {{data.schedule}}</p>
+                <b>{{'productos' | translate}}: </b>
+                {{data.categories}}</p>
             </ion-item>
 
           </ion-col>

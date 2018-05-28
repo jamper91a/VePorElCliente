@@ -310,7 +310,6 @@ import {ExporterPage} from "../exporter/exporter";
     })
   }
 
-
   public change_address(){
     this.navCtrl.push(MapPage);
   }

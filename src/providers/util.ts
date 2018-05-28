@@ -70,15 +70,17 @@ export class Util{
 
       })
       .catch(function (error: any) {
-        //self.url = "https://backend.veporel.com.co:85/";
-        self.url = "http://192.168.1.65:1337/";
+        self.url = "https://backend.veporel.com.co:85/";
+        //self.url = "http://192.168.1.65:1337/";
       });
 
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.6.6";
+    this.version = "2.7.1";
   }
+
+
 
   public savePreference(key:string, value:any)
   {

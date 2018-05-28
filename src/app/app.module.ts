@@ -137,12 +137,12 @@ export function providers() {
     IsDebug,
     HTTP,
     IonicErrorHandler,
-    [{ provide: ErrorHandler, useClass: MyErrorHandler }]
+    //[{ provide: ErrorHandler, useClass: MyErrorHandler }]
   ];
 }
 
 Pro.init('961c5b67', {
-  appVersion: '2.6.1'
+  appVersion: '2.7.0'
 });
 
 @Injectable()
@@ -159,10 +159,10 @@ export class MyErrorHandler implements ErrorHandler {
   }
 
   handleError(err: any): void {
-    Pro.monitoring.handleNewError(err);
+    //Pro.monitoring.handleNewError(err);
     // Remove this if you want to disable Ionic's auto exception handling
     // in development mode.
-    this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
+    //this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
   }
 }
 
