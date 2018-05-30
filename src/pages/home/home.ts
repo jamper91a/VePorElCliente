@@ -10,6 +10,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import {MapPage} from "../map/map";
 import {ExporterPage} from "../exporter/exporter";
+import {CompaniesPage} from "../companies/companies";
 
 
 /**
@@ -39,6 +40,19 @@ import {ExporterPage} from "../exporter/exporter";
     range:number,
     debug:boolean
   };
+
+  /**
+   * Tipo de busqueda, esta se usa cuando se obtiene la ubicación y saber que se debe hacer
+   * luego de obtenerla
+   * @type {{banner: string; tourist: string}}
+   */
+  private type:{
+    banner:string,
+    tourist:string
+  }={
+    banner: "banner",
+    tourist:"tourist"
+  }
 
    constructor(
      public navCtrl: NavController,
@@ -100,7 +114,7 @@ import {ExporterPage} from "../exporter/exporter";
              this.country_name= self.util.getPreference(this.util.constants.country_name);
              self.get_banners(this.city_name);
            }else{
-             self.get_location();
+             self.get_location(self.type.banner);
 
            }
 
@@ -127,7 +141,7 @@ import {ExporterPage} from "../exporter/exporter";
     });
   }
 
-  private get_location() {
+  private get_location(type:string) {
 
     let self = this;
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
@@ -149,7 +163,7 @@ import {ExporterPage} from "../exporter/exporter";
                   self.util.savePreference(self.util.constants.city_name, self.city_name);
                   self.util.savePreference(self.util.constants.country_code, country_code);
                   self.util.savePreference(self.util.constants.country_name, result.countryName);
-                  self.get_banners(self.city_name);
+                  self.address_founded(type);
                 }else{
                   self.util.show_toast('error_22');
                 }
@@ -174,7 +188,7 @@ import {ExporterPage} from "../exporter/exporter";
                     {
                       text: self.messages.reintentar,
                       handler: () => {
-                        self.get_location();
+                        self.get_location(type);
                       }
                     }
                   ]
@@ -184,7 +198,7 @@ import {ExporterPage} from "../exporter/exporter";
             );
             break;
           case 6:
-            self.get_location();
+            self.get_location(type);
             break;
           case 3:
             window.location.reload();
@@ -225,7 +239,7 @@ import {ExporterPage} from "../exporter/exporter";
                 {
                   text: self.messages.reintentar,
                   handler: () => {
-                    self.get_location();
+                    self.get_location(type);
                   }
                 }
               ]
@@ -314,5 +328,51 @@ import {ExporterPage} from "../exporter/exporter";
     this.navCtrl.push(MapPage);
   }
 
+  private address_founded(code:string){
+     var self=this;
+     switch (code) {
+       case self.type.banner:
+         self.get_banners(self.city_name);
+         break;
+       case self.type.tourist:
+         self.go_tourist();
+         break;
+     }
+  }
+  public go_tourist(){
+    let self=this;
 
+    let data:{
+      country_name:string,
+        country_code:string,
+        departament_name:string,
+        city_name:string,
+        name:string,
+        latitude:number,
+        longitude:number,
+        pagetoken:string,
+        type:string,//Tipo de busqueda: Negocios o Exportadores
+    }={
+      country_name:"",
+      country_code:"",
+      departament_name:"",
+      city_name:"",
+      name:"",
+      latitude:0,
+      longitude:0,
+      pagetoken:"",
+      type:""
+    };
+
+    data.latitude= self.util.getPreference(self.util.constants.latitude);
+    data.longitude = self.util.getPreference(self.util.constants.longitude);
+    data.city_name = self.util.getPreference(self.util.constants.city_name);
+    data.country_code = self.util.getPreference(self.util.constants.country_code);
+    data.country_name = self.util.getPreference(self.util.constants.country_name);
+    data.departament_name = "";
+    data.name = "point_of_interest";
+    data.pagetoken = "";
+    data.type = self.util.constants.find_business;
+    this.navCtrl.push(CompaniesPage,data);
+  }
  }
