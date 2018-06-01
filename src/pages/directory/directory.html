@@ -145,4 +145,76 @@
 
     </ion-list>
   </form>
+  <form *ngIf="data.type==util.constants.find_agro">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>{{ 'product' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
+      </ion-item>
+      <div padding>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_aguacate.png" (click)="find_agro('Aguacate')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_algodon.png" (click)="find_agro('Algodon')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_arroz.png" (click)="find_agro('Arroz')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_bananos.png" (click)="find_agro('Bananos')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cacao.png" (click)="find_agro('Cacao')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cafe.png" (click)="find_agro('Café')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cana.png" (click)="find_agro('Caña')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_flores.png" (click)="find_agro('Flores')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_frutas.png" (click)="find_agro('Frutas')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_hortalizas.png" (click)="find_agro('Hortalizas')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_maiz.png" (click)="find_agro('Maíz')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_papa.png" (click)="find_agro('Papa')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_palma.png" (click)="find_agro('Palma')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_platano.png" (click)="find_agro('Platano')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_yuca.png" (click)="find_agro('Yuca')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-10>
+            <button ion-button color="primary" block (click)="find_agro()">{{ 'buscar' | translate }}</button>
+          </ion-col>
+          <ion-col col-2>
+            <button ion-button block icon-only (click)="listenForSpeech()" color="primary">
+              <ion-icon name="mic"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </div>
+
+    </ion-list>
+  </form>
 </ion-content>

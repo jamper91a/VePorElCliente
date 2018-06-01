@@ -324,6 +324,13 @@ import {CompaniesPage} from "../companies/companies";
     })
   }
 
+  public go_to_directory_agro(){
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_agro
+    })
+  }
+
   public change_address(){
     this.navCtrl.push(MapPage);
   }
