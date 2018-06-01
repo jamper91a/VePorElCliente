@@ -133,7 +133,8 @@ import {CompaniesPage} from "../companies/companies";
       "ubicacion",
       "error_22",
       "reintentar",
-      "salir"
+      "salir",
+      "enviando_informacion"
     ]).subscribe((value) => {
       self.messages = value;
     }, (err) => {
@@ -380,6 +381,11 @@ import {CompaniesPage} from "../companies/companies";
     data.name = "point_of_interest";
     data.pagetoken = "";
     data.type = self.util.constants.find_business;
-    this.navCtrl.push(CompaniesPage,data);
+    let dialog =this.util.show_dialog(this.messages.enviando_informacion);
+    setTimeout(function () {
+      dialog.dismissAll();
+      self.util.show_toast('error_13');
+    }, 2000);
+    //this.navCtrl.push(CompaniesPage,data);
   }
  }

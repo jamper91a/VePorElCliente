@@ -302,6 +302,7 @@ export class DirectoryPage {
   }
 
   public find_agro(name?:string){
+    let self=this;
     if(name)
       this.data.name = name;
     //Valido el termino de busqueda
@@ -313,6 +314,7 @@ export class DirectoryPage {
       let dialog =this.util.show_dialog(this.messages.enviando_informacion);
       setTimeout(function () {
         dialog.dismissAll();
+        self.util.show_toast('error_13');
       }, 2000);
       //this.navCtrl.push(ExportersPage,this.data);
     }
