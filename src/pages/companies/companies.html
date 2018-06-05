@@ -11,13 +11,8 @@
   <ion-list>
     <ion-item *ngFor="let branch of branchs" (click)="go_to_map(branch)">
       <ion-thumbnail item-start>
-        <div *ngIf="util.isUrlValid(branch.url_photo)">
-          <img-loader src="{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
-        </div>
-        <div *ngIf="!util.isUrlValid(branch.url_photo)">
-          <img-loader src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
-        </div>
-
+          <img-loader *ngIf="valid_photo(branch)" src="{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
+          <img-loader *ngIf="!valid_photo(branch)" src="{{util.url}}{{branch.url_photo}}" object-fit useImg fallback="assets/img/logo_horizontal.png"></img-loader>
       </ion-thumbnail>
       <h2>{{branch.name}}</h2>
       <p>{{transform_distance(branch.distance)}}</p>
@@ -41,7 +36,8 @@
           <ion-slides *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">
             <ion-slide *ngFor="let banner of banners">
               <a href="{{banner.url_destination}}" target="_blank">
-                <img-loader src="{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+                <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+                <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" style="object-fit: contain" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
               </a>
             </ion-slide>
           </ion-slides>

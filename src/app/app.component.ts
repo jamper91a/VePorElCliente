@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Config, Nav, AlertController} from 'ionic-angular';
+import {Platform, Config, Nav} from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -12,9 +12,10 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject } from '@ionic-native/push';
 import {VePorEl} from "../providers/veporel";
-import { HTTP } from '@ionic-native/http';
+import { ImageLoaderConfig } from 'ionic-image-loader';
+
 
 declare var chcp: any;
 
@@ -34,23 +35,23 @@ export class MyApp {
     private util: Util,
     private ga: GoogleAnalytics,
     private screenOrientation: ScreenOrientation,
-    public alertCtrl: AlertController,
     public push: Push,
     public veporel: VePorEl,
-    private http: HTTP
+    private imageLoaderConfig: ImageLoaderConfig
   ) {
     this.initTranslate();
     let self = this;
-    this.http.acceptAllCerts(true);
+
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
-        this.fetchUpdate();
         this.ga.startTrackerWithId('UA-101368936-1')
           .then(() => {
           })
           .catch(e => console.log('Error starting GoogleAnalytics', e));
-        this.initPushNotification();
+        //this.initPushNotification();
+        //this.statusBar.styleDefault();
+        this.splashScreen.hide();
       }
 
       if (this.util.getPreference(this.util.constants.logged)) {
@@ -61,32 +62,7 @@ export class MyApp {
         else
           self.rootPage = WelcomePage;
       }
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-
-
-
     });
-  }
-
-  fetchUpdate() {
-    const options = {
-      'config-file': 'https://veporel.com.co/admin/update/chcp.json'
-    };
-    chcp.fetchUpdate(this.updateCallback, options);
-  }
-  updateCallback(error, data) {
-    if (error) {
-      console.error(error);
-    } else {
-      chcp.installUpdate(error => {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log('Update installed...');
-        }
-      });
-    }
   }
 
 
@@ -94,7 +70,6 @@ export class MyApp {
   }
 
   initTranslate() {
-    console.log("Language: "+this.translate.getBrowserLang());
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('es');
     if (this.translate.getBrowserLang() !== undefined) {

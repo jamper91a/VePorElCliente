@@ -8,35 +8,55 @@
 </ion-header>
 
 <ion-content>
-  <form>
+  <form *ngIf="data.type==util.constants.find_business">
     <ion-list>
       <ion-item>
         <ion-label stacked>{{ 'pais' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.country_name" name="country_name" [disabled]=true value="{{data.country_name}}"></ion-input>
-        <!--<ion-select placeholder="{{'escoger_un_pais' | translate}}" [(ngModel)]="data.country_id" name="country_id" (ionChange)="change_country($event, data.country_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
-          <ion-option *ngFor="let country of countries" value="{{country.code}}" >{{country.name}}</ion-option>
-        </ion-select>-->
       </ion-item>
       <ion-item *ngIf="country_name">
         <ion-label stacked>{{ 'ciudad' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.city_name" name="city_name" [disabled]=true value="{{data.city_name}}"></ion-input>
-        <!--<ion-select placeholder="{{'escoger_una_ciudad' | translate}}" name="city_id" [(ngModel)]="data.city_id" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}" (ionChange)="change_city($event, data.city_id)">
-          <ion-option *ngFor="let city of cities" value="{{city.id}}" >{{city.name}}</ion-option>
-        </ion-select>-->
       </ion-item>
-      <!--<ion-item *ngIf="categories?.length>0">
-        <ion-label stacked>{{ 'categoria' | translate }}</ion-label>
-        <ion-select  placeholder="{{'escoge_la_cagetoria' | translate}}" [(ngModel)]="data.category" name="categories" (ionChange)="change_category($event, data.category_id)" required cancelText="{{'Cancel' | translate}}" okText="{{'Done' | translate}}">
-          <ion-option *ngFor="let category of categories" value="{{category.name}}" >{{get_name(category)}}</ion-option>
-        </ion-select>
-      </ion-item>-->
       <ion-item>
         <ion-label stacked>{{ 'key_word_directory' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
       </ion-item>
-
-
       <div padding>
+        <ion-row>
+          <ion-col>
+            <img (click)="find('Comida')" src="assets/iconos/ic_comida.png"/>
+          </ion-col>
+          <ion-col>
+            <img (click)="find('Belleza')" src="assets/iconos/ic_belleza.png"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_vestuario.png" (click)="find('Vestuario')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_domicilios.png" (click)="find('Domicilio')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_drogeria.png" (click)="find('Droguería')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/ic_educacion.png" (click)="find('Educación')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_diversion.png" (click)="find('Entretenimiento')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_tecnologia.png" (click)="find('Tecnología')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_hotel.png" (click)="find('Hotel')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/ic_gimnasio.png" (click)="find('Gimnasio')"/>
+          </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col col-10>
             <button ion-button color="primary" block (click)="find()">{{ 'buscar' | translate }}</button>
@@ -49,6 +69,150 @@
         </ion-row>
 
 
+      </div>
+
+    </ion-list>
+  </form>
+  <form *ngIf="data.type==util.constants.find_exporters">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>{{ 'product' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
+      </ion-item>
+      <div padding>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_platano.png" (click)="find_exporters('Plátano')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_cafe.png" (click)="find_exporters('Café')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_flores.png" (click)="find_exporters('Flores')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_carbon.png" (click)="find_exporters('Carbón')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_oro.png" (click)="find_exporters('Oro')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_carnes.png" (click)="find_exporters('Carnes')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_artesanias.png" (click)="find_exporters('Artesanías')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_textil.png" (click)="find_exporters('Textiles')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_cuero.png" (click)="find_exporters('Cueros')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_bebidas.png" (click)="find_exporters('Bebidas')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_cobre.png" (click)="find_exporters('Cobre')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_maquinaria.png" (click)="find_exporters('Maquinaria')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_muebles.png" (click)="find_exporters('Muebles')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_calzado.png" (click)="find_exporters('Calzado')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/exportadores/ic_papel.png" (click)="find_exporters('Papel')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-10>
+            <button ion-button color="primary" block (click)="find_exporters()">{{ 'buscar' | translate }}</button>
+          </ion-col>
+          <ion-col col-2>
+            <button ion-button block icon-only (click)="listenForSpeech()" color="primary">
+              <ion-icon name="mic"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </div>
+
+    </ion-list>
+  </form>
+  <form *ngIf="data.type==util.constants.find_agro">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>{{ 'product' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="key_word" required="true"></ion-input>
+      </ion-item>
+      <div padding>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_aguacate.png" (click)="find_agro('Aguacate')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_algodon.png" (click)="find_agro('Algodon')" />
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_arroz.png" (click)="find_agro('Arroz')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_bananos.png" (click)="find_agro('Bananos')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cacao.png" (click)="find_agro('Cacao')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cafe.png" (click)="find_agro('Café')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_cana.png" (click)="find_agro('Caña')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_flores.png" (click)="find_agro('Flores')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_frutas.png" (click)="find_agro('Frutas')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_hortalizas.png" (click)="find_agro('Hortalizas')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_maiz.png" (click)="find_agro('Maíz')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_papa.png" (click)="find_agro('Papa')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_palma.png" (click)="find_agro('Palma')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_platano.png" (click)="find_agro('Platano')"/>
+          </ion-col>
+          <ion-col>
+            <img src="assets/iconos/agro/ic_yuca.png" (click)="find_agro('Yuca')"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-10>
+            <button ion-button color="primary" block (click)="find_agro()">{{ 'buscar' | translate }}</button>
+          </ion-col>
+          <ion-col col-2>
+            <button ion-button block icon-only (click)="listenForSpeech()" color="primary">
+              <ion-icon name="mic"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
       </div>
 
     </ion-list>

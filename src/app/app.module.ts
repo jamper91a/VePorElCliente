@@ -26,9 +26,10 @@ import { DirectoryPage } from '../pages/directory/directory';
 import { CompaniesPage } from '../pages/companies/companies';
 import { CompanyPage } from '../pages/company/company';
 import { ResentEmailPage } from '../pages/resent-email/resent-email';
+import { ExportersPage } from '../pages/exporters/exporters';
+import { ExporterPage } from '../pages/exporter/exporter';
 
 import { Api } from '../providers/api';
-import { Items } from '../mocks/providers/items';
 import { User } from '../providers/user';
 import { Util } from '../providers/util';
 import { VePorEl } from '../providers/veporel';
@@ -48,12 +49,10 @@ import { IonicImageLoader } from 'ionic-image-loader';
 import { MomentModule } from 'angular2-moment';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { Facebook } from '@ionic-native/facebook';
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { AppVersion } from '@ionic-native/app-version';
 
 import { QRCodeModule } from 'angular2-qrcode';
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -62,11 +61,15 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { IsDebug } from '@ionic-native/is-debug';
 import { HTTP } from '@ionic-native/http';
 
+import { Pro } from '@ionic/pro';
+import { Injectable, Injector } from '@angular/core';
+
+
 
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
-export function HttpLoaderFactory(http: Http) {
+export function HttpLoaderFactory(http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -98,8 +101,9 @@ let pages = [
   DirectoryPage,
   CompaniesPage,
   CompanyPage,
-  ResentEmailPage
-
+  ResentEmailPage,
+  ExportersPage,
+  ExporterPage
 ];
 
 export function declarations() {
@@ -113,7 +117,6 @@ export function entryComponents() {
 export function providers() {
   return [
     Api,
-    Items,
     User,
     Camera,
     GoogleMaps,
@@ -127,28 +130,47 @@ export function providers() {
     NativeGeocoder,
     GoogleAnalytics,
     ScreenOrientation,
-    AppVersion,
     Diagnostic,
     SpeechRecognition,
     LaunchNavigator,
     Push,
     IsDebug,
     HTTP,
-    // Keep this to enable Ionic's runtime error handling during development
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    IonicErrorHandler,
+    //[{ provide: ErrorHandler, useClass: MyErrorHandler }]
   ];
 }
 
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': '9e668b86'
+Pro.init('961c5b67', {
+  appVersion: '2.7.0'
+});
+
+@Injectable()
+export class MyErrorHandler implements ErrorHandler {
+  ionicErrorHandler: IonicErrorHandler;
+
+  constructor(injector: Injector) {
+    try {
+      this.ionicErrorHandler = injector.get(IonicErrorHandler);
+    } catch(e) {
+      // Unable to get the IonicErrorHandler provider, ensure
+      // IonicErrorHandler has been added to the providers list below
+    }
   }
-};
+
+  handleError(err: any): void {
+    //Pro.monitoring.handleNewError(err);
+    // Remove this if you want to disable Ionic's auto exception handling
+    // in development mode.
+    //this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
+  }
+}
 
 @NgModule({
   declarations: declarations(),
   imports: [
     BrowserModule,
+    //IonicModule.forRoot(MyApp),
     HttpModule,
     IonicPageModule.forChild(MyApp),
     TranslateModule.forRoot({
@@ -164,7 +186,6 @@ const cloudSettings: CloudSettings = {
     IonicImageLoader.forRoot(),
     MomentModule,
     Ionic2RatingModule,
-    CloudModule.forRoot(cloudSettings),
     QRCodeModule
 
   ],

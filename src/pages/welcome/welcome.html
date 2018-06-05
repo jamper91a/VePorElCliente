@@ -2,16 +2,49 @@
   <div class="splash-bg"></div>
   <div class="splash-info">
     <div class="splash-logo"></div>
+    <p>{{'version' | translate}} {{util.version}}</p>
   </div>
   <div padding>
-    <button ion-button block (click)="login()" class="signup">{{'LOGIN' | translate}}</button>
-    <button ion-button block (click)="facebook_login()" class="signup">{{ 'FACEBOOK' | translate }}</button>
-    <p text-justify> {{'mensaje_para_registrar'|translate}}</p>
-    <button ion-button block (click)="signup()" class="signup">{{'SIGNUP' | translate}}</button>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)="login()" class="signup">{{'LOGIN' | translate}}</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <button ion-button block (click)="facebook_login()" class="signup">{{ 'facebook' | translate }}</button>
+        </ion-col>
+        <ion-col col-6>
+        <button ion-button block (click)="demo()" class="signup">{{'Demo' | translate}}</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <p text-center> {{'mensaje_para_registrar'|translate}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)="signup()" class="signup">{{'SIGNUP' | translate}}</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div text-center>
+            <a href="http://www.veporel.com/tycapp/" target="_blank" text-center>{{'terminos_y_condiciones_text'|translate}}</a>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+    
+    
     <br>
-    <div text-center>
-      <a href="https://veporel.com.co/tycapp/terminos-condiciones/" target="_blank" text-center>{{'terminos_y_condiciones_text'|translate}}</a>
-    </div>
+    
 
   </div>
 </ion-content>

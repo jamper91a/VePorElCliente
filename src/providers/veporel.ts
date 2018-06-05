@@ -6,8 +6,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import {Observable} from "rxjs/Observable";
-import { Platform } from 'ionic-angular';
+import {AlertController, Platform} from 'ionic-angular';
 import {TranslateService} from "@ngx-translate/core";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {Geolocation} from '@ionic-native/geolocation';
+import {Pro} from "@ionic/pro";
+
 
 
 @Injectable()
@@ -16,12 +20,15 @@ export class VePorEl {
 
   private messages:any;
   constructor(
-    public http: Http,
-    public api: Api,
-    public util: Util,
+    private http: Http,
+    private api: Api,
+    private util: Util,
     private nativeGeocoder: NativeGeocoder,
     private platform: Platform,
-    public translate: TranslateService,
+    private translate: TranslateService,
+    private diagnostic:Diagnostic,
+    private geolocation: Geolocation,
+    private alertCtrl: AlertController,
   ) {
 
     this.get_translation();
@@ -52,7 +59,12 @@ export class VePorEl {
             "cambiando_contrasena",
             "obteniendo_companias",
             "obteniendo_información_del_negocio",
-            "resent_email"
+            "resent_email",
+            "ubicacion",
+            "activar_ubicacion",
+            "salir",
+            "activar",
+            "mensaje_ubicacion"
           ]
         ).subscribe(
           (values) => {
@@ -62,7 +74,7 @@ export class VePorEl {
     }else{
     }
   }
-  get_banners(city_name:string, type?:number):any {
+  public get_banners(city_name:string, type?:number):any {
     this.get_translation();
     if(type==null){
       type=1;
@@ -91,16 +103,215 @@ export class VePorEl {
         }
 
       }, err => {
-        console.error('ERROR', err);
+        Pro.monitoring.exception(err)
       });
     return seq;
   }
+
+  public get_coordenates(dialog?){
+    let self=this;
+    let seq =  Observable.create(observer => {
+      if (self.platform.is('cordova')) {
+      //if (true) {
+        self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
+          if (isAuthorized) {
+            self.diagnostic.isLocationEnabled().then(function (isAvailable) {
+              if (isAvailable) {
+                self.geolocation.getCurrentPosition().then(
+                  (resp) => {
+                    if(resp.coords.latitude && resp.coords.longitude){
+                      let result={
+                        code: 1,
+                        lat: resp.coords.latitude,
+                        lon: resp.coords.longitude
+                      };
+                      observer.next(result);
+
+                    }else{
+                      let error="";
+                      try {
+                        error = JSON.stringify(resp);
+                      } catch (e) {
+                        error= "";
+                      }
+                      return observer.error({
+                        code:1,
+                        message: "Coordenadas no validas",
+                        error: error
+                      });
+                    }
+
+                  }).catch((err) => {
+                  return observer.error({
+                    code:2,
+                    message: "Error obteniendo las coordenadas.",
+                    error: err.message
+                  });
+
+                });
+              }
+              else {
+                dialog.dismiss();
+;                let confirm = self.alertCtrl.create({
+                  title: self.messages.ubicacion,
+                  message: self.messages.activar_ubicacion,
+                  buttons: [
+                    {
+                      text: self.messages.salir,
+                      handler: () => {
+                        observer.error({
+                          code:3,
+                          message: "Usuario no activo la ubicación",
+                          error: ""
+                        });
+                      }
+                    },
+                    {
+                      text: self.messages.activar,
+                      handler: () => {
+                        observer.next({
+                          code:3,
+                          message: "Usuario activo la ubicación"
+                        });
+                      }
+                    }
+                  ]
+                });
+                confirm.present();
+
+              }
+            }).catch((err) => {
+              try {
+                err = JSON.stringify(err);
+              } catch (e) {
+                err = '';
+              }
+              return observer.error({
+                code:4,
+                message: "Error activando la ubicación",
+                error: err
+              });
+            });
+          } else {
+            dialog.dismiss();
+            let confirm = self.alertCtrl.create({
+              title: self.messages.ubicacion,
+              message: self.messages.mensaje_ubicacion,
+              buttons: [
+                {
+                  text: self.messages.salir,
+                  handler: () => {
+                    return observer.error({
+                      code:5,
+                      message: "Usuario no autorizó la ubicación",
+                      error: ""
+                    });
+                  }
+                },
+                {
+                  text: self.messages.activar,
+                  handler: () => {
+                    self.diagnostic.requestLocationAuthorization().then(function (status) {
+                      if (status == 'GRANTED' || status == 'authorized_when_in_use' || status == 'authorized') {
+                        observer.next({
+                          code:6,
+                          message: "Usuario autorizo la ubicación",
+                          status: status
+                        });
+                      } else {
+                        observer.error({
+                          code:7,
+                          message: "Usuario no autorizó la ubicación",
+                          error: ""
+                        });
+                      }
+                    }).catch(function (error) {
+                      try {
+                        error = JSON.stringify(error);
+                      } catch (e) {
+                        error = '';
+                      }
+                       observer.error({
+                        code:8,
+                        message: "Error autorizando la ubicación",
+                        error: error
+                      });
+                    });
+                  }
+                }
+              ]
+            });
+            confirm.present();
+
+
+          }
+        }).catch(function (error) {
+          try {
+            error = JSON.stringify(error);
+          } catch (e) {
+            error = '';
+          }
+          return observer.error({
+            code:9,
+            message: "Error autorizando la ubicación",
+            error: error
+          });
+        });
+      }
+      else {
+        //Obtengo las coordenadas actuales
+        self.geolocation.getCurrentPosition().then(
+          (resp) => {
+            if(resp.coords.latitude && resp.coords.longitude){
+              let result={
+                code: 1,
+                lat: resp.coords.latitude,
+                lon: resp.coords.longitude
+              };
+              observer.next(result);
+
+            }else{
+              let error="";
+              try {
+                error = JSON.stringify(resp);
+              } catch (e) {
+                error= "";
+              }
+              return observer.error({
+                code:10,
+                message: "Coordenadas no validas",
+                error: error
+              });
+            }
+
+          }
+        ).catch((error) => {
+          try {
+            error = JSON.stringify(error);
+          } catch (e) {
+            error = '';
+          }
+          return observer.error({
+            code:11,
+            message: "Error obteniendo coordenadas",
+            error: error
+          });
+        });
+      }
+
+    });
+    return seq;
+
+
+
+  }
+
   get_address(latitude:number, longitude:number, force_update?:boolean){
     if(force_update==null)
       force_update=false;
     if(!this.messages)
       this.get_translation();
-    let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
+    //let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
     let self=this;
     if(!this.util.getPreference(this.util.constants.address) || force_update){
     if(this.platform.is('cordova')){
@@ -110,18 +321,36 @@ export class VePorEl {
           .then(
             (result: NativeGeocoderReverseResult) =>
             {
-              dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-              observer.next(result);
+              result = result[0];
+              if(!result.locality){
+                result.locality = result.subAdministrativeArea;
+              }
+              if (result.countryName && result.countryCode && result.locality) {
+                observer.next(result);
+              } else {
+
+                observer.error({
+                  code:1,
+                  message: "Datos obteniedos de ubicación no validos",
+                  error: result
+                });
+
+              }
               // observer.onCompleted();
             }
           )
           .catch((error: any) => {
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            return error});
+            observer.error({
+              code: 2,
+              message: "Error obteniendo informacion",
+              error: error
+            });
+          });
 
       });
       return seq;
-    }else{
+    }
+    else{
 
       let seq =  Observable.create(observer => {
 
@@ -135,15 +364,11 @@ export class VePorEl {
           .map(res => res.json())
           .subscribe(res => {
             let body = res;
-            // self.address = body.results[0].formatted_address;
-            //
-            // let city_name = body.results[0].address_components[5].short_name;
-            //busco en los address componene hasta encontrr cada elemento
 
             var result = {
               countryName:"",
               countryCode:"",
-              city:"",
+              locality:"",
               street: body.results[0].formatted_address,
               houseNumber: ''
             };
@@ -151,7 +376,7 @@ export class VePorEl {
               for(var j=0; j<body.results[i].address_components.length;j++){
                 var element = body.results[i].address_components[j];
                 if(element.types[0]=="postal_town" ||  element.types[0]=="locality"){
-                  result.city=element.short_name;
+                  result.locality=element.short_name;
                 }
                 if(element.types[0]=="country"){
                   result.countryName=element.long_name;
@@ -159,11 +384,23 @@ export class VePorEl {
                 }
               }
               }
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            observer.next(result);
+            if (result.countryName && result.countryCode && result.locality) {
+              observer.next(result);
+            } else {
+
+              observer.error({
+                code:1,
+                message: "Datos obteniedos de ubicación no validos",
+                error: result
+              });
+
+            }
           }, err => {
-            dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-            console.error('ERROR', err);
+            observer.error({
+              code:2,
+              message: "Error obteniendo ubicación",
+              error: err
+            });
           });
 
       });
@@ -181,10 +418,7 @@ export class VePorEl {
           street: this.util.getPreference(this.util.constants.address),
           houseNumber: ''
         };
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
         observer.next(result);
-        // observer.onCompleted();
-
       });
       return seq;
     }
@@ -207,11 +441,14 @@ export class VePorEl {
     let seq = this.api.post('offers/find_by_location', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {
+          Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });
+        });
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
+        return err;
       });
 
     return seq;
@@ -241,25 +478,11 @@ export class VePorEl {
       ).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        /*let aux= res.json();
-        let language = this.util.getPreference(this.util.constants.language);
-        if(language!='es'){
-          for(let i=0; i<aux.length;i++){
-            switch (language) {
-              case "en":
-                 aux[i].name=aux[i].EN;
-                break;
-            }
-          }
-          res._body=JSON.stringify(aux);
-          return res.json();
-        }*/
-
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -271,7 +494,7 @@ export class VePorEl {
     let seq = this.api.get('subcategories', {category_id: category_id, city_name:city_name}).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         let aux= res.json();
         let language = this.util.getPreference(this.util.constants.language);
         if(language!='es'){
@@ -287,8 +510,8 @@ export class VePorEl {
         }
         return res.json();;
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -304,11 +527,11 @@ export class VePorEl {
     let seq = this.api.post('offers/find_by_category', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -324,11 +547,11 @@ export class VePorEl {
     let seq = this.api.post('offers/find_by_subcategorie_name', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -342,11 +565,11 @@ export class VePorEl {
     let seq = this.api.post('offers/find_by_id', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -360,11 +583,11 @@ export class VePorEl {
     let seq = this.api.post('offers/find_by_user_id', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -378,11 +601,11 @@ export class VePorEl {
     let seq = this.api.post('offers/reserve', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -392,11 +615,11 @@ export class VePorEl {
     let seq = this.api.post('offers/qualification', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -409,10 +632,10 @@ export class VePorEl {
     let seq = this.api.post('messages', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res;
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return err;
       });
 
@@ -424,11 +647,11 @@ export class VePorEl {
     let seq = this.api.get('countries', {}).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -442,11 +665,11 @@ export class VePorEl {
     let seq = this.api.post('cities', {country_code:country_code, type: type}).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -459,11 +682,11 @@ export class VePorEl {
     let seq = this.api.post('recovery_password', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -478,11 +701,11 @@ export class VePorEl {
     let seq = this.api.post('reset_password', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -504,7 +727,7 @@ export class VePorEl {
         return res.json();
       }, err => {
         dialog.dismiss();
-        console.error('ERROR', err);
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -521,8 +744,8 @@ export class VePorEl {
         dialog.dismiss().catch(() => {});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;
@@ -536,11 +759,29 @@ export class VePorEl {
     let seq = this.api.post('companies/find_by_company_id', body).share();
     seq
       .subscribe(res => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         return res.json();
       }, err => {
-        dialog.dismiss().catch(() => {console.log('ERROR CATCH: LoadingController dismiss')});
-        console.error('ERROR', err);
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
+      });
+
+    return seq;
+  }
+
+  get_exporter_by_product(body:any, page:number):any{
+    let dialog = this.util.show_dialog(this.messages.obteniendo_companias);
+    body.page = page;
+    body.language = this.util.getPreference(this.util.constants.language);
+    let seq = this.api.post('exporters/find', body).share();
+    seq
+
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {});
+        return res.json();
+      }, err => {
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
       });
 
     return seq;

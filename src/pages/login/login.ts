@@ -36,10 +36,8 @@ export class LoginPage {
     public navCtrl: NavController,
     public user: User,
     public navParams: NavParams,
-    public toastCtrl: ToastController,
     public util: Util,
     public translateService: TranslateService,
-    private fb: Facebook,
     public formBuilder: FormBuilder
   ) {
 

@@ -8,8 +8,9 @@ import { FindPromotiosPage } from '../find-promotios/find-promotios';
 import { DirectoryPage } from '../directory/directory';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { SpeechRecognition, SpeechRecognitionListeningOptionsAndroid, SpeechRecognitionListeningOptionsIOS } from '@ionic-native/speech-recognition'
-import { Push, } from '@ionic-native/push';
+import {MapPage} from "../map/map";
+import {ExporterPage} from "../exporter/exporter";
+import {CompaniesPage} from "../companies/companies";
 
 
 /**
@@ -32,10 +33,26 @@ import { Push, } from '@ionic-native/push';
    private country_name:string;
    private country_code:string;
    private user:any;
+   private messages: any;
 
-  speechList: Array<string> = [];
-  androidOptions: SpeechRecognitionListeningOptionsAndroid;
-  iosOptions: SpeechRecognitionListeningOptionsIOS;
+  private options:{
+    notifications:boolean,
+    range:number,
+    debug:boolean
+  };
+
+  /**
+   * Tipo de busqueda, esta se usa cuando se obtiene la ubicación y saber que se debe hacer
+   * luego de obtenerla
+   * @type {{banner: string; tourist: string}}
+   */
+  private type:{
+    banner:string,
+    tourist:string
+  }={
+    banner: "banner",
+    tourist:"tourist"
+  }
 
    constructor(
      public navCtrl: NavController,
@@ -50,21 +67,32 @@ import { Push, } from '@ionic-native/push';
      private diagnostic: Diagnostic,
      private platform: Platform,
      private alertCtrl: AlertController,
-     private speech: SpeechRecognition,
-     private push: Push,
+     private translate: TranslateService,
      )
    {
+     this.options= JSON.parse(this.util.getPreference("options"));
+     if(!this.options){
+       this.options={
+         notifications:true,
+         range : 2,
+         debug: false
+       }
+     }
       this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
       menu.enable(true);
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
+      this.get_messages()
 
    }
   ionViewWillEnter() {
+
      let self = this;
+     self.util.setLogs("ionViewWillEnter");
      //Variable para saber si ya obtuve la ubicacion
      try {
        //Valido si me llega una dirrecion de otra vista
        this.city_name = this.navParams.get('city_name');
+       self.util.setLogs("Recibiendo informacion de mapas: "+JSON.stringify(self.navParams));
        if(this.city_name){
          this.latitude = this.navParams.get(this.util.constants.latitude);
          this.longitude = this.navParams.get(this.util.constants.longitude);
@@ -86,168 +114,144 @@ import { Push, } from '@ionic-native/push';
              this.country_name= self.util.getPreference(this.util.constants.country_name);
              self.get_banners(this.city_name);
            }else{
-             self.get_location();
+             self.get_location(self.type.banner);
 
            }
 
        }
 
      } catch (e) {
-       console.log(e);
+       console.error(e);
      }
    }
 
+  private get_messages() {
+    var self = this;
+    self.translateService.get([
+      'obteniendo_tu_ubicacion',
+      'registrando',
+      "ubicacion",
+      "error_22",
+      "reintentar",
+      "salir",
+      "enviando_informacion"
+    ]).subscribe((value) => {
+      self.messages = value;
+    }, (err) => {
+      alert(err);
+    });
+  }
 
-  private get_location(){
+  private get_location(type:string) {
+
     let self = this;
-    if (this.platform.is('cordova')) {
-      self.diagnostic.isLocationAuthorized().then(function (isAuthorized) {
-        if(isAuthorized){
-          self.diagnostic.isLocationEnabled().then(function(isAvailable){
-            if(isAvailable){
-              //Obtengo las coordenadas actuales
-              self.geolocation.getCurrentPosition().then((resp) => {
-                self.latitude = resp.coords.latitude;
-                self.longitude = resp.coords.longitude;
-                self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, false).subscribe(
-                  (result: any) => {
-                    if (result != null) {
-                      self.address = result.city;
-                      self.city_name =  result.city;
-                      let country_code =  result.countryCode;
-                      if (self.city_name) {
-                        //Almaceno
-                        self.util.savePreference(self.util.constants.latitude, self.latitude);
-                        self.util.savePreference(self.util.constants.longitude, self.longitude);
-                        self.util.savePreference(self.util.constants.city_name, self.city_name);
-                        self.util.savePreference(self.util.constants.country_code, country_code);
-                        self.util.savePreference(self.util.constants.country_name, result.countryName);
-                        self.get_banners(self.city_name);
-                      }
-                    }else{
-                      console.log("error getting location: ");
-                      console.log(result);
-                    }
-                  }
-                );
-              }).catch((error) => {
-                self.util.show_toast(error);
-              });
-            }else{
-
-              self.translateService.get(["ubicacion", "activar_ubicacion","salir","activar"]).subscribe((res) => {
+    let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
+    self.veporel.get_coordenates(dialog).subscribe( (location)=> {
+        switch (location.code) {
+          case 1:
+            self.latitude = location.lat;
+            self.longitude = location.lon;
+            self.veporel.get_address(location.lat, location.lon, true).subscribe(
+              (result: any) => {
+                dialog.dismiss();
+                self.address = result.locality;
+                self.city_name =  result.locality;
+                let country_code =  result.countryCode;
+                if (self.city_name) {
+                  //Almaceno
+                  self.util.savePreference(self.util.constants.latitude, self.latitude);
+                  self.util.savePreference(self.util.constants.longitude, self.longitude);
+                  self.util.savePreference(self.util.constants.city_name, self.city_name);
+                  self.util.savePreference(self.util.constants.country_code, country_code);
+                  self.util.savePreference(self.util.constants.country_name, result.countryName);
+                  self.address_founded(type);
+                }else{
+                  self.util.show_toast('error_22');
+                }
+              },
+              (error) => {
+                dialog.dismiss();
+                self.util.setLogs(JSON.stringify(error));
                 let confirm = self.alertCtrl.create({
-                  title: res.ubicacion,
-                  message: res.activar_ubicacion,
+                  title: self.messages.ubicacion,
+                  message: self.messages.error_22,
                   buttons: [
                     {
-                      text: res.salir,
+                      text: self.messages.salir,
                       handler: () => {
                         if (self.platform.is('android')) {
                           self.platform.exitApp();
                         }else{
-                          self.navCtrl.pop();
-                          self.util.show_toast('error_16');
+                          self.util.show_toast('error_22');
                         }
                       }
                     },
                     {
-                      text: res.activar,
+                      text: self.messages.reintentar,
                       handler: () => {
-                        self.diagnostic.switchToLocationSettings();
+                        self.get_location(type);
                       }
                     }
                   ]
                 });
                 confirm.present();
-              });
-
+              }
+            );
+            break;
+          case 6:
+            self.get_location(type);
+            break;
+          case 3:
+            window.location.reload();
+            self.diagnostic.switchToLocationSettings();
+            break;
+        }
+      },
+      (err)=>{
+        dialog.dismiss();
+        self.util.setLogs(JSON.stringify(err));
+        switch (err.code){
+          case 3:
+          case 5:
+          case 7:
+            self.util.show_toast('error_16');
+            if (self.platform.is('android')) {
+              self.platform.exitApp();
+            }else{
+              self.util.show_toast('error_16');
             }
-          }).catch((error)=>{
-            console.error(error);
-          });
-        }else{
-
-          self.translateService.get(["ubicacion", "mensaje_ubicacion","salir","activar"]).subscribe((res) => {
+            break;
+          case 1:
+          case 2:
             let confirm = self.alertCtrl.create({
-              title: res.ubicacion,
-              message: res.mensaje_ubicacion,
+              title: self.messages.ubicacion,
+              message: self.messages.error_22,
               buttons: [
                 {
-                  text: res.salir,
+                  text: self.messages.salir,
                   handler: () => {
                     if (self.platform.is('android')) {
                       self.platform.exitApp();
                     }else{
-                      self.navCtrl.pop();
-                      self.util.show_toast('error_16');
+                      self.util.show_toast('error_22');
                     }
                   }
                 },
                 {
-                  text: res.activar,
+                  text: self.messages.reintentar,
                   handler: () => {
-                    self.diagnostic.requestLocationAuthorization().then(function (status) {
-                      if(status=='GRANTED' || status=='authorized_when_in_use' || status == 'authorized'){
-                        self.get_location();
-                      }else{
-                        if (self.platform.is('android')) {
-                          self.platform.exitApp();
-                        }else{
-                          self.navCtrl.pop();
-                          self.util.show_toast('error_16');
-                        }
-                      }
-                    }).catch(function (error) {
-                      console.log("requestLocationAuthorization :"+error);
-                    });
+                    self.get_location(type);
                   }
                 }
               ]
             });
             confirm.present();
-          });
-
-
-
+            break;
+          default:
+            self.util.show_toast(err.message);
+            break;
         }
-      }).catch(function (error) {
-        console.log("isLocationAuthorized :"+error);
       });
-    }else{
-      //Obtengo las coordenadas actuales
-      self.geolocation.getCurrentPosition().then((resp) => {
-        self.latitude = resp.coords.latitude;
-        self.longitude = resp.coords.longitude;
-        self.veporel.get_address(resp.coords.latitude, resp.coords.longitude, false).subscribe(
-          (result: any) => {
-            if (result != null) {
-              self.address = result.city;
-              self.city_name =  result.city;
-              let country_code =  result.countryCode;
-              if (self.city_name) {
-                //Almaceno
-                self.util.savePreference(self.util.constants.latitude, self.latitude);
-                self.util.savePreference(self.util.constants.longitude, self.longitude);
-                self.util.savePreference(self.util.constants.city_name, self.city_name);
-                self.util.savePreference(self.util.constants.country_code, country_code);
-                self.util.savePreference(self.util.constants.country_name, result.countryName);
-                self.get_banners(self.city_name);
-              }
-            }else{
-              console.log("error getting location: ");
-              console.log(result);
-            }
-          }
-        );
-      }).catch((error) => {
-        self.util.show_toast(error.message);
-      });
-    }
-
-
-
-
 
 
   }
@@ -308,8 +312,80 @@ import { Push, } from '@ionic-native/push';
    }
 
   public go_to_directory(){
-     this.navCtrl.push(DirectoryPage);
-   }
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_business
+    })
+  }
 
+  public go_to_directory_exporters(){
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_exporters
+    })
+  }
 
+  public go_to_directory_agro(){
+    let self=this;
+    this.navCtrl.push(DirectoryPage,{
+      type: self.util.constants.find_agro
+    })
+  }
+
+  public change_address(){
+    this.navCtrl.push(MapPage);
+  }
+
+  private address_founded(code:string){
+     var self=this;
+     switch (code) {
+       case self.type.banner:
+         self.get_banners(self.city_name);
+         break;
+       case self.type.tourist:
+         self.go_tourist();
+         break;
+     }
+  }
+  public go_tourist(){
+    let self=this;
+
+    let data:{
+      country_name:string,
+        country_code:string,
+        departament_name:string,
+        city_name:string,
+        name:string,
+        latitude:number,
+        longitude:number,
+        pagetoken:string,
+        type:string,//Tipo de busqueda: Negocios o Exportadores
+    }={
+      country_name:"",
+      country_code:"",
+      departament_name:"",
+      city_name:"",
+      name:"",
+      latitude:0,
+      longitude:0,
+      pagetoken:"",
+      type:""
+    };
+
+    data.latitude= self.util.getPreference(self.util.constants.latitude);
+    data.longitude = self.util.getPreference(self.util.constants.longitude);
+    data.city_name = self.util.getPreference(self.util.constants.city_name);
+    data.country_code = self.util.getPreference(self.util.constants.country_code);
+    data.country_name = self.util.getPreference(self.util.constants.country_name);
+    data.departament_name = "";
+    data.name = "point_of_interest";
+    data.pagetoken = "";
+    data.type = self.util.constants.find_business;
+    let dialog =this.util.show_dialog(this.messages.enviando_informacion);
+    setTimeout(function () {
+      dialog.dismissAll();
+      self.util.show_toast('error_13');
+    }, 2000);
+    //this.navCtrl.push(CompaniesPage,data);
+  }
  }

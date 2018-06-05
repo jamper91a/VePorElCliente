@@ -44,34 +44,44 @@
         </button>
       </ion-col>
 		</ion-row>
-		<!--<ion-row>
+		<ion-row *ngIf="options.debug">
 			<ion-col col-12-auto>
-				<button ion-button block (click)="find_categories()" color="primary" no-padding text-wrap>
-					<div>{{'busqueda_manual' | translate}}</div>
-					<ion-img  src="assets/img/button_ofertas_cercanas.png"></ion-img>
-				</button>
+        <button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>
+          {{'cambiar_direccion' | translate}}
+        </button>
 			</ion-col>
-		</ion-row>-->
-		<ion-row>
-			<ion-col col-12>
-				<button ion-button block (click)="go_to_directory()" color="yellow" no-padding text-wrap class="hm-button">
-					<img src="assets/img/button_negocios_servicios_1.png"/>
-					<!--<div>{{'directorio_negocios' | translate}}</div>-->
-				</button>
-			</ion-col>
-			<!--<ion-col col-2>
-		        <button ion-button block icon-only (click)="listenForSpeech()" color="yellow">
-		          <ion-icon name="mic"></ion-icon>
-		        </button>
-			</ion-col>-->
 		</ion-row>
+		<ion-row>
+			<ion-col col-6>
+        <img (click)="go_to_directory()" src="assets/img/boton_negocios.png"/>
+				<!--<button ion-button block  color="yellow" no-padding text-wrap class="hm-button">
 
+				</button>-->
+			</ion-col>
+      <ion-col col-6>
+        <img (click)="go_to_directory_exporters()" src="assets/img/boton_exportadores.png"/>
+        <!--<button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">
+        </button>-->
+      </ion-col>
+		</ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <img (click)="get_location(type.tourist)" src="assets/img/boton_turistico.png"/>
+      </ion-col>
+      <ion-col col-6>
+        <img (click)="go_to_directory_agro()" src="assets/img/boton_agro.png"/>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+
+    </ion-row>
 		<ion-row>
 			<ion-col col-12 >
 				<ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true"   loop="true" speed="300">
 					<ion-slide *ngFor="let banner of banners">
             <a href="{{banner.url_destination}}" target="_blank" class="{{util.url}}{{banner.url_photo}}">
-              <img-loader src="{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
+              <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
             </a>
 					</ion-slide>
 				</ion-slides>

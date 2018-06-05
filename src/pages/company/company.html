@@ -1,57 +1,56 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only end>
-      <img src="assets/img/menu.png" class="menu_icon" />
+      <img src="assets/img/menu.png" class="menu_icon"/>
     </button>
-    <img src="assets/img/logo_horizontal.png" height="40" class="center" />
+    <img src="assets/img/logo_horizontal.png" height="40" class="center"/>
   </ion-navbar>
 </ion-header>
-<ion-content padding >
+<ion-content padding>
   <div *ngIf="company">
     <div *ngIf="company.suscripcion==0">
       <div text-center>
-        <img-loader src="assets/img/logo_horizontal.png" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+        <img-loader class="logo_company" src="assets/img/logo_horizontal.png" useImg
+                    fallback="assets/img/logo_horizontal.png" text-center></img-loader>
       </div>
       <h2 text-center> {{company.name}}</h2>
 
       <ion-grid>
         <ion-row>
-            <ion-col col-4 text-center>
-                 <div *ngIf="branch.telephone">
-                  <a href="tel:{{branch.telephone}}" target="_blank" item-end>
-                    <ion-icon name="call" item-start [color]="primary"></ion-icon>
-                  </a>
-                </div>
-              <div *ngIf="!branch.telephone">
-                  <ion-icon name="call" item-start></ion-icon>
-              </div>
+          <ion-col text-center>
+            <ion-icon name="call" item-start></ion-icon>
+          </ion-col>
+          <ion-col text-center>
+            <ion-icon name="mail" item-start></ion-icon>
+          </ion-col>
 
-            </ion-col>
-            <ion-col col-4 text-center>
-              <div *ngIf="branch.website && util.isUrlValid(branch.website)">
-                <a href="{{branch.website}}" target="_blank" item-end>
-                  <ion-icon name="globe" item-start [color]="primary"></ion-icon>
-                </a>
-              </div>
-              <div *ngIf="!branch.website || !util.isUrlValid(branch.website)">
-                  <ion-icon name="globe" item-start> </ion-icon>
-              </div>
-            </ion-col>
-            <ion-col col-4 text-center>
-              <div *ngIf="branch.fanpage && util.isUrlValid(branch.fanpage)">
-                <a href="{{branch.fanpage}}" target="_blank" item-end>
-                  <ion-icon name="logo-facebook" item-start [color]="primary"></ion-icon>
-                </a>
-              </div>
-              <div *ngIf="!branch.fanpage || !util.isUrlValid(branch.fanpage)">
-                <ion-icon name="logo-facebook" item-start> </ion-icon>
-              </div>
-            </ion-col>
+          <ion-col text-center>
+            <ion-icon name="globe" item-start></ion-icon>
+          </ion-col>
+          <ion-col text-center>
+            <ion-icon name="logo-facebook" item-start></ion-icon>
+          </ion-col>
+          <ion-col text-center>
+            <ion-icon name="logo-instagram" item-start></ion-icon>
+          </ion-col>
 
-          </ion-row>
-          <ion-row>
+
+
+        </ion-row>
+        <ion-row *ngIf="!mas_info">
+          <ion-col>
+            <button ion-button block (click)="show_mas_info()">
+              {{'mas_info' | translate}}
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+      <ion-grid *ngIf="mas_info">
+        <ion-row>
           <ion-col col-12-auto>
-            <ion-item >
+            <ion-item>
               {{'direccion' | translate}}
               <p item-end>{{branch.address}}</p>
             </ion-item>
@@ -82,71 +81,126 @@
       </ion-grid>
     </div>
     <div *ngIf="company.suscripcion==1">
-      <h2 text-center> {{company.name}}</h2>
-      <div text-center>
-        <div *ngIf="util.isUrlValid(company.url_photo)">
-          <img-loader class="logo_company" src="{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
-        </div>
-        <div *ngIf="!util.isUrlValid(company.url_photo)">
-          <img-loader class="logo_company" src="{{util.url}}{{company.url_photo}}" useImg fallback="assets/img/logo_horizontal.png" text-center></img-loader>
-        </div>
-
+      <h2 text-center> {{brach.name}}</h2>
+      <div text-center id="logo">
+          <div *ngIf="photos.length>1">
+          <ion-slides #pager autoplay="5000" pager="true" loop="true" speed="300">
+            <ion-slide *ngFor="let photo of photos">
+              <img-loader *ngIf="util.isUrlValid(photo)" src="{{photo}}" useImg
+                          fallback="assets/img/logo_horizontal.png" class="logo_company"></img-loader>
+              <img-loader *ngIf="!util.isUrlValid(photo)" src="{{util.url}}{{photo}}" useImg
+                          fallback="assets/img/logo_horizontal.png" class="logo_company"></img-loader>
+            </ion-slide>
+          </ion-slides>
+          </div>
+          <div *ngIf="photos.length==1">
+            <div *ngIf="util.isUrlValid(company.url_photo)">
+              <img-loader class="logo_company" src="{{company.url_photo}}" useImg
+                          fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+            </div>
+            <div *ngIf="!util.isUrlValid(company.url_photo)">
+              <img-loader class="logo_company" src="{{util.url}}{{company.url_photo}}" useImg
+                          fallback="assets/img/logo_horizontal.png" text-center></img-loader>
+            </div>
+          </div>
       </div>
       <ion-grid>
-        <ion-row>
-          <ion-col col-3 text-center>
-               <div *ngIf="branch.telephone">
-                <a href="tel:{{branch.telephone}}" target="_blank" item-end>
-                  <ion-icon name="call" item-start [color]="primary"></ion-icon>
-                </a>
-              </div>
+        <ion-row id="accesos_directos">
+          <ion-col text-center>
+            <div *ngIf="branch.telephone">
+              <a href="tel:{{branch.telephone}}" target="_blank" item-end>
+                <ion-icon name="call" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
             <div *ngIf="!branch.telephone">
-                <ion-icon name="call" item-start></ion-icon>
+              <ion-icon name="call" item-start></ion-icon>
             </div>
 
           </ion-col>
-          <ion-col col-3 text-center>
+          <ion-col text-center>
             <div *ngIf="company.email">
               <a href="mailto:{{company.email}}" target="_blank" item-end>
                 <ion-icon name="mail" item-start [color]="primary"></ion-icon>
               </a>
             </div>
             <div *ngIf="!company.email">
-                <ion-icon name="mail" item-start ></ion-icon>
+              <ion-icon name="mail" item-start></ion-icon>
             </div>
 
           </ion-col>
-          <ion-col col-3 text-center>
+          <ion-col text-center>
             <div *ngIf="branch.website && util.isUrlValid(branch.website)">
               <a href="{{branch.website}}" target="_blank" item-end>
                 <ion-icon name="globe" item-start [color]="primary"></ion-icon>
               </a>
             </div>
             <div *ngIf="!branch.website || !util.isUrlValid(branch.website)">
-                <ion-icon name="globe" item-start> </ion-icon>
+              <ion-icon name="globe" item-start></ion-icon>
             </div>
           </ion-col>
-          <ion-col col-3 text-center>
+          <ion-col text-center>
             <div *ngIf="branch.fanpage && util.isUrlValid(branch.fanpage)">
               <a href="{{branch.fanpage}}" target="_blank" item-end>
                 <ion-icon name="logo-facebook" item-start [color]="primary"></ion-icon>
               </a>
             </div>
             <div *ngIf="!branch.fanpage || !util.isUrlValid(branch.fanpage)">
-              <ion-icon name="logo-facebook" item-start> </ion-icon>
+              <ion-icon name="logo-facebook" item-start></ion-icon>
+            </div>
+          </ion-col>
+
+          <ion-col text-center>
+            <div *ngIf="branch.instagram && util.isUrlValid(branch.instagram)">
+              <a href="{{branch.instagram}}" target="_blank" item-end>
+                <ion-icon name="logo-instagram" item-start [color]="primary"></ion-icon>
+              </a>
+            </div>
+            <div *ngIf="!branch.instagram || !util.isUrlValid(branch.instagram)">
+              <ion-icon name="logo-instagram" item-start></ion-icon>
             </div>
           </ion-col>
 
         </ion-row>
+        <ion-row *ngIf="!mas_info">
+          <ion-col>
+            <button ion-button block (click)="show_mas_info()">
+              {{'mas_info' | translate}}
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+      <ion-grid id="mas_informacion" *ngIf="mas_info">
         <ion-row>
-          <ion-col col-12-auto>
-            <ion-item >
-              {{'domicilio' | translate}}
-              <p item-end>{{company.domicilios?'Si':'No'}}</p>
+          <ion-col>
+            <ion-item text-wrap text-justify>
+              <p text-wrap text-justify>{{company.description}}</p>
             </ion-item>
-            <ion-item >
-              {{'direccion' | translate}}
-              <p item-end>{{branch.address}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row id="informacion">
+          <ion-col col-12-auto>
+            <ion-item *ngIf="company.domicilios">
+              <p>
+                <b>{{'domicilio' | translate}}: </b>
+                {{company.domicilios?'Si':'No'}}
+              </p>
+            </ion-item>
+            <ion-item text-wrap text-justify>
+              <p text-wrap text-justify>
+                <b>{{'direccion' | translate}}: </b>
+                {{branch.address}}
+              </p>
+            </ion-item>
+            <ion-item text-wrap text-justify>
+              <p text-wrap text-justify>
+                <b>{{'ciudad' | translate}}: </b>
+                {{branch.location.name}}, {{branch.location.country_code}}</p>
+            </ion-item>
+            <ion-item text-wrap text-justify>
+              <p>
+                <b>{{'horario' | translate}}: </b>
+                {{branch.schedule}}</p>
             </ion-item>
 
           </ion-col>
@@ -160,16 +214,10 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item text-wrap>
-              <p text-wrap>{{company.description}}</p>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+
       </ion-grid>
 
-      <ion-grid >
+      <ion-grid>
         <ion-row>
           <ion-col col-12>
             <button ion-button block (click)="go_to_offers()" *ngIf="company.cantidad>0">
