@@ -83,7 +83,8 @@ export class DirectoryPage {
       "ubicacion",
       "error_22",
       "reintentar",
-      "salir"
+      "salir",
+      "enviando_informacion"
     ]).subscribe((value) => {
       self.messages = value;
     }, (err) => {
@@ -300,6 +301,26 @@ export class DirectoryPage {
 
   }
 
+  public find_agro(name?:string){
+    let self=this;
+    if(name)
+      this.data.name = name;
+    //Valido el termino de busqueda
+    if(!this.data.name){
+      this.util.show_toast('error_18');
+    }else{
+      //Agrego el nombre de la ciudad al campo de busqueda
+      this.data.city_name=this.city_name;
+      let dialog =this.util.show_dialog(this.messages.enviando_informacion);
+      setTimeout(function () {
+        dialog.dismissAll();
+        self.util.show_toast('error_13');
+      }, 2000);
+      //this.navCtrl.push(ExportersPage,this.data);
+    }
+
+  }
+
   async isSpeechSupported(): Promise<boolean> {
     let isAvailable = await this.speech.isRecognitionAvailable();
     return isAvailable;
@@ -337,20 +358,36 @@ export class DirectoryPage {
       if(isSupported){
         self.hasPermission().then((hasPermission:boolean)=>{
           if(hasPermission){
-            self.androidOptions = {
-              prompt: 'Cual producto deseas buscarle ofertas',
-              language: 'es-MX'
+            let prompt_message= "";
+            let alert_title= "";
+            switch (self.data.type){
+              case self.util.constants.find_business:
+                prompt_message = "Cual producto deseas buscar ofertas";
+                alert_title = "Buscar producto";
+                break;
+              case self.util.constants.find_exporters:
+                prompt_message = "Cual producto deseas buscar";
+                alert_title = "Buscar exportaadores";
+                break;
+              case self.util.constants.find_agro:
+                prompt_message = "Cual producto deseas buscar";
+                alert_title = "Buscar producto";
+                break;
             }
+            self.androidOptions = {
+              prompt: prompt_message,
+              language: 'es-MX'
+            };
 
             self.iosOptions = {
               language: 'es-MX'
-            }
+            };
 
             if (self.platform.is('android')) {
               self.speech.startListening(self.androidOptions).subscribe(data => {
                 let confirm = self.alertCtrl.create({
                   title:  "Buscar ofertas",
-                  message: "Deseas buscar ofertas del producto "+data[0]+"?",
+                  message: "Deseas buscar "+data[0]+"?",
                   buttons: [
                     {
                       text: "Cancelar",
@@ -363,7 +400,18 @@ export class DirectoryPage {
                       handler: () => {
                         self.data.pagetoken="";
                         self.data.name=data[0];
-                        self.find();
+                        switch (self.data.type){
+                          case self.util.constants.find_business:
+                            self.find(data[0]);
+                            break;
+                          case self.util.constants.find_exporters:
+                            self.find_exporters(data[0]);
+                            break;
+                          case self.util.constants.find_agro:
+                            self.find_agro(data[0]);
+                            break;
+                        }
+
                       }
                     }
                   ]

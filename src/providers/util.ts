@@ -2,6 +2,8 @@ import {ToastController, LoadingController, Loading} from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IsDebug } from '@ionic-native/is-debug';
+import { Platform } from 'ionic-angular';
+
 
 /**
  * Created by Usuario on 02/06/2017.
@@ -17,7 +19,8 @@ export class Util{
     public toastCtrl: ToastController,
     public translateService: TranslateService,
     public loadingCtrl: LoadingController,
-    private isDebug: IsDebug
+    private isDebug: IsDebug,
+    public plt: Platform
 
   ) {
     var self=this;
@@ -57,22 +60,28 @@ export class Util{
       logs: 'logs',
       find_business: 'find_business',
       find_exporters: 'find_exporters',
+      find_agro: 'find_agro',
       exporter: 'exporter'
     };
-    this.isDebug.getIsDebug()
-      .then(function (isDebug: boolean){
-        if(isDebug==false)
-          self.url = "https://backend.veporel.com.co:85/";
-        else{
-          //self.url = "https://backend.veporel.com.co:85/";
-          self.url = "http://192.168.1.65:1337/";
-        }
+    if(this.plt.is("cordova")){
+      this.isDebug.getIsDebug()
+        .then(function (isDebug: boolean){
+          if(isDebug==false)
+            self.url = "https://backend.veporel.com.co:85/";
+          else{
+            //self.url = "https://backend.veporel.com.co:85/";
+            self.url = "http://192.168.1.65:1337/";
+          }
 
-      })
-      .catch(function (error: any) {
-        self.url = "https://backend.veporel.com.co:85/";
-        //self.url = "http://192.168.1.65:1337/";
-      });
+        })
+        .catch(function (error: any) {
+          self.url = "https://backend.veporel.com.co:85/";
+          //self.url = "http://192.168.1.65:1337/";
+        });
+    }else{
+      self.url = "http://192.168.1.65:1337/";
+    }
+
 
 
 
