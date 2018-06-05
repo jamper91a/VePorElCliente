@@ -79,7 +79,7 @@ export class Util{
           //self.url = "http://192.168.1.65:1337/";
         });
     }else{
-      self.url = "http://192.168.1.65:1337/";
+      self.url = "https://backend.veporel.com.co:85/";
     }
 
 
