@@ -378,14 +378,9 @@ import {CompaniesPage} from "../companies/companies";
     data.country_code = self.util.getPreference(self.util.constants.country_code);
     data.country_name = self.util.getPreference(self.util.constants.country_name);
     data.departament_name = "";
-    data.name = "point_of_interest";
+    data.name = "";
     data.pagetoken = "";
-    data.type = self.util.constants.find_business;
-    let dialog =this.util.show_dialog(this.messages.enviando_informacion);
-    setTimeout(function () {
-      dialog.dismissAll();
-      self.util.show_toast('error_13');
-    }, 2000);
-    //this.navCtrl.push(CompaniesPage,data);
+    data.type = self.util.constants.find_touristic;
+    this.navCtrl.push(CompaniesPage,data);
   }
  }

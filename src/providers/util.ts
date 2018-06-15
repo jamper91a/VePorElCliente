@@ -61,6 +61,7 @@ export class Util{
       find_business: 'find_business',
       find_exporters: 'find_exporters',
       find_agro: 'find_agro',
+      find_touristic: 'find_touristic',
       exporter: 'exporter'
     };
     if(this.plt.is("cordova")){
@@ -69,8 +70,8 @@ export class Util{
           if(isDebug==false)
             self.url = "https://backend.veporel.com.co:85/";
           else{
-            //self.url = "https://backend.veporel.com.co:85/";
-            self.url = "http://192.168.1.65:1337/";
+            self.url = "https://backend.veporel.com.co:85/";
+            //self.url = "http://192.168.1.65:1337/";
           }
 
         })
@@ -80,13 +81,14 @@ export class Util{
         });
     }else{
       self.url = "https://backend.veporel.com.co:85/";
+      //self.url = "http://192.168.1.67:1337/";
     }
 
 
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.7.2";
+    this.version = "2.7.3";
   }
 
 
