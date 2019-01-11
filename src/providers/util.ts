@@ -68,19 +68,19 @@ export class Util{
       this.isDebug.getIsDebug()
         .then(function (isDebug: boolean){
           if(isDebug==false)
-            self.url = "https://backend.veporel.com:85/";
+            self.url = "https://backend.veporel.com.co:85/";
           else{
-            self.url = "https://backend.veporel.com:85/";
+            self.url = "https://backend.veporel.com.co:85/";
             //self.url = "http://192.168.1.65:1337/";
           }
 
         })
         .catch(function (error: any) {
-          self.url = "https://backend.veporel.com:85/";
+          self.url = "https://backend.veporel.com.co:85/";
           //self.url = "http://192.168.1.65:1337/";
         });
     }else{
-      self.url = "https://backend.veporel.com:85/";
+      self.url = "https://backend.veporel.com.co:85/";
       //self.url = "http://192.168.1.67:1337/";
     }
 
@@ -88,7 +88,7 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.7.4";
+    this.version = "2.7.5";
   }
 
 
