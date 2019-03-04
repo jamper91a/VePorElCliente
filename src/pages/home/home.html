@@ -4,9 +4,14 @@
 			<!--<img src="assets/img/menu.png" class="menu_icon" />-->
 		<!--</button>-->
     <ion-buttons end>
+      <button ion-button block (click)="share()" text-wrap >
+        <img src="assets/img/button_compartir_icon2.png" style="height : 100%"/>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+
       <button ion-button menuToggle>
-      	<img src="assets/img/menu.png" class="menu_icon" />
-        <!--<ion-icon name="menu"></ion-icon>-->
+        <img src="assets/img/menu2.png" class="menu_icon" style="height : 100%"/>
       </button>
     </ion-buttons>
 		<img src="assets/img/logo_horizontal.png" height="40" class="center" />
@@ -31,47 +36,61 @@
         </ion-row>
 			</ion-col>
 		</ion-row>
-		<ion-row>
-			<ion-col>
-				<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap class="hm-button">
-					<ion-img src="assets/img/button_ofertas.png"></ion-img>
-					<div >{{'buscar_promociones' | translate}}</div>
-				</button>
-			</ion-col>
-      <ion-col col-auto >
-        <button ion-button block (click)="share()" color="gray" no-padding text-wrap class="hm-button">
-          <img src="assets/img/button_compartir_icon.png"/>
-        </button>
-      </ion-col>
-		</ion-row>
-		<ion-row *ngIf="options.debug">
-			<ion-col col-12-auto>
-        <button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>
-          {{'cambiar_direccion' | translate}}
-        </button>
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-6>
-        <img (click)="go_to_directory()" src="assets/img/boton_negocios.png"/>
-				<!--<button ion-button block  color="yellow" no-padding text-wrap class="hm-button">
-
-				</button>-->
-			</ion-col>
-      <ion-col col-6>
-        <img (click)="go_to_directory_exporters()" src="assets/img/boton_exportadores.png"/>
-        <!--<button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">
-        </button>-->
-      </ion-col>
-		</ion-row>
     <ion-row>
-      <ion-col col-6>
-        <img (click)="get_location(type.tourist)" src="assets/img/boton_turistico.png"/>
+      <ion-col col-4>
+        <img (click)="go_to_directory()" src="assets/img/boton_ofertas2.png"/>
       </ion-col>
-      <ion-col col-6>
-        <img (click)="go_to_directory_agro()" src="assets/img/boton_agro.png"/>
+      <ion-col col-4>
+        <img (click)="go_to_directory()" src="assets/img/boton_negocios2.png"/>
+      </ion-col>
+      <ion-col col-4>
+        <img (click)="go_to_directory()" src="assets/img/boton_turistico2.png"/>
       </ion-col>
     </ion-row>
+    <!--Boton ofertas cercanas-->
+		<!--<ion-row>-->
+			<!--<ion-col>-->
+				<!--<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap class="hm-button">-->
+					<!--<ion-img src="assets/img/button_ofertas.png"></ion-img>-->
+					<!--<div >{{'buscar_promociones' | translate}}</div>-->
+				<!--</button>-->
+			<!--</ion-col>-->
+      <!--<ion-col col-auto >-->
+        <!--<button ion-button block (click)="share()" color="gray" no-padding text-wrap class="hm-button">-->
+          <!--<img src="assets/img/button_compartir_icon.png"/>-->
+        <!--</button>-->
+      <!--</ion-col>-->
+		<!--</ion-row>-->
+		<!--<ion-row *ngIf="options.debug">-->
+			<!--<ion-col col-12-auto>-->
+        <!--<button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>-->
+          <!--{{'cambiar_direccion' | translate}}-->
+        <!--</button>-->
+			<!--</ion-col>-->
+		<!--</ion-row>-->
+    <!--Botones directorio veporel y exportadores-->
+		<!--<ion-row>-->
+			<!--<ion-col col-6>-->
+        <!--<img (click)="go_to_directory()" src="assets/img/boton_negocios.png"/>-->
+				<!--&lt;!&ndash;<button ion-button block  color="yellow" no-padding text-wrap class="hm-button">-->
+
+				<!--</button>&ndash;&gt;-->
+			<!--</ion-col>-->
+      <!--<ion-col col-6>-->
+        <!--<img (click)="go_to_directory_exporters()" src="assets/img/boton_exportadores.png"/>-->
+        <!--&lt;!&ndash;<button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">-->
+        <!--</button>&ndash;&gt;-->
+      <!--</ion-col>-->
+		<!--</ion-row>-->
+    <!--Botone directorio turistico y agro-->
+    <!--<ion-row>-->
+      <!--<ion-col col-6>-->
+        <!--<img (click)="get_location(type.tourist)" src="assets/img/boton_turistico.png"/>-->
+      <!--</ion-col>-->
+      <!--<ion-col col-6>-->
+        <!--<img (click)="go_to_directory_agro()" src="assets/img/boton_agro.png"/>-->
+      <!--</ion-col>-->
+    <!--</ion-row>-->
     <ion-row>
 
     </ion-row>
