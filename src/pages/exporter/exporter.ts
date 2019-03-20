@@ -18,7 +18,7 @@ export class ExporterPage {
   @ViewChild(Content) content: Content;
 
   public data:any;
-  private photos:any;
+  public photos:any;
   public mas_info:boolean=false;
   constructor(
     public navCtrl: NavController,

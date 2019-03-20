@@ -20,7 +20,7 @@ export class MapOfferPage {
 
 
   //region Oferta
-  private offers_user:any;
+  public offers_user:any;
   private offer:any;
   //endregion
   //region Branchs
@@ -39,7 +39,7 @@ export class MapOfferPage {
 
   private kind_map:any;
   constructor(
-    private googleMaps: GoogleMaps,
+    public googleMaps: GoogleMaps,
     public navParams: NavParams,
     public navCtrl: NavController,
     public platform: Platform,

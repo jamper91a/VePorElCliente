@@ -26,6 +26,10 @@
         <ion-toggle item-end [(ngModel)]="options.debug" name="debug"></ion-toggle>
       </ion-item>
       <ion-item *ngIf="user.debuger">
+        <ion-label>Host</ion-label>
+        <ion-input required type="text" [(ngModel)]="options.url" name="url">{{url}}</ion-input>
+      </ion-item>
+      <ion-item *ngIf="user.debuger">
         <ion-label>Logs</ion-label>
         <ion-textarea value="{{logs}}"></ion-textarea>
       </ion-item>

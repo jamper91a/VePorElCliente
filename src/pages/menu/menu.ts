@@ -29,6 +29,7 @@ export class MenuPage {
   private optionsPage;
   private isLogged = false;
   private user:any;
+  private points:string;
   private version='';
   constructor(
     public navCtrl: NavController,
@@ -48,6 +49,11 @@ export class MenuPage {
     if (this.util.getPreference(this.util.constants.logged)) {
       this.isLogged = true;
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
+      this.points = this.util.getPreference(this.util.constants.points);
+      console.log("Points: "+this.points);
+      if(!this.points){
+        this.points='0';
+      }
     }
   }
 

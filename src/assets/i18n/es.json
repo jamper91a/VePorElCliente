@@ -254,5 +254,6 @@
   "reintentar": "Reintentar",
   "version": "Versión",
   "ingresando": "Ingresando",
-  "product":"Introduce el nombre del Producto que buscas:"
+  "product":"Introduce el nombre del Producto que buscas:",
+  "mis_puntos":"Mis puntos",
 }

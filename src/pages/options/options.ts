@@ -11,7 +11,8 @@ export class OptionsPage {
   private options:{
     notifications:boolean,
     range:number,
-    debug:boolean
+    debug:boolean,
+    url:string
   };
   private logs:string;
   private user:any;
@@ -36,7 +37,8 @@ export class OptionsPage {
       this.options={
         notifications:true,
         range : 2,
-        debug: false
+        debug: false,
+        url:util.url
       }
     }
     this.logs = this.util.getLogs();

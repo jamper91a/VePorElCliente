@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Api } from './api';
 import { Util } from './util';
 import 'rxjs/add/operator/map';
@@ -20,7 +19,6 @@ export class VePorEl {
 
   private messages:any;
   constructor(
-    private http: Http,
     private api: Api,
     private util: Util,
     private nativeGeocoder: NativeGeocoder,
