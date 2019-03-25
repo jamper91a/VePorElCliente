@@ -78,3 +78,5 @@ cordova plugin add cordova-plugin-googleplus@5.1.1
 
 ionic cordova plugin add cordova-plugin-inappbrowser
 npm install @ionic-native/in-app-browser
+
+npm install angular2-swiper-wrapper --save-dev

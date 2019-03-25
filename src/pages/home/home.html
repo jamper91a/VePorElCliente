@@ -103,16 +103,15 @@
     </ion-row>
     <ion-row>
       <ion-col col-12>
-        <ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true" loop="true" speed="300">
-          <ion-slide *ngFor="let banner of banners">
-            <a href="#" (click)="openBanner(banner)">
+        <ion-slides #pager *ngIf="banners && banners.length" (ionSlideTap)="openBanner($event)" autoplay="5000" pager="true" loop="true" speed="300">
+          <ion-slide  *ngFor="let banner of banners; let i = index" id="{{i}}">
               <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" useImg
                           fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
               <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" useImg
                           fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>
-            </a>
           </ion-slide>
         </ion-slides>
+
       </ion-col>
     </ion-row>
 

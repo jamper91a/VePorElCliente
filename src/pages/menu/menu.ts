@@ -28,7 +28,7 @@ export class MenuPage {
   private helpPage;
   private optionsPage;
   private isLogged = false;
-  private user:any;
+  private user:any = null;
   private points:string;
   private version='';
   constructor(
@@ -45,12 +45,11 @@ export class MenuPage {
     this.optionsPage = OptionsPage;
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     if (this.util.getPreference(this.util.constants.logged)) {
       this.isLogged = true;
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
       this.points = this.util.getPreference(this.util.constants.points);
-      console.log("Points: "+this.points);
       if(!this.points){
         this.points='0';
       }
@@ -71,9 +70,10 @@ export class MenuPage {
 
   logout(){
     this.util.clearAllData();
-    this.rootPage = WelcomePage;
+    //this.rootPage = WelcomePage;
     // this.navCtrl.setRoot(WelcomePage);
     this.menuCtrl.close();
+    window.location.reload();
   }
 
   go_to_offers(){
@@ -85,6 +85,13 @@ export class MenuPage {
     this.navCtrl.push(this.informationPage,{
       "option": option
     })
+  }
+
+  update(){
+    this.points = this.util.getPreference(this.util.constants.points);
+    if(!this.points){
+      this.points='0';
+    }
   }
 
 }
