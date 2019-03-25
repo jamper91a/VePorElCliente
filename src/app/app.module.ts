@@ -38,6 +38,7 @@ import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -122,6 +123,7 @@ export function providers() {
     GoogleMaps,
     SplashScreen,
     StatusBar,
+    InAppBrowser,
     Util,
     VePorEl,
     Geolocation,

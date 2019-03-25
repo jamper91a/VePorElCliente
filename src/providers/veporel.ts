@@ -506,7 +506,7 @@ export class VePorEl {
           res._body=JSON.stringify(aux);
           return res.json();
         }
-        return res.json();;
+        return res.json();
       }, err => {
         dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         Pro.monitoring.exception(err)
@@ -777,6 +777,22 @@ export class VePorEl {
       .subscribe(res => {
         dialog.dismiss().catch(() => {});
         return res.json();
+      }, err => {
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
+      });
+
+    return seq;
+  }
+
+  get_points(banner_id):any{
+    let dialog = this.util.show_dialog(this.messages.enviando_la_informacion);
+    let seq = this.api.post('points/getPoints', {banner_id: banner_id}).share();
+    seq
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {});
+        let aux= res.json();
+        return aux;
       }, err => {
         dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
         Pro.monitoring.exception(err)

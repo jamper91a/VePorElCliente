@@ -258,4 +258,13 @@ export class Util{
   public getLogs(){
     return this.getPreference(this.constants.logs);
   }
+
+  public updatePoints(newPoints){
+    let points = this.getPreference(this.constants.points);
+    if(!points){
+      points=0;
+    }
+    points = points+ newPoints;
+    this.savePreference(this.constants.points, points);
+  }
 }

@@ -11,6 +11,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import {MapPage} from "../map/map";
 import {ExporterPage} from "../exporter/exporter";
 import {CompaniesPage} from "../companies/companies";
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 /**
@@ -25,20 +26,20 @@ import {CompaniesPage} from "../companies/companies";
  })
  export class HomePage {
 
-   private banners:any;
-   private address:string="";
-   private latitude:number;
-   private longitude:number;
-   private city_name:string;
-   private country_name:string;
-   private country_code:string;
-   private user:any;
-   private messages: any;
+  private banners: any;
+  private address: string = "";
+  private latitude: number;
+  private longitude: number;
+  private city_name: string;
+  private country_name: string;
+  private country_code: string;
+  private user: any;
+  private messages: any;
 
-  private options:{
-    notifications:boolean,
-    range:number,
-    debug:boolean
+  private options: {
+    notifications: boolean,
+    range: number,
+    debug: boolean
   };
 
   /**
@@ -46,84 +47,85 @@ import {CompaniesPage} from "../companies/companies";
    * luego de obtenerla
    * @type {{banner: string; tourist: string}}
    */
-  private type:{
-    banner:string,
-    tourist:string
-  }={
+  private type: {
+    banner: string,
+    tourist: string
+  } = {
     banner: "banner",
-    tourist:"tourist"
+    tourist: "tourist"
   }
 
-   constructor(
-     public navCtrl: NavController,
-     public navParams: NavParams,
-     public veporel:VePorEl,
-     public util:Util,
-     private geolocation: Geolocation,
-     private translateService: TranslateService,
-     public toastCtrl: ToastController,
-     public menu: MenuController,
-     public socialSharing: SocialSharing,
-     private diagnostic: Diagnostic,
-     private platform: Platform,
-     private alertCtrl: AlertController,
-     private translate: TranslateService,
-     )
-   {
-     this.options= JSON.parse(this.util.getPreference("options"));
-     if(!this.options){
-       this.options={
-         notifications:true,
-         range : 2,
-         debug: false
-       }
-     }
-      this.util.savePreference(this.util.constants.language,navigator.language.split('-')[0]);
-      menu.enable(true);
-      this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
-      this.get_messages()
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public veporel: VePorEl,
+    public util: Util,
+    private geolocation: Geolocation,
+    private translateService: TranslateService,
+    public toastCtrl: ToastController,
+    public menu: MenuController,
+    public socialSharing: SocialSharing,
+    private diagnostic: Diagnostic,
+    private platform: Platform,
+    private alertCtrl: AlertController,
+    private translate: TranslateService,
+    private iab: InAppBrowser
+  ) {
+    this.options = JSON.parse(this.util.getPreference("options"));
+    if (!this.options) {
+      this.options = {
+        notifications: true,
+        range: 2,
+        debug: false
+      }
+    }
+    this.util.savePreference(this.util.constants.language, navigator.language.split('-')[0]);
+    menu.enable(true);
+    this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
+    this.get_messages()
 
-   }
+  }
+
   ionViewWillEnter() {
 
-     let self = this;
-     self.util.setLogs("ionViewWillEnter");
-     //Variable para saber si ya obtuve la ubicacion
-     try {
-       //Valido si me llega una dirrecion de otra vista
-       this.city_name = this.navParams.get('city_name');
-       self.util.setLogs("Recibiendo informacion de mapas: "+JSON.stringify(self.navParams));
-       if(this.city_name){
-         this.latitude = this.navParams.get(this.util.constants.latitude);
-         this.longitude = this.navParams.get(this.util.constants.longitude);
-         this.city_name = this.navParams.get(this.util.constants.city_name);
-         this.country_code = this.navParams.get(this.util.constants.country_code);
-         this.country_name = this.navParams.get(this.util.constants.country_name);
-         self.util.savePreference(this.util.constants.latitude, this.latitude);
-         self.util.savePreference(this.util.constants.longitude, this.longitude);
-         self.util.savePreference(this.util.constants.city_name, this.city_name);
-         self.util.savePreference(this.util.constants.country_code, this.country_code);
-         self.util.savePreference(this.util.constants.country_name, this.country_name);
-         self.get_banners(this.city_name);
-       }else{
-           //Valido si tengo una direccion almacenada
-           if(self.util.getPreference(this.util.constants.city_name)!=this.city_name){
-             this.latitude = self.util.getPreference(this.util.constants.latitude);
-             this.longitude = self.util.getPreference(this.util.constants.longitude);
-             this.city_name= self.util.getPreference(this.util.constants.city_name);
-             this.country_name= self.util.getPreference(this.util.constants.country_name);
-             self.get_banners(this.city_name);
-           }else{
-             self.get_location(self.type.banner);
+    let self = this;
+    self.util.setLogs("ionViewWillEnter");
+    //Variable para saber si ya obtuve la ubicacion
+    try {
+      //Valido si me llega una dirrecion de otra vista
+      this.city_name = this.navParams.get('city_name');
+      self.util.setLogs("Recibiendo informacion de mapas: " + JSON.stringify(self.navParams));
+      if (this.city_name) {
+        this.latitude = this.navParams.get(this.util.constants.latitude);
+        this.longitude = this.navParams.get(this.util.constants.longitude);
+        this.city_name = this.navParams.get(this.util.constants.city_name);
+        this.country_code = this.navParams.get(this.util.constants.country_code);
+        this.country_name = this.navParams.get(this.util.constants.country_name);
+        self.util.savePreference(this.util.constants.latitude, this.latitude);
+        self.util.savePreference(this.util.constants.longitude, this.longitude);
+        self.util.savePreference(this.util.constants.city_name, this.city_name);
+        self.util.savePreference(this.util.constants.country_code, this.country_code);
+        self.util.savePreference(this.util.constants.country_name, this.country_name);
+        self.get_banners(this.city_name);
+      } else {
+        //Valido si tengo una direccion almacenada
+        if (self.util.getPreference(this.util.constants.city_name) != this.city_name) {
+          this.latitude = self.util.getPreference(this.util.constants.latitude);
+          this.longitude = self.util.getPreference(this.util.constants.longitude);
+          this.city_name = self.util.getPreference(this.util.constants.city_name);
+          this.country_name = self.util.getPreference(this.util.constants.country_name);
+          self.get_banners(this.city_name);
+        } else {
+          self.get_location(self.type.banner);
 
-           }
+        }
 
-       }
+      }
 
-     } catch (e) {
-       console.error(e);
-     }
-   }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   private get_messages() {
     var self = this;
@@ -142,11 +144,11 @@ import {CompaniesPage} from "../companies/companies";
     });
   }
 
-  private get_location(type:string) {
+  private get_location(type: string) {
 
     let self = this;
     let dialog = this.util.show_dialog(this.messages.obteniendo_tu_ubicacion);
-    self.veporel.get_coordenates(dialog).subscribe( (location)=> {
+    self.veporel.get_coordenates(dialog).subscribe((location) => {
         switch (location.code) {
           case 1:
             self.latitude = location.lat;
@@ -155,8 +157,8 @@ import {CompaniesPage} from "../companies/companies";
               (result: any) => {
                 dialog.dismiss();
                 self.address = result.locality;
-                self.city_name =  result.locality;
-                let country_code =  result.countryCode;
+                self.city_name = result.locality;
+                let country_code = result.countryCode;
                 if (self.city_name) {
                   //Almaceno
                   self.util.savePreference(self.util.constants.latitude, self.latitude);
@@ -165,7 +167,7 @@ import {CompaniesPage} from "../companies/companies";
                   self.util.savePreference(self.util.constants.country_code, country_code);
                   self.util.savePreference(self.util.constants.country_name, result.countryName);
                   self.address_founded(type);
-                }else{
+                } else {
                   self.util.show_toast('error_22');
                 }
               },
@@ -181,7 +183,7 @@ import {CompaniesPage} from "../companies/companies";
                       handler: () => {
                         if (self.platform.is('android')) {
                           self.platform.exitApp();
-                        }else{
+                        } else {
                           self.util.show_toast('error_22');
                         }
                       }
@@ -207,17 +209,17 @@ import {CompaniesPage} from "../companies/companies";
             break;
         }
       },
-      (err)=>{
+      (err) => {
         dialog.dismiss();
         self.util.setLogs(JSON.stringify(err));
-        switch (err.code){
+        switch (err.code) {
           case 3:
           case 5:
           case 7:
             self.util.show_toast('error_16');
             if (self.platform.is('android')) {
               self.platform.exitApp();
-            }else{
+            } else {
               self.util.show_toast('error_16');
             }
             break;
@@ -232,7 +234,7 @@ import {CompaniesPage} from "../companies/companies";
                   handler: () => {
                     if (self.platform.is('android')) {
                       self.platform.exitApp();
-                    }else{
+                    } else {
                       self.util.show_toast('error_22');
                     }
                   }
@@ -256,123 +258,123 @@ import {CompaniesPage} from "../companies/companies";
 
   }
 
-  private get_banners(city_name:string){
-     let self = this;
-     //Obtengo los banners
-     this.veporel.get_banners(city_name,2).subscribe(
-       (result:any) =>{
+  private get_banners(city_name: string) {
+    let self = this;
+    //Obtengo los banners
+    this.veporel.get_banners(city_name, 2).subscribe(
+      (result: any) => {
 
-         let body =  result._body;
-         if(body!=null)
-         {
-           self.banners = JSON.parse(body);
-         }else{
-         }
+        let body = result._body;
+        if (body != null) {
+          self.banners = JSON.parse(body);
+        } else {
+        }
 
-       },
-       error =>{
-       }
-     );
-   }
+      },
+      error => {
+      }
+    );
+  }
 
-  public find_promotios(){
-     let self = this;
-     if(this.city_name){
-       this.navCtrl.push(FindPromotiosPage, {
-         "type_find_promotio": self.util.constants.find_promotio_by_location,
-         "latitude" : self.latitude,
-         "longitude" : self.longitude
-       });
-     }else{
-       this.translateService.get("error_9").subscribe((res) => {
-         let toast = self.toastCtrl.create({
-           message: res,
-           duration: 3000,
-           position: 'top'
-         });
-         toast.present();
-       })
+  public find_promotios() {
+    let self = this;
+    if (this.city_name) {
+      this.navCtrl.push(FindPromotiosPage, {
+        "type_find_promotio": self.util.constants.find_promotio_by_location,
+        "latitude": self.latitude,
+        "longitude": self.longitude
+      });
+    } else {
+      this.translateService.get("error_9").subscribe((res) => {
+        let toast = self.toastCtrl.create({
+          message: res,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      })
 
-     }
-   }
+    }
+  }
 
-  public share(){
-     this.translateService.get('mensaje_compartir',{
-       value: "VPE"+this.user.id,
-       google_play: "https://play.google.com/store/apps/details?id=co.colombiaapps.vpeclientes",
-       app_store: "https://itunes.apple.com/nl/app/veporel/id1318648947?mt=8"
-     }).subscribe((res) => {
+  public share() {
+    this.translateService.get('mensaje_compartir', {
+      value: "VPE" + this.user.id,
+      google_play: "https://play.google.com/store/apps/details?id=co.colombiaapps.vpeclientes",
+      app_store: "https://itunes.apple.com/nl/app/veporel/id1318648947?mt=8"
+    }).subscribe((res) => {
 
-       this.socialSharing.share(res, 'VePorEl', []).then(() => {
+      this.socialSharing.share(res, 'VePorEl', []).then(() => {
 
-       }).catch((e) => {
+      }).catch((e) => {
         alert(e);
-       });
-     });
-   }
+      });
+    });
+  }
 
-  public go_to_directory(){
-    let self=this;
-    this.navCtrl.push(DirectoryPage,{
+  public go_to_directory() {
+    let self = this;
+    this.navCtrl.push(DirectoryPage, {
       type: self.util.constants.find_business
     })
   }
 
-  public go_to_directory_exporters(){
-    let self=this;
-    this.navCtrl.push(DirectoryPage,{
+  public go_to_directory_exporters() {
+    let self = this;
+    this.navCtrl.push(DirectoryPage, {
       type: self.util.constants.find_exporters
     })
   }
 
-  public go_to_directory_agro(){
-    let self=this;
-    this.navCtrl.push(DirectoryPage,{
+  public go_to_directory_agro() {
+    let self = this;
+    this.navCtrl.push(DirectoryPage, {
       type: self.util.constants.find_agro
     })
   }
 
-  public change_address(){
+  public change_address() {
     this.navCtrl.push(MapPage);
   }
 
-  private address_founded(code:string){
-     var self=this;
-     switch (code) {
-       case self.type.banner:
-         self.get_banners(self.city_name);
-         break;
-       case self.type.tourist:
-         self.go_tourist();
-         break;
-     }
+  private address_founded(code: string) {
+    var self = this;
+    switch (code) {
+      case self.type.banner:
+        self.get_banners(self.city_name);
+        break;
+      case self.type.tourist:
+        self.go_tourist();
+        break;
+    }
   }
-  public go_tourist(){
-    let self=this;
 
-    let data:{
-      country_name:string,
-        country_code:string,
-        departament_name:string,
-        city_name:string,
-        name:string,
-        latitude:number,
-        longitude:number,
-        pagetoken:string,
-        type:string,//Tipo de busqueda: Negocios o Exportadores
-    }={
-      country_name:"",
-      country_code:"",
-      departament_name:"",
-      city_name:"",
-      name:"",
-      latitude:0,
-      longitude:0,
-      pagetoken:"",
-      type:""
+  public go_tourist() {
+    let self = this;
+
+    let data: {
+      country_name: string,
+      country_code: string,
+      departament_name: string,
+      city_name: string,
+      name: string,
+      latitude: number,
+      longitude: number,
+      pagetoken: string,
+      type: string,//Tipo de busqueda: Negocios o Exportadores
+    } = {
+      country_name: "",
+      country_code: "",
+      departament_name: "",
+      city_name: "",
+      name: "",
+      latitude: 0,
+      longitude: 0,
+      pagetoken: "",
+      type: ""
     };
 
-    data.latitude= self.util.getPreference(self.util.constants.latitude);
+    data.latitude = self.util.getPreference(self.util.constants.latitude);
     data.longitude = self.util.getPreference(self.util.constants.longitude);
     data.city_name = self.util.getPreference(self.util.constants.city_name);
     data.country_code = self.util.getPreference(self.util.constants.country_code);
@@ -381,6 +383,33 @@ import {CompaniesPage} from "../companies/companies";
     data.name = "";
     data.pagetoken = "";
     data.type = self.util.constants.find_touristic;
-    this.navCtrl.push(CompaniesPage,data);
+    this.navCtrl.push(CompaniesPage, data);
   }
- }
+
+  public openBanner(banner: any) {
+    console.log("calling points");
+    //LLamo al servicio web para obtener los puntos y muestro el banner
+    let self = this;
+    //Obtengo los banners
+    this.veporel.get_points(banner.id).subscribe(
+      (result: any) => {
+        self.openUrl(banner.url_destination);
+        //Actualizo los puntos
+
+
+      },
+      error => {
+        self.openUrl(banner.url_destination);
+      }
+    );
+
+  }
+
+  public openUrl(url) {
+
+    this.platform.ready().then(() => {
+      let browser = this.iab.create(url, '_system');
+
+    });
+  }
+}
