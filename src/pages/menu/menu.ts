@@ -49,9 +49,7 @@ export class MenuPage {
     if (this.util.getPreference(this.util.constants.logged)) {
       this.isLogged = true;
       this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
-      console.log(this.user);
       this.points = this.util.getPreference(this.util.constants.points);
-      console.log("Points: "+this.points);
       if(!this.points){
         this.points='0';
       }
@@ -87,6 +85,13 @@ export class MenuPage {
     this.navCtrl.push(this.informationPage,{
       "option": option
     })
+  }
+
+  update(){
+    this.points = this.util.getPreference(this.util.constants.points);
+    if(!this.points){
+      this.points='0';
+    }
   }
 
 }

@@ -1187,7 +1187,7 @@ var Util = /** @class */ (function () {
             //self.url = "http://192.168.1.67:1337/";
         }
         this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-        this.version = "2.8.3";
+        this.version = "2.8.4";
         this.puntos = "0";
     }
     Util.prototype.savePreference = function (key, value) {
@@ -1356,13 +1356,10 @@ var Util = /** @class */ (function () {
     };
     Util = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0_ionic_angular__["o" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */],
-            __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["i" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_is_debug__["a" /* IsDebug */],
-            __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["n" /* Platform */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["o" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["o" /* ToastController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["i" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["i" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_is_debug__["a" /* IsDebug */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_is_debug__["a" /* IsDebug */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["n" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["n" /* Platform */]) === "function" && _e || Object])
     ], Util);
     return Util;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=util.js.map
@@ -2372,9 +2369,7 @@ var MenuPage = /** @class */ (function () {
         if (this.util.getPreference(this.util.constants.logged)) {
             this.isLogged = true;
             this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
-            console.log(this.user);
             this.points = this.util.getPreference(this.util.constants.points);
-            console.log("Points: " + this.points);
             if (!this.points) {
                 this.points = '0';
             }
@@ -2406,17 +2401,20 @@ var MenuPage = /** @class */ (function () {
             "option": option
         });
     };
+    MenuPage.prototype.update = function () {
+        this.points = this.util.getPreference(this.util.constants.points);
+        if (!this.points) {
+            this.points = '0';
+        }
+    };
     MenuPage = MenuPage_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-menu',template:/*ion-inline-start:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/menu/menu.html"*/'<ion-menu [content]="content" persistent="true" side="right" *ngIf="isLogged==true">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Hola {{user.names}}</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-content>\n    <ion-list inset >\n      <button ion-item (click)="openPage(homePage)">\n        <ion-icon name="home"></ion-icon>\n        {{\'inicio\' | translate}}\n      </button>\n      <button ion-item (click)="pushPage(optionsPage)">\n        <ion-icon name="settings"></ion-icon>\n        {{\'opciones\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_offers()">\n        <ion-icon name="logo-buffer"></ion-icon>\n        {{\'mis_promociones\' | translate}}\n      </button>\n      <button ion-item (click)="pushPage(helpPage)">\n        <ion-icon name="mail"></ion-icon>\n        {{\'help\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_information_page(1)">\n        <ion-icon name="help-circle"></ion-icon>\n        {{\'como_funciona_text\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_information_page(2)">\n        <ion-icon name="information-circle"></ion-icon>\n        {{\'legal_text\' | translate}}\n      </button>\n      <button ion-item *ngIf="user!=null && user.username!=\'demo@veporel.com\'">\n        <ion-icon  name="information-circle"></ion-icon>\n        {{\'mis_puntos\' | translate}}: {{util.puntos}}\n      </button>\n      <button ion-item (click)="logout()">\n        <ion-icon name="log-out"></ion-icon>\n        {{\'logout\' | translate}}\n      </button>\n      <ion-item>\n        {{\'version\' | translate}}: {{util.version}}\n      </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/menu/menu.html"*/,
+            selector: 'page-menu',template:/*ion-inline-start:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/menu/menu.html"*/'<ion-menu [content]="content" (ionOpen)="update()" persistent="true" side="right" *ngIf="isLogged==true">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Hola {{user.names}}</ion-title>\n    </ion-toolbar>\n  </ion-header>\n  <ion-content>\n    <ion-list inset >\n      <button ion-item (click)="openPage(homePage)">\n        <ion-icon name="home"></ion-icon>\n        {{\'inicio\' | translate}}\n      </button>\n      <button ion-item (click)="pushPage(optionsPage)">\n        <ion-icon name="settings"></ion-icon>\n        {{\'opciones\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_offers()">\n        <ion-icon name="logo-buffer"></ion-icon>\n        {{\'mis_promociones\' | translate}}\n      </button>\n      <button ion-item (click)="pushPage(helpPage)">\n        <ion-icon name="mail"></ion-icon>\n        {{\'help\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_information_page(1)">\n        <ion-icon name="help-circle"></ion-icon>\n        {{\'como_funciona_text\' | translate}}\n      </button>\n      <button ion-item (click)="go_to_information_page(2)">\n        <ion-icon name="information-circle"></ion-icon>\n        {{\'legal_text\' | translate}}\n      </button>\n      <button ion-item *ngIf="user!=null && user.username!=\'demo@veporel.com\'">\n        <ion-icon  name="information-circle"></ion-icon>\n        {{\'mis_puntos\' | translate}}: {{points}}\n      </button>\n      <button ion-item (click)="logout()">\n        <ion-icon name="log-out"></ion-icon>\n        {{\'logout\' | translate}}\n      </button>\n      <ion-item>\n        {{\'version\' | translate}}: {{util.version}}\n      </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/menu/menu.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_util__["a" /* Util */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_util__["a" /* Util */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_util__["a" /* Util */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */]) === "function" && _d || Object])
     ], MenuPage);
     return MenuPage;
-    var MenuPage_1;
+    var MenuPage_1, _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=menu.js.map
@@ -4444,7 +4442,6 @@ var HomePage = /** @class */ (function () {
     }
     HomePage.prototype.ionViewWillEnter = function () {
         var self = this;
-        self.util.setLogs("ionViewWillEnter");
         //Variable para saber si ya obtuve la ubicacion
         try {
             //Valido si me llega una dirrecion de otra vista
@@ -4576,7 +4573,7 @@ var HomePage = /** @class */ (function () {
                     break;
                 case 1:
                 case 2:
-                    var confirm_1 = self.alertCtrl.create({
+                    var confirm = self.alertCtrl.create({
                         title: self.messages.ubicacion,
                         message: self.messages.error_22,
                         buttons: [
@@ -4599,7 +4596,7 @@ var HomePage = /** @class */ (function () {
                             }
                         ]
                     });
-                    confirm_1.present();
+                    confirm.present();
                     break;
                 default:
                     self.util.show_toast(err.message);
@@ -4709,10 +4706,10 @@ var HomePage = /** @class */ (function () {
         data.type = self.util.constants.find_touristic;
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_10__companies_companies__["a" /* CompaniesPage */], data);
     };
-    HomePage.prototype.openBanner = function (banner) {
-        console.log("calling points");
+    HomePage.prototype.openBanner = function (event) {
         //LLamo al servicio web para obtener los puntos y muestro el banner
         var self = this;
+        var banner = this.banners[event.clickedSlide.id];
         //Obtengo los banners
         this.veporel.get_points(banner.id).subscribe(function (result) {
             self.openUrl(banner.url_destination);
@@ -4729,24 +4726,12 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <!--<button ion-button menuToggle icon-only end>-->\n    <!--<img src="assets/img/menu.png" class="menu_icon" />-->\n    <!--</button>-->\n    <ion-buttons end>\n      <button ion-button block (click)="share()" text-wrap>\n        <img src="assets/img/button_compartir_icon2.png" style="height : 100%"/>\n      </button>\n    </ion-buttons>\n    <ion-buttons end>\n\n      <button ion-button menuToggle>\n        <img src="assets/img/menu2.png" class="menu_icon" style="height : 100%"/>\n      </button>\n    </ion-buttons>\n    <img src="assets/img/logo_horizontal.png" height="40" class="center"/>\n  </ion-navbar>\n</ion-header>\n<ion-content padding>\n  <ion-grid>\n    <ion-row class="location">\n      <ion-col col-4>\n        <img src="assets/img/avatar_saludo.png"/>\n      </ion-col>\n      <ion-col col-8 text-center>\n        <ion-row>\n          <ion-col col-12 text-center style="top: 0;">\n            <p> Hola {{user.names}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-12 text-center>\n            <p> Estás en {{city_name}}</p>\n          </ion-col>\n        </ion-row>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf="options.debug">\n      <ion-col col-12-auto>\n        <button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>\n          {{\'cambiar_direccion\' | translate}}\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col col-4>\n        <img (click)="find_promotios()" src="assets/img/boton_ofertas2.png"/>\n      </ion-col>\n      <ion-col col-4>\n        <img (click)="go_to_directory()" src="assets/img/boton_negocios2.png"/>\n      </ion-col>\n      <ion-col col-4>\n        <img (click)="get_location(type.tourist)" src="assets/img/boton_turistico2.png"/>\n      </ion-col>\n    </ion-row>\n    <!--Boton ofertas cercanas-->\n    <!--<ion-row>-->\n    <!--<ion-col>-->\n    <!--<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap class="hm-button">-->\n    <!--<ion-img src="assets/img/button_ofertas.png"></ion-img>-->\n    <!--<div >{{\'buscar_promociones\' | translate}}</div>-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--<ion-col col-auto >-->\n    <!--<button ion-button block (click)="share()" color="gray" no-padding text-wrap class="hm-button">-->\n    <!--<img src="assets/img/button_compartir_icon.png"/>-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row *ngIf="options.debug">-->\n    <!--<ion-col col-12-auto>-->\n    <!--<button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>-->\n    <!--{{\'cambiar_direccion\' | translate}}-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--Botones directorio veporel y exportadores-->\n    <!--<ion-row>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory()" src="assets/img/boton_negocios.png"/>-->\n    <!--&lt;!&ndash;<button ion-button block  color="yellow" no-padding text-wrap class="hm-button">-->\n\n    <!--</button>&ndash;&gt;-->\n    <!--</ion-col>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory_exporters()" src="assets/img/boton_exportadores.png"/>-->\n    <!--&lt;!&ndash;<button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">-->\n    <!--</button>&ndash;&gt;-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--Botone directorio turistico y agro-->\n    <!--<ion-row>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="get_location(type.tourist)" src="assets/img/boton_turistico.png"/>-->\n    <!--</ion-col>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory_agro()" src="assets/img/boton_agro.png"/>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <ion-row>\n\n    </ion-row>\n    <ion-row>\n      <ion-col col-12>\n        <ion-slides #pager *ngIf="banners && banners.length" autoplay="5000" pager="true" loop="true" speed="300">\n          <ion-slide *ngFor="let banner of banners" (click)="openBanner(banner)">\n            <a href="#" >\n              <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" useImg\n                          fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>\n              <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" useImg\n                          fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>\n            </a>\n          </ion-slide>\n        </ion-slides>\n      </ion-col>\n    </ion-row>\n\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/home/home.html"*/,
+            selector: 'page-home',template:/*ion-inline-start:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <!--<button ion-button menuToggle icon-only end>-->\n    <!--<img src="assets/img/menu.png" class="menu_icon" />-->\n    <!--</button>-->\n    <ion-buttons end>\n      <button ion-button block (click)="share()" text-wrap>\n        <img src="assets/img/button_compartir_icon2.png" style="height : 100%"/>\n      </button>\n    </ion-buttons>\n    <ion-buttons end>\n\n      <button ion-button menuToggle>\n        <img src="assets/img/menu2.png" class="menu_icon" style="height : 100%"/>\n      </button>\n    </ion-buttons>\n    <img src="assets/img/logo_horizontal.png" height="40" class="center"/>\n  </ion-navbar>\n</ion-header>\n<ion-content padding>\n  <ion-grid>\n    <ion-row class="location">\n      <ion-col col-4>\n        <img src="assets/img/avatar_saludo.png"/>\n      </ion-col>\n      <ion-col col-8 text-center>\n        <ion-row>\n          <ion-col col-12 text-center style="top: 0;">\n            <p> Hola {{user.names}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-12 text-center>\n            <p> Estás en {{city_name}}</p>\n          </ion-col>\n        </ion-row>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf="options.debug">\n      <ion-col col-12-auto>\n        <button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>\n          {{\'cambiar_direccion\' | translate}}\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col col-4>\n        <img (click)="find_promotios()" src="assets/img/boton_ofertas2.png"/>\n      </ion-col>\n      <ion-col col-4>\n        <img (click)="go_to_directory()" src="assets/img/boton_negocios2.png"/>\n      </ion-col>\n      <ion-col col-4>\n        <img (click)="get_location(type.tourist)" src="assets/img/boton_turistico2.png"/>\n      </ion-col>\n    </ion-row>\n    <!--Boton ofertas cercanas-->\n    <!--<ion-row>-->\n    <!--<ion-col>-->\n    <!--<button ion-button block (click)="find_promotios()" color="primary" no-padding text-wrap class="hm-button">-->\n    <!--<ion-img src="assets/img/button_ofertas.png"></ion-img>-->\n    <!--<div >{{\'buscar_promociones\' | translate}}</div>-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--<ion-col col-auto >-->\n    <!--<button ion-button block (click)="share()" color="gray" no-padding text-wrap class="hm-button">-->\n    <!--<img src="assets/img/button_compartir_icon.png"/>-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--<ion-row *ngIf="options.debug">-->\n    <!--<ion-col col-12-auto>-->\n    <!--<button ion-button block (click)="change_address()" color="primary" no-padding text-wrap>-->\n    <!--{{\'cambiar_direccion\' | translate}}-->\n    <!--</button>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--Botones directorio veporel y exportadores-->\n    <!--<ion-row>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory()" src="assets/img/boton_negocios.png"/>-->\n    <!--&lt;!&ndash;<button ion-button block  color="yellow" no-padding text-wrap class="hm-button">-->\n\n    <!--</button>&ndash;&gt;-->\n    <!--</ion-col>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory_exporters()" src="assets/img/boton_exportadores.png"/>-->\n    <!--&lt;!&ndash;<button ion-button block (click)="go_to_directory_exporters()" color="primary" no-padding text-wrap class="hm-button">-->\n    <!--</button>&ndash;&gt;-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <!--Botone directorio turistico y agro-->\n    <!--<ion-row>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="get_location(type.tourist)" src="assets/img/boton_turistico.png"/>-->\n    <!--</ion-col>-->\n    <!--<ion-col col-6>-->\n    <!--<img (click)="go_to_directory_agro()" src="assets/img/boton_agro.png"/>-->\n    <!--</ion-col>-->\n    <!--</ion-row>-->\n    <ion-row>\n\n    </ion-row>\n    <ion-row>\n      <ion-col col-12>\n        <ion-slides #pager *ngIf="banners && banners.length" (ionSlideTap)="openBanner($event)" autoplay="5000" pager="true" loop="true" speed="300">\n          <ion-slide  *ngFor="let banner of banners; let i = index" id="{{i}}">\n              <img-loader *ngIf="util.isUrlValid(banner.url_photo)" src="{{banner.url_photo}}" useImg\n                          fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>\n              <img-loader *ngIf="!util.isUrlValid(banner.url_photo)" src="{{util.url}}{{banner.url_photo}}" useImg\n                          fallback="assets/img/logo_horizontal.png" class="slide-image"></img-loader>\n          </ion-slide>\n        </ion-slides>\n\n      </ion-col>\n    </ion-row>\n\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/Users/jorgeandresmorenojaimes/Documents/VePorElCliente/src/pages/home/home.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["b" /* VePorEl */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_providers__["a" /* Util */],
-            __WEBPACK_IMPORTED_MODULE_4__ionic_native_geolocation__["a" /* Geolocation */],
-            __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */],
-            __WEBPACK_IMPORTED_MODULE_7__ionic_native_social_sharing__["a" /* SocialSharing */],
-            __WEBPACK_IMPORTED_MODULE_8__ionic_native_diagnostic__["a" /* Diagnostic */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */],
-            __WEBPACK_IMPORTED_MODULE_11__ionic_native_in_app_browser_ngx__["a" /* InAppBrowser */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_providers__["b" /* VePorEl */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_providers__["b" /* VePorEl */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_providers__["a" /* Util */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_providers__["a" /* Util */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* MenuController */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_7__ionic_native_social_sharing__["a" /* SocialSharing */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ionic_native_social_sharing__["a" /* SocialSharing */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_8__ionic_native_diagnostic__["a" /* Diagnostic */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__ionic_native_diagnostic__["a" /* Diagnostic */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_11__ionic_native_in_app_browser_ngx__["a" /* InAppBrowser */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__ionic_native_in_app_browser_ngx__["a" /* InAppBrowser */]) === "function" && _p || Object])
     ], HomePage);
     return HomePage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
 }());
 
 //# sourceMappingURL=home.js.map
