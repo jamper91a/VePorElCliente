@@ -20,7 +20,7 @@ import {Pro} from "@ionic/pro";
 export class DirectoryPage {
 
   private city_name="";
-  private country_name="";
+  public country_name="";
   public language="";
   private messages: any;
 
@@ -56,8 +56,7 @@ export class DirectoryPage {
     public navParams: NavParams,
     public util:Util,
     public veporel:VePorEl,
-    private geolocation: Geolocation,
-    private ga: GoogleAnalytics,
+    public geolocation: Geolocation,
     private diagnostic: Diagnostic,
     private translateService: TranslateService,
     private platform: Platform,

@@ -59,6 +59,7 @@ export class User {
     this.util.savePreference(this.util.constants.user, JSON.stringify(resp.user));
     this.util.savePreference(this.util.constants.token, resp.token);
     this.util.savePreference(this.util.constants.topics, JSON.stringify(resp.categories));
+    this.util.savePreference(this.util.constants.points, resp.points);
   }
 
 

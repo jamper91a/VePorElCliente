@@ -55,6 +55,7 @@ export class Util{
       language: 'language',
       push_code: 'push_code',
       topics: 'topics',
+      points: 'points',
       company_name: 'company_name',
       get_location_first_time: 'get_location_first_time',
       logs: 'logs',
@@ -70,8 +71,8 @@ export class Util{
           if(isDebug==false)
             self.url = "https://backend.veporel.com.co:85/";
           else{
-            self.url = "https://backend.veporel.com.co:85/";
-            //self.url = "http://192.168.1.65:1337/";
+            //self.url = "https://backend.veporel.com.co:85/";
+            self.url = "http://192.168.1.76:1337/";
           }
 
         })
@@ -88,7 +89,7 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.8.1";
+    this.version = "2.8.3";
   }
 
 
@@ -256,5 +257,14 @@ export class Util{
 
   public getLogs(){
     return this.getPreference(this.constants.logs);
+  }
+
+  public updatePoints(newPoints){
+    let points = this.getPreference(this.constants.points);
+    if(!points){
+      points=0;
+    }
+    points = points+ newPoints;
+    this.savePreference(this.constants.points, points);
   }
 }

@@ -83,7 +83,7 @@ export class ExportersPage {
       return false;
   }
 
-  private banners: any;
+  public banners: any;
 
   private get_banners() {
     let city_name = this.util.getPreference(this.util.constants.city_name);
