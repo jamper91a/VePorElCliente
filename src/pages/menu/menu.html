@@ -30,9 +30,9 @@
         <ion-icon name="information-circle"></ion-icon>
         {{'legal_text' | translate}}
       </button>
-      <button ion-item>
-        <ion-icon name="information-circle"></ion-icon>
-        {{'mis_puntos' | translate}}: {{points}}
+      <button ion-item *ngIf="user!=null && user.username!='demo@veporel.com'">
+        <ion-icon  name="information-circle"></ion-icon>
+        {{'mis_puntos' | translate}}: {{util.puntos}}
       </button>
       <button ion-item (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
