@@ -1,4 +1,4 @@
-<ion-menu [content]="content" persistent="true" side="right" *ngIf="isLogged==true">
+<ion-menu [content]="content" (ionOpen)="update()" persistent="true" side="right" *ngIf="isLogged==true">
   <ion-header>
     <ion-toolbar>
       <ion-title>Hola {{user.names}}</ion-title>
@@ -30,8 +30,8 @@
         <ion-icon name="information-circle"></ion-icon>
         {{'legal_text' | translate}}
       </button>
-      <button ion-item>
-        <ion-icon name="information-circle"></ion-icon>
+      <button ion-item *ngIf="user!=null && user.username!='demo@veporel.com'">
+        <ion-icon  name="information-circle"></ion-icon>
         {{'mis_puntos' | translate}}: {{points}}
       </button>
       <button ion-item (click)="logout()">

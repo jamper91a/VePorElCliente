@@ -15,6 +15,7 @@ export class Util{
   public url:string;
   public version:string;
   public google_api_key:string;
+  public puntos:string;
   constructor(
     public toastCtrl: ToastController,
     public translateService: TranslateService,
@@ -71,8 +72,8 @@ export class Util{
           if(isDebug==false)
             self.url = "https://backend.veporel.com.co:85/";
           else{
-            //self.url = "https://backend.veporel.com.co:85/";
-            self.url = "http://192.168.1.76:1337/";
+            self.url = "https://backend.veporel.com.co:85/";
+            //self.url = "http://192.168.1.76:1337/";
           }
 
         })
@@ -89,7 +90,8 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.8.3";
+    this.version = "2.8.4";
+    this.puntos = "0";
   }
 
 
@@ -105,8 +107,12 @@ export class Util{
 
   public clearAllData(){
     let push_code= this.getPreference(this.constants.push_code);
+    let language= this.getPreference(this.constants.language);
+    let tutorial= this.getPreference(this.constants.tutorial);
     localStorage.clear();
     this.savePreference(this.constants.push_code, push_code);
+    this.savePreference(this.constants.language, language);
+    this.savePreference(this.constants.tutorial, tutorial);
   }
 
   public show_toast(message:string, position?:string){
@@ -260,11 +266,12 @@ export class Util{
   }
 
   public updatePoints(newPoints){
-    let points = this.getPreference(this.constants.points);
-    if(!points){
-      points=0;
+    let pointsA = this.getPreference(this.constants.points);
+    if(!pointsA){
+      pointsA=0;
     }
-    points = points+ newPoints;
-    this.savePreference(this.constants.points, points);
+    pointsA = pointsA+ newPoints;
+    this.savePreference(this.constants.points, pointsA);
+    this.puntos=pointsA;
   }
 }

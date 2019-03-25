@@ -89,7 +89,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   ionViewWillEnter() {
 
     let self = this;
-    self.util.setLogs("ionViewWillEnter");
     //Variable para saber si ya obtuve la ubicacion
     try {
       //Valido si me llega una dirrecion de otra vista
@@ -386,10 +385,10 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     this.navCtrl.push(CompaniesPage, data);
   }
 
-  public openBanner(banner: any) {
-    console.log("calling points");
+  public openBanner(event) {
     //LLamo al servicio web para obtener los puntos y muestro el banner
     let self = this;
+    let banner = this.banners[event.clickedSlide.id];
     //Obtengo los banners
     this.veporel.get_points(banner.id).subscribe(
       (result: any) => {
@@ -412,4 +411,5 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
     });
   }
+
 }
