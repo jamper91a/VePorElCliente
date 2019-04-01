@@ -3,12 +3,12 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Util } from '../../providers/util';
 import { LoginPage } from '../login/login';
-import { WelcomePage } from "../welcome/welcome";
 import { HelpPage } from "../help/help";
 import { OptionsPage } from "../options/options";
 import { InformationPage } from "../information/information";
 import { FindPromotiosPage } from "../find-promotios/find-promotios";
 import { MenuController } from 'ionic-angular';
+
 
 /**
  * Generated class for the MenuPage page.
@@ -87,7 +87,17 @@ export class MenuPage {
     })
   }
 
+  go_home(){
+    console.log("going home");
+    this.navCtrl.setRoot(MenuPage);
+  }
+
+  go_login(){
+
+  }
+
   update(){
+    console.log("updating");
     this.points = this.util.getPreference(this.util.constants.points);
     if(!this.points){
       this.points='0';

@@ -89,6 +89,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   ionViewWillEnter() {
 
     let self = this;
+    this.menu.enable(true);
     //Variable para saber si ya obtuve la ubicacion
     try {
       //Valido si me llega una dirrecion de otra vista
@@ -392,6 +393,12 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     //Obtengo los banners
     this.veporel.get_points(banner.id).subscribe(
       (result: any) => {
+        let body = result._body;
+        if (body != null) {
+          body = JSON.parse(body);
+        }
+        if(body.code == 1)
+          this.util.updatePoints(banner.points);
         self.openUrl(banner.url_destination);
         //Actualizo los puntos
 

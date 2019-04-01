@@ -72,18 +72,18 @@ export class Util{
           if(isDebug==false)
             self.url = "https://backend.veporel.com.co:85/";
           else{
-            self.url = "https://backend.veporel.com.co:85/";
-            //self.url = "http://192.168.1.76:1337/";
+            //self.url = "https://backend.veporel.com.co:85/";
+            self.url = "http://localhost:1337/";
           }
 
         })
         .catch(function (error: any) {
           self.url = "https://backend.veporel.com.co:85/";
-          //self.url = "http://192.168.1.65:1337/";
+          //self.url = "http://localhost:1337/";
         });
     }else{
       self.url = "https://backend.veporel.com.co:85/";
-      //self.url = "http://192.168.1.67:1337/";
+      //self.url = "http://localhost:1337/";
     }
 
 
@@ -270,7 +270,7 @@ export class Util{
     if(!pointsA){
       pointsA=0;
     }
-    pointsA = pointsA+ newPoints;
+    pointsA = parseInt(pointsA)+ parseInt(newPoints);
     this.savePreference(this.constants.points, pointsA);
     this.puntos=pointsA;
   }
