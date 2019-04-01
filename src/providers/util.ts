@@ -78,12 +78,12 @@ export class Util{
 
         })
         .catch(function (error: any) {
-          //self.url = "https://backend.veporel.com.co:85/";
-          self.url = "http://localhost:1337/";
+          self.url = "https://backend.veporel.com.co:85/";
+          //self.url = "http://localhost:1337/";
         });
     }else{
-      //self.url = "https://backend.veporel.com.co:85/";
-      self.url = "http://localhost:1337/";
+      self.url = "https://backend.veporel.com.co:85/";
+      //self.url = "http://localhost:1337/";
     }
 
 
