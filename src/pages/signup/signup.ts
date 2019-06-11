@@ -148,9 +148,11 @@ export class SignupPage {
 
   }
 
-  showPassword(): any {
+  showPassword() {
     this.inputP.type = this.inputP.type === 'password' ? 'text' : 'password';
+    this.inputP.setFocus();
     this.inputRP.type = this.inputRP.type === 'password' ? 'text' : 'password';
+    this.inputRP.setFocus();
   }
 
   get_location() {

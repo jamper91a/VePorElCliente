@@ -56,7 +56,10 @@
   <ion-grid>
     <ion-row>
       <ion-col col-5-auto>
-        <button ion-button block (click)="take_offer()" *ngIf="!offers_user"  [disabled]="cantidad>0">
+        <button ion-button block (click)="take_offer()" *ngIf="!offers_user && !demo"  [disabled]="cantidad>0">
+          {{'app_name' | translate}}
+        </button>
+        <button ion-button block (click)="take_offer()" *ngIf="!offers_user && demo"  [disabled]="offer!=null && offer.amount<=0">
           {{'app_name' | translate}}
         </button>
         <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="offers_user.state>0">
