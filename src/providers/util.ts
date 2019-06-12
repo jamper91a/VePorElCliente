@@ -85,6 +85,7 @@ export class Util{
       self.url = "https://backend.veporel.com.co:85/";
       //self.url = "http://localhost:1337/";
     }
+    // self.url = "http://localhost:1337/";
 
 
 
