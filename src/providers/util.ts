@@ -91,7 +91,7 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.9.2";
+    this.version = "2.9.3";
     this.puntos = "0";
   }
 
