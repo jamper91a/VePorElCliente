@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import {AlertController, NavController, NavParams, ToastController} from 'ionic-angular';
 import { VePorEl } from '../../providers/providers';
 import { Util } from '../../providers/providers';
 import { MapOfferPage } from '../map-offer/map-offer';
@@ -21,6 +21,8 @@ export class OfferPage {
   public offer:any;
   public  offers_user:any;
   public  company_name:string;
+  private user:any = null;
+  private demo:boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -30,6 +32,7 @@ export class OfferPage {
     public toastCtrl: ToastController,
     public translate: TranslateService,
     public socialSharing: SocialSharing,
+    private alertCtrl: AlertController,
   ) {
     let self = this;
     this.offer_id = this.navParams.get(this.util.constants.offer_id);
@@ -40,36 +43,43 @@ export class OfferPage {
         if (result != null) {
           let body = JSON.parse(result._body);
           self.offer = body.offer;
+          console.log(self.offer);
+          //If is user demo, not offers user
           self.offers_user = body.offers_user;
           self.cantidad = body.cantidad;
-          if(self.cantidad>0 && !self.offers_user){
-            this.translate.get(["opciones",
-              "uso_bloqueado"
-            ]).subscribe(
-              (values) => {
-                let toast = this.toastCtrl.create({
-                  message: values.uso_bloqueado,
-                  position: 'bottom',
-                  duration: 3000
-                });
-
-                toast.present();
-              });
-
-          }else if(self.offers_user && self.offers_user.state>0){
-            this.translate.get(["opciones",
-              "oferta_ya_reclamada"
-            ]).subscribe(
-              (values) => {
-                let toast = this.toastCtrl.create({
-                  message: values.oferta_ya_reclamada,
-                  position: 'bottom',
-                  duration: 3000
-                });
-
-                toast.present();
-              });
+          //Check user is not demo
+          if(this.user==null || this.user.username=='demo@veporel.com'){
+            self.demo =true;
           }
+            if(self.cantidad>0 && !self.offers_user && self.demo==false){
+              this.translate.get(["opciones",
+                "uso_bloqueado"
+              ]).subscribe(
+                (values) => {
+                  let toast = this.toastCtrl.create({
+                    message: values.uso_bloqueado,
+                    position: 'bottom',
+                    duration: 3000
+                  });
+
+                  toast.present();
+                });
+
+            }else if(self.offers_user && self.offers_user.state>0){
+              this.translate.get(["opciones",
+                "oferta_ya_reclamada"
+              ]).subscribe(
+                (values) => {
+                  let toast = this.toastCtrl.create({
+                    message: values.oferta_ya_reclamada,
+                    position: 'bottom',
+                    duration: 3000
+                  });
+
+                  toast.present();
+                });
+            }
+
         }
       },
       error => {
@@ -78,6 +88,14 @@ export class OfferPage {
     );
   }
 
+  ionViewWillEnter() {
+    if (this.util.getPreference(this.util.constants.logged)) {
+      this.user = JSON.parse(this.util.getPreference(this.util.constants.user));
+    }
+    if(this.user==null || this.user.username=='demo@veporel.com'){
+      this.demo =true;
+    }
+  }
   ionViewDidLoad() {
 
   }
@@ -124,41 +142,69 @@ export class OfferPage {
 
   public take_offer(){
     let self=this;
-    let loader = this.loadingCtrl.create({
-      content: "Reservando ..."
+    if(!self.demo){
+      let loader = this.loadingCtrl.create({
+        content: "Reservando ..."
+      });
+      loader.present();
+
+      self.veporel.take_offer(this.offer_id, this.branch_id).subscribe(
+        (result: any) => {
+          if (result != null) {
+            loader.dismiss();
+            self.go_to_offer();
+          }
+        },
+        error => {
+          try {
+            let body = JSON.parse(error._body);
+            loader.dismiss();
+            let toast = self.toastCtrl.create({
+              message: body.message,
+              duration: 3000,
+              position: 'top'
+            });
+            toast.present();
+            self.go_back();
+          } catch (e) {
+            loader.dismiss();
+            let toast = self.toastCtrl.create({
+              message: "Error al intentar reservar, por favor intentalo mas tarde",
+              duration: 3000,
+              position: 'top'
+            });
+            toast.present();
+          }
+
+        }
+      );
+    }else{
+      this.ask_for_login();
+    }
+
+  }
+
+  public ask_for_login(){
+    var self=this;
+    let confirm = self.alertCtrl.create({
+      title: "VePorEl",
+      message: "Para poder reclamar la oferta, debes logearte en la aplicacion",
+      buttons: [
+        {
+          text: "Ok",
+          handler: () => {
+            this.util.clearAllData();
+            window.location.reload();
+          }
+        },
+        {
+          text: "Cancelar",
+          handler: () => {
+          }
+        }
+      ]
     });
-    loader.present();
-
-    self.veporel.take_offer(this.offer_id, this.branch_id).subscribe(
-      (result: any) => {
-        if (result != null) {
-          loader.dismiss();
-          self.go_to_offer();
-        }
-      },
-      error => {
-        try {
-          let body = JSON.parse(error._body);
-          loader.dismiss();
-          let toast = self.toastCtrl.create({
-            message: body.message,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-          self.go_back();
-        } catch (e) {
-          loader.dismiss();
-          let toast = self.toastCtrl.create({
-            message: "Error al intentar reservar, por favor intentalo mas tarde",
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-        }
-
-      }
-    );
+    confirm.present();
   }
 
   public go_to_offer()

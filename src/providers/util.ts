@@ -72,8 +72,8 @@ export class Util{
           if(isDebug==false)
             self.url = "https://backend.veporel.com.co:85/";
           else{
-            //self.url = "https://backend.veporel.com.co:85/";
-            self.url = "http://localhost:1337/";
+            self.url = "https://backend.veporel.com.co:85/";
+            // self.url = "http://localhost:1337/";
           }
 
         })
@@ -85,12 +85,13 @@ export class Util{
       self.url = "https://backend.veporel.com.co:85/";
       //self.url = "http://localhost:1337/";
     }
+    // self.url = "http://localhost:1337/";
 
 
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.8.4";
+    this.version = "2.9.4";
     this.puntos = "0";
   }
 

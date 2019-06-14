@@ -36,7 +36,7 @@ export class OptionsPage {
     if(!this.options){
       this.options={
         notifications:true,
-        range : 2,
+        range : 10,
         debug: false,
         url:util.url
       }

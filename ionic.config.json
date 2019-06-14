@@ -1,8 +1,8 @@
 {
   "name": "VePorElCliente",
-  "app_id": "961c5b67",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "id": "961c5b67"
 }
