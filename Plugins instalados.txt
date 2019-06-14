@@ -1,7 +1,7 @@
 ionic cordova plugin add cordova-plugin-actionsheet
 npm install --save @ionic-native/action-sheet
 
-ionic cordova plugin cordova-plugin-compat
+ionic cordova plugin addcordova-plugin-compat
 
 ionic cordova plugin add cordova-plugin-device
 npm install --save @ionic-native/device
@@ -36,7 +36,8 @@ npm install --save @ionic-native/screen-orientation
 ionic cordova plugin add cordova-plugin-speechrecognition
 npm install --save @ionic-native/speech-recognition
 
-ionic cordova plugin add cordova-plugin-splashscreen
+ionic cordova plugin add cordova-plugin-splashscreen@5.0.2
+ionic cordova plugin rm cordova-plugin-splashscreen
 npm install --save @ionic-native/splash-screen
 
 ionic cordova plugin add cordova-plugin-x-socialsharing
@@ -80,3 +81,6 @@ ionic cordova plugin add cordova-plugin-inappbrowser
 npm install @ionic-native/in-app-browser
 
 npm install angular2-swiper-wrapper --save-dev
+
+ionic cordova plugin add cordova-sqlite-storage
+npm install @ionic-native/sqlite

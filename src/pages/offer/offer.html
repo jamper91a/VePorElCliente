@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content padding >
   <div *ngIf="offer">
-    <h2 text-center>{{'producto_encotrado' | translate}}</h2>
+    <h2 text-center>{{'oferta_encontrada' | translate}}</h2>
     <p text-center *ngIf="offers_user">{{'codigo_oferta' | translate}} CO-{{offers_user.id}}</p>
     <div *ngIf="offers_user" align="center">
       <qr-code [value]="offer.hash" [size]="150"></qr-code>
@@ -21,7 +21,7 @@
         <p item-end>{{offer.name}}</p>
       </ion-item>
       <ion-item>
-        <b>{{'producto' | translate}}</b>
+        <b>{{'producto_o_servicio' | translate}}</b>
         <p item-end>{{offer.product_name}} </p>
       </ion-item>
       <ion-item>
@@ -57,10 +57,10 @@
     <ion-row>
       <ion-col col-5-auto>
         <button ion-button block (click)="take_offer()" *ngIf="!offers_user && !demo"  [disabled]="cantidad>0">
-          {{'app_name' | translate}}
+          {{'reservar_oferta' | translate}}
         </button>
         <button ion-button block (click)="take_offer()" *ngIf="!offers_user && demo"  [disabled]="offer!=null && offer.amount<=0">
-          {{'app_name' | translate}}
+          {{'reservar_oferta' | translate}}
         </button>
         <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="offers_user.state>0">
           {{'reclamar' | translate}}

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="co.colombiaapps.vpeclientes" version="2.9.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>VePorEl</name>
+<widget id="co.colombiaapps.vpeclientes" version="2.9.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Ofertas VePorEl</name>
     <description>Aplicativo para clientes.</description>
     <author email="jamper91a@gmail.com" href="">Jorge Moreno</author>
     <content src="index.html" />
