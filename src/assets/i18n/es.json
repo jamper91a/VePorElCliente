@@ -133,7 +133,7 @@
   "tiempo_oferta": "Tiempo oferta",
   "calificacion_negocio": "Calificación negocio",
   "producto_encotrado": "¡Producto encontrado!",
-  "oferta encontrada": "¡Oferta encontrada!",
+  "oferta_encontrada": "¡Oferta encontrada!",
   "reservar_oferta": "Reservar oferta",
   "no_geocoder_available": "No geocoder available",
   "fetch_address": "Fetch address",

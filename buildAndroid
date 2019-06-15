@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ionic cordova build android --prod --release
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/jorgeandresmorenojaimes/Google\ Drive/VePorEl/Desarrollo/Llaves/colombiaapps.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk jorgemoreno
-rm App.apk
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore colombiaapps.keystore platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk jorgemoreno
 echo "colombiaApps2016"
-~/Library/Android/sdk/build-tools/26.0.0/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk App.apk
-open .
+rm AppClientes.apk
+C:\Users\OEM\AppData\Local\Android\Sdk\build-tools\25.0.0\zipalign -v 4 platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk AppClientes.apk
+
