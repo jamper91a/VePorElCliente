@@ -55,7 +55,7 @@
   </div>
   <ion-grid>
     <ion-row>
-      <ion-col col-5-auto>
+      <ion-col col-12>
         <button ion-button block (click)="take_offer()" *ngIf="!offers_user && !demo"  [disabled]="cantidad>0">
           {{'reservar_oferta' | translate}}
         </button>
@@ -66,16 +66,18 @@
           {{'reclamar' | translate}}
         </button>
       </ion-col>
-      <ion-col col-5-auto>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
         <button ion-button block (click)="go_back()">
           {{'nueva_busqueda' | translate}}
         </button>
       </ion-col>
-      <ion-col col-auto>
-        <button ion-button block (click)="share()" color="gray" no-padding text-wrap>
-          <img src="assets/img/button_compartir_icon.png"/>
-        </button>
-      </ion-col>
+      <!--<ion-col col-2>-->
+        <!--<button ion-button block (click)="share()" color="gray" no-padding text-wrap>-->
+          <!--<img src="assets/img/button_compartir_icon.png"/>-->
+        <!--</button>-->
+      <!--</ion-col>-->
     </ion-row>
   </ion-grid>
 </ion-content>

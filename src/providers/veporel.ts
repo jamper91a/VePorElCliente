@@ -427,7 +427,7 @@ export class VePorEl {
     if(!options){
       options={
         notifications:false,
-        range : 2
+        range : 10
       }
     }
     let body ={

@@ -43,6 +43,7 @@ export class MyApp {
     let self = this;
 
     this.platform.ready().then(() => {
+      this.imageLoaderConfig.setImageReturnType('base64');
       if (this.platform.is('cordova')) {
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
         this.ga.startTrackerWithId('UA-101368936-1')
