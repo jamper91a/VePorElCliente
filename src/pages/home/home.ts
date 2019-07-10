@@ -108,17 +108,18 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
         self.util.savePreference(this.util.constants.country_name, this.country_name);
         self.get_banners(this.city_name);
       } else {
-        //Valido si tengo una direccion almacenada
-        if (self.util.getPreference(this.util.constants.city_name) != this.city_name) {
-          this.latitude = self.util.getPreference(this.util.constants.latitude);
-          this.longitude = self.util.getPreference(this.util.constants.longitude);
-          this.city_name = self.util.getPreference(this.util.constants.city_name);
-          this.country_name = self.util.getPreference(this.util.constants.country_name);
-          self.get_banners(this.city_name);
-        } else {
-          self.get_location(self.type.banner);
-
-        }
+        self.get_location(self.type.banner);
+        // //Valido si tengo una direccion almacenada
+        // if (self.util.getPreference(this.util.constants.city_name) != this.city_name) {
+        //   this.latitude = self.util.getPreference(this.util.constants.latitude);
+        //   this.longitude = self.util.getPreference(this.util.constants.longitude);
+        //   this.city_name = self.util.getPreference(this.util.constants.city_name);
+        //   this.country_name = self.util.getPreference(this.util.constants.country_name);
+        //   self.get_banners(this.city_name);
+        // } else {
+        //   self.get_location(self.type.banner);
+        //
+        // }
 
       }
 
