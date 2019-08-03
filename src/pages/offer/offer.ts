@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
-import {AlertController, NavController, NavParams, ToastController} from 'ionic-angular';
-import { VePorEl } from '../../providers/providers';
-import { Util } from '../../providers/providers';
-import { MapOfferPage } from '../map-offer/map-offer';
+import {Component} from '@angular/core';
+import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {Util, VePorEl} from '../../providers/providers';
+import {MapOfferPage} from '../map-offer/map-offer';
 import moment from 'moment';
-import { LoadingController } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 import {SocialSharing} from "@ionic-native/social-sharing";
+import {MenuPage} from "../menu/menu";
 
 
 @Component({
@@ -188,7 +187,7 @@ export class OfferPage {
     var self=this;
     let confirm = self.alertCtrl.create({
       title: "VePorEl",
-      message: "Para poder reclamar la oferta, debes logearte en la aplicacion",
+      message: "Para poder reclamar la oferta, debes registrarte en la aplicacion",
       buttons: [
         {
           text: "Ok",
@@ -215,6 +214,48 @@ export class OfferPage {
       offer: self.offer,
       kind_map: self.util.constants.map_offer
     });
+  }
+
+  public cancel_offer() {
+    let body = {
+      id: this.offer_id,
+      calification: 5,
+      reason: '',
+      reclamed: 0,
+      state: 2
+    };
+    let self = this;
+    this.veporel.send_calification(body).subscribe(
+      (result: any) => {
+        this.translate.get(["opciones",
+          "calificacion_exitosa"
+        ]).subscribe(
+          (values) => {
+            let toast = this.toastCtrl.create({
+              message: values.calificacion_exitosa,
+              position: 'bottom',
+              duration: 3000
+            });
+            toast.present();
+            self.navCtrl.setRoot(MenuPage);
+          });
+
+      },
+      error => {
+        this.translate.get(["opciones",
+          "error_10"
+        ]).subscribe(
+          (values) => {
+            let toast = this.toastCtrl.create({
+              message: values.error_10,
+              position: 'bottom',
+              duration: 3000
+            });
+
+            toast.present();
+          });
+      }
+    );
   }
 
   public share(){

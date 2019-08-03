@@ -1,13 +1,12 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, Platform, NavParams, ActionSheetController  } from 'ionic-angular';
-import { GoogleMaps } from '@ionic-native/google-maps';
-import { Geolocation } from '@ionic-native/geolocation';
-import { VePorEl } from '../../providers/providers';
-import { Util } from '../../providers/providers';
-import { TranslateService } from '@ngx-translate/core';
-import { CalificationPage } from '../calification/calification';
-import { CompanyPage } from '../company/company';
-import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {ActionSheetController, NavController, NavParams, Platform} from 'ionic-angular';
+import {GoogleMaps} from '@ionic-native/google-maps';
+import {Geolocation} from '@ionic-native/geolocation';
+import {Util, VePorEl} from '../../providers/providers';
+import {TranslateService} from '@ngx-translate/core';
+import {CalificationPage} from '../calification/calification';
+import {CompanyPage} from '../company/company';
+import {LaunchNavigator} from '@ionic-native/launch-navigator';
 import {Pro} from "@ionic/pro";
 
 declare var google: any;
@@ -149,16 +148,16 @@ export class MapOfferPage {
                 });
               }
             },
-            {
-              text: values.no_lo_reclame,
-              icon: !this.platform.is('ios') ? 'sad' : null,
-              handler: () => {
-                self.navCtrl.push(CalificationPage,{
-                  reclamed: 2,
-                  id: self.offer.id
-                });
-              }
-            },
+            // {
+            //   text: values.no_lo_reclame,
+            //   icon: !this.platform.is('ios') ? 'sad' : null,
+            //   handler: () => {
+            //     self.navCtrl.push(CalificationPage,{
+            //       reclamed: 2,
+            //       id: self.offer.id
+            //     });
+            //   }
+            // },
             {
               text: values.google_maps,
               icon: !this.platform.is('ios') ? 'compass' : null,
