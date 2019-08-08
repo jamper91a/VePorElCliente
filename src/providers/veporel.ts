@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Api } from './api';
-import { Util } from './util';
+import {Injectable} from '@angular/core';
+import {Api} from './api';
+import {Util} from './util';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
+import {NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import {Observable} from "rxjs/Observable";
 import {AlertController, Platform} from 'ionic-angular';
 import {TranslateService} from "@ngx-translate/core";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {Geolocation} from '@ionic-native/geolocation';
 import {Pro} from "@ionic/pro";
-
 
 
 @Injectable()
@@ -62,7 +61,8 @@ export class VePorEl {
             "activar_ubicacion",
             "salir",
             "activar",
-            "mensaje_ubicacion"
+            "mensaje_ubicacion",
+            "retractando"
           ]
         ).subscribe(
           (values) => {
@@ -150,7 +150,7 @@ export class VePorEl {
               }
               else {
                 dialog.dismiss();
-;                let confirm = self.alertCtrl.create({
+                let confirm = self.alertCtrl.create({
                   title: self.messages.ubicacion,
                   message: self.messages.activar_ubicacion,
                   buttons: [
@@ -445,7 +445,7 @@ export class VePorEl {
         return res.json();
       }, err => {
         dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
-        Pro.monitoring.exception(err)
+        Pro.monitoring.exception(err);
         return err;
       });
 
@@ -610,6 +610,20 @@ export class VePorEl {
   }
   send_calification(body:any):any {
     let dialog = this.util.show_dialog(this.messages.calificando);
+    let seq = this.api.post('offers/qualification', body).share();
+    seq
+      .subscribe(res => {
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        return res.json();
+      }, err => {
+        dialog.dismiss().catch(() => {Pro.monitoring.log('LoadingController dismiss get_promotions_by_location', { level: 'error' });});
+        Pro.monitoring.exception(err)
+      });
+
+    return seq;
+  }
+  cancel_offer(body:any):any {
+    let dialog = this.util.show_dialog(this.messages.retractando);
     let seq = this.api.post('offers/qualification', body).share();
     seq
       .subscribe(res => {

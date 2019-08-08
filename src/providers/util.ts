@@ -1,8 +1,7 @@
-import {ToastController, LoadingController, Loading} from 'ionic-angular';
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { IsDebug } from '@ionic-native/is-debug';
-import { Platform } from 'ionic-angular';
+import {Loading, LoadingController, Platform, ToastController} from 'ionic-angular';
+import {Injectable} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {IsDebug} from '@ionic-native/is-debug';
 
 
 /**
@@ -91,7 +90,7 @@ export class Util{
 
 
     this.google_api_key = "AIzaSyDvZFVr2cdCCVyLmMBg0-8MaJTJDaHD8pE";
-    this.version = "2.9.6";
+    this.version = "2.9.8";
     this.puntos = "0";
   }
 

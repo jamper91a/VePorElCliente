@@ -65,6 +65,9 @@
         <button ion-button block (click)="go_to_offer()" *ngIf="offers_user" [disabled]="offers_user.state>0">
           {{'reclamar' | translate}}
         </button>
+        <button ion-button block (click)="cancel_offer()" *ngIf="offers_user" [disabled]="offers_user.state>0">
+          {{'retractarme' | translate}}
+        </button>
       </ion-col>
     </ion-row>
     <ion-row>

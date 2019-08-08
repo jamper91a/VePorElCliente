@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
-import { VePorEl } from '../../providers/providers';
-import { Util } from '../../providers/providers';
-import { MenuPage } from '../menu/menu';
-import { TranslateService } from '@ngx-translate/core';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
+import {Util, VePorEl} from '../../providers/providers';
+import {MenuPage} from '../menu/menu';
+import {TranslateService} from '@ngx-translate/core';
+
 /**
  * Generated class for the CalificationPage page.
  *
@@ -31,7 +31,8 @@ export class CalificationPage {
       id: this.navParams.get("id"),
       calification:3,
       reason: '',
-      reclamed: this.navParams.get("reclamed")
+      reclamed: 1,
+      state: this.navParams.get("reclamed")
     }
   }
 
