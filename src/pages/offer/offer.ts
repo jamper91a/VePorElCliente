@@ -225,14 +225,14 @@ export class OfferPage {
       state: 2
     };
     let self = this;
-    this.veporel.send_calification(body).subscribe(
+    this.veporel.cancel_offer(body).subscribe(
       (result: any) => {
         this.translate.get(["opciones",
-          "calificacion_exitosa"
+          "retractacion_exitosa"
         ]).subscribe(
           (values) => {
             let toast = this.toastCtrl.create({
-              message: values.calificacion_exitosa,
+              message: values.retractacion_exitosa,
               position: 'bottom',
               duration: 3000
             });

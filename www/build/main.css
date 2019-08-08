@@ -3835,8 +3835,8 @@ ion-action-sheet {
   top: 0;
   bottom: 0;
   margin: auto;
-  -webkit-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0,  100%,  0);
+  transform: translate3d(0,  100%,  0);
   position: absolute;
   z-index: 10;
   display: block;
@@ -5027,8 +5027,8 @@ ion-input :focus {
   right: 0;
   top: 0;
   bottom: 0;
-  -webkit-transform: translate3d(0, -100%, 0) translateY(1px);
-  transform: translate3d(0, -100%, 0) translateY(1px);
+  -webkit-transform: translate3d(0,  -100%,  0) translateY(1px);
+  transform: translate3d(0,  -100%,  0) translateY(1px);
   position: absolute;
   z-index: 99999;
   display: block;
@@ -5037,8 +5037,8 @@ ion-input :focus {
 }
 
 .click-block-active {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
 }
 
 * {
@@ -5282,33 +5282,26 @@ ion-footer {
   [text-sm-center] {
     text-align: center !important;
   }
-
   [text-sm-justify] {
     text-align: justify !important;
   }
-
   [text-sm-start] {
     text-align: left;
     text-align: start !important;
   }
-
   [text-sm-end] {
     text-align: right;
     text-align: end !important;
   }
-
   [text-sm-left] {
     text-align: left !important;
   }
-
   [text-sm-right] {
     text-align: right !important;
   }
-
   [text-sm-nowrap] {
     white-space: nowrap !important;
   }
-
   [text-sm-wrap] {
     white-space: normal !important;
   }
@@ -5318,33 +5311,26 @@ ion-footer {
   [text-md-center] {
     text-align: center !important;
   }
-
   [text-md-justify] {
     text-align: justify !important;
   }
-
   [text-md-start] {
     text-align: left;
     text-align: start !important;
   }
-
   [text-md-end] {
     text-align: right;
     text-align: end !important;
   }
-
   [text-md-left] {
     text-align: left !important;
   }
-
   [text-md-right] {
     text-align: right !important;
   }
-
   [text-md-nowrap] {
     white-space: nowrap !important;
   }
-
   [text-md-wrap] {
     white-space: normal !important;
   }
@@ -5354,33 +5340,26 @@ ion-footer {
   [text-lg-center] {
     text-align: center !important;
   }
-
   [text-lg-justify] {
     text-align: justify !important;
   }
-
   [text-lg-start] {
     text-align: left;
     text-align: start !important;
   }
-
   [text-lg-end] {
     text-align: right;
     text-align: end !important;
   }
-
   [text-lg-left] {
     text-align: left !important;
   }
-
   [text-lg-right] {
     text-align: right !important;
   }
-
   [text-lg-nowrap] {
     white-space: nowrap !important;
   }
-
   [text-lg-wrap] {
     white-space: normal !important;
   }
@@ -5390,33 +5369,26 @@ ion-footer {
   [text-xl-center] {
     text-align: center !important;
   }
-
   [text-xl-justify] {
     text-align: justify !important;
   }
-
   [text-xl-start] {
     text-align: left;
     text-align: start !important;
   }
-
   [text-xl-end] {
     text-align: right;
     text-align: end !important;
   }
-
   [text-xl-left] {
     text-align: left !important;
   }
-
   [text-xl-right] {
     text-align: right !important;
   }
-
   [text-xl-nowrap] {
     white-space: nowrap !important;
   }
-
   [text-xl-wrap] {
     white-space: normal !important;
   }
@@ -5438,11 +5410,9 @@ ion-footer {
   [text-sm-uppercase] {
     text-transform: uppercase !important;
   }
-
   [text-sm-lowercase] {
     text-transform: lowercase !important;
   }
-
   [text-sm-capitalize] {
     text-transform: capitalize !important;
   }
@@ -5452,11 +5422,9 @@ ion-footer {
   [text-md-uppercase] {
     text-transform: uppercase !important;
   }
-
   [text-md-lowercase] {
     text-transform: lowercase !important;
   }
-
   [text-md-capitalize] {
     text-transform: capitalize !important;
   }
@@ -5466,11 +5434,9 @@ ion-footer {
   [text-lg-uppercase] {
     text-transform: uppercase !important;
   }
-
   [text-lg-lowercase] {
     text-transform: lowercase !important;
   }
-
   [text-lg-capitalize] {
     text-transform: capitalize !important;
   }
@@ -5480,11 +5446,9 @@ ion-footer {
   [text-xl-uppercase] {
     text-transform: uppercase !important;
   }
-
   [text-xl-lowercase] {
     text-transform: lowercase !important;
   }
-
   [text-xl-capitalize] {
     text-transform: capitalize !important;
   }
@@ -5510,15 +5474,12 @@ ion-footer {
   [float-sm-left] {
     float: left !important;
   }
-
   [float-sm-right] {
     float: right !important;
   }
-
   [float-sm-start] {
     float: left !important;
   }
-
   [float-sm-end] {
     float: right !important;
   }
@@ -5528,15 +5489,12 @@ ion-footer {
   [float-md-left] {
     float: left !important;
   }
-
   [float-md-right] {
     float: right !important;
   }
-
   [float-md-start] {
     float: left !important;
   }
-
   [float-md-end] {
     float: right !important;
   }
@@ -5546,15 +5504,12 @@ ion-footer {
   [float-lg-left] {
     float: left !important;
   }
-
   [float-lg-right] {
     float: right !important;
   }
-
   [float-lg-start] {
     float: left !important;
   }
-
   [float-lg-end] {
     float: right !important;
   }
@@ -5564,15 +5519,12 @@ ion-footer {
   [float-xl-left] {
     float: left !important;
   }
-
   [float-xl-right] {
     float: right !important;
   }
-
   [float-xl-start] {
     float: left !important;
   }
-
   [float-xl-end] {
     float: right !important;
   }
@@ -10239,8 +10191,8 @@ ion-datetime {
 }
 
 .item-datetime .datetime-wp ion-label[floating] {
-  -webkit-transform: translate3d(8px, 41px, 0);
-  transform: translate3d(8px, 41px, 0);
+  -webkit-transform: translate3d(8px,  41px,  0);
+  transform: translate3d(8px,  41px,  0);
 }
 
 .datetime-wp .datetime-placeholder {
@@ -11965,7 +11917,6 @@ ion-fab-list[side=right] {
     flex-grow: 1;
     max-width: 100%;
   }
-
   [col-sm-auto] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -11973,7 +11924,6 @@ ion-fab-list[side=right] {
     flex: 0 0 auto;
     width: auto;
   }
-
   [col-sm-1] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 8.33333%;
@@ -11982,7 +11932,6 @@ ion-fab-list[side=right] {
     width: 8.33333%;
     max-width: 8.33333%;
   }
-
   [col-sm-2] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 16.66667%;
@@ -11991,7 +11940,6 @@ ion-fab-list[side=right] {
     width: 16.66667%;
     max-width: 16.66667%;
   }
-
   [col-sm-3] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 25%;
@@ -12000,7 +11948,6 @@ ion-fab-list[side=right] {
     width: 25%;
     max-width: 25%;
   }
-
   [col-sm-4] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 33.33333%;
@@ -12009,7 +11956,6 @@ ion-fab-list[side=right] {
     width: 33.33333%;
     max-width: 33.33333%;
   }
-
   [col-sm-5] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 41.66667%;
@@ -12018,7 +11964,6 @@ ion-fab-list[side=right] {
     width: 41.66667%;
     max-width: 41.66667%;
   }
-
   [col-sm-6] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -12027,7 +11972,6 @@ ion-fab-list[side=right] {
     width: 50%;
     max-width: 50%;
   }
-
   [col-sm-7] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 58.33333%;
@@ -12036,7 +11980,6 @@ ion-fab-list[side=right] {
     width: 58.33333%;
     max-width: 58.33333%;
   }
-
   [col-sm-8] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 66.66667%;
@@ -12045,7 +11988,6 @@ ion-fab-list[side=right] {
     width: 66.66667%;
     max-width: 66.66667%;
   }
-
   [col-sm-9] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 75%;
@@ -12054,7 +11996,6 @@ ion-fab-list[side=right] {
     width: 75%;
     max-width: 75%;
   }
-
   [col-sm-10] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 83.33333%;
@@ -12063,7 +12004,6 @@ ion-fab-list[side=right] {
     width: 83.33333%;
     max-width: 83.33333%;
   }
-
   [col-sm-11] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 91.66667%;
@@ -12072,7 +12012,6 @@ ion-fab-list[side=right] {
     width: 91.66667%;
     max-width: 91.66667%;
   }
-
   [col-sm-12] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 100%;
@@ -12081,155 +12020,117 @@ ion-fab-list[side=right] {
     width: 100%;
     max-width: 100%;
   }
-
   [pull-sm-0] {
     right: auto;
   }
-
   [pull-sm-1] {
     right: 8.33333%;
   }
-
   [pull-sm-2] {
     right: 16.66667%;
   }
-
   [pull-sm-3] {
     right: 25%;
   }
-
   [pull-sm-4] {
     right: 33.33333%;
   }
-
   [pull-sm-5] {
     right: 41.66667%;
   }
-
   [pull-sm-6] {
     right: 50%;
   }
-
   [pull-sm-7] {
     right: 58.33333%;
   }
-
   [pull-sm-8] {
     right: 66.66667%;
   }
-
   [pull-sm-9] {
     right: 75%;
   }
-
   [pull-sm-10] {
     right: 83.33333%;
   }
-
   [pull-sm-11] {
     right: 91.66667%;
   }
-
   [pull-sm-12] {
     right: 100%;
   }
-
   [push-sm-0] {
     left: auto;
   }
-
   [push-sm-1] {
     left: 8.33333%;
   }
-
   [push-sm-2] {
     left: 16.66667%;
   }
-
   [push-sm-3] {
     left: 25%;
   }
-
   [push-sm-4] {
     left: 33.33333%;
   }
-
   [push-sm-5] {
     left: 41.66667%;
   }
-
   [push-sm-6] {
     left: 50%;
   }
-
   [push-sm-7] {
     left: 58.33333%;
   }
-
   [push-sm-8] {
     left: 66.66667%;
   }
-
   [push-sm-9] {
     left: 75%;
   }
-
   [push-sm-10] {
     left: 83.33333%;
   }
-
   [push-sm-11] {
     left: 91.66667%;
   }
-
   [push-sm-12] {
     left: 100%;
   }
-
   [offset-sm-0] {
     margin-left: 0%;
   }
-
   [offset-sm-1] {
     margin-left: 8.33333%;
   }
-
   [offset-sm-2] {
     margin-left: 16.66667%;
   }
-
   [offset-sm-3] {
     margin-left: 25%;
   }
-
   [offset-sm-4] {
     margin-left: 33.33333%;
   }
-
   [offset-sm-5] {
     margin-left: 41.66667%;
   }
-
   [offset-sm-6] {
     margin-left: 50%;
   }
-
   [offset-sm-7] {
     margin-left: 58.33333%;
   }
-
   [offset-sm-8] {
     margin-left: 66.66667%;
   }
-
   [offset-sm-9] {
     margin-left: 75%;
   }
-
   [offset-sm-10] {
     margin-left: 83.33333%;
   }
-
   [offset-sm-11] {
     margin-left: 91.66667%;
   }
@@ -12610,7 +12511,6 @@ ion-fab-list[side=right] {
     flex-grow: 1;
     max-width: 100%;
   }
-
   [col-md-auto] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -12618,7 +12518,6 @@ ion-fab-list[side=right] {
     flex: 0 0 auto;
     width: auto;
   }
-
   [col-md-1] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 8.33333%;
@@ -12627,7 +12526,6 @@ ion-fab-list[side=right] {
     width: 8.33333%;
     max-width: 8.33333%;
   }
-
   [col-md-2] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 16.66667%;
@@ -12636,7 +12534,6 @@ ion-fab-list[side=right] {
     width: 16.66667%;
     max-width: 16.66667%;
   }
-
   [col-md-3] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 25%;
@@ -12645,7 +12542,6 @@ ion-fab-list[side=right] {
     width: 25%;
     max-width: 25%;
   }
-
   [col-md-4] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 33.33333%;
@@ -12654,7 +12550,6 @@ ion-fab-list[side=right] {
     width: 33.33333%;
     max-width: 33.33333%;
   }
-
   [col-md-5] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 41.66667%;
@@ -12663,7 +12558,6 @@ ion-fab-list[side=right] {
     width: 41.66667%;
     max-width: 41.66667%;
   }
-
   [col-md-6] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -12672,7 +12566,6 @@ ion-fab-list[side=right] {
     width: 50%;
     max-width: 50%;
   }
-
   [col-md-7] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 58.33333%;
@@ -12681,7 +12574,6 @@ ion-fab-list[side=right] {
     width: 58.33333%;
     max-width: 58.33333%;
   }
-
   [col-md-8] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 66.66667%;
@@ -12690,7 +12582,6 @@ ion-fab-list[side=right] {
     width: 66.66667%;
     max-width: 66.66667%;
   }
-
   [col-md-9] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 75%;
@@ -12699,7 +12590,6 @@ ion-fab-list[side=right] {
     width: 75%;
     max-width: 75%;
   }
-
   [col-md-10] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 83.33333%;
@@ -12708,7 +12598,6 @@ ion-fab-list[side=right] {
     width: 83.33333%;
     max-width: 83.33333%;
   }
-
   [col-md-11] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 91.66667%;
@@ -12717,7 +12606,6 @@ ion-fab-list[side=right] {
     width: 91.66667%;
     max-width: 91.66667%;
   }
-
   [col-md-12] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 100%;
@@ -12726,155 +12614,117 @@ ion-fab-list[side=right] {
     width: 100%;
     max-width: 100%;
   }
-
   [pull-md-0] {
     right: auto;
   }
-
   [pull-md-1] {
     right: 8.33333%;
   }
-
   [pull-md-2] {
     right: 16.66667%;
   }
-
   [pull-md-3] {
     right: 25%;
   }
-
   [pull-md-4] {
     right: 33.33333%;
   }
-
   [pull-md-5] {
     right: 41.66667%;
   }
-
   [pull-md-6] {
     right: 50%;
   }
-
   [pull-md-7] {
     right: 58.33333%;
   }
-
   [pull-md-8] {
     right: 66.66667%;
   }
-
   [pull-md-9] {
     right: 75%;
   }
-
   [pull-md-10] {
     right: 83.33333%;
   }
-
   [pull-md-11] {
     right: 91.66667%;
   }
-
   [pull-md-12] {
     right: 100%;
   }
-
   [push-md-0] {
     left: auto;
   }
-
   [push-md-1] {
     left: 8.33333%;
   }
-
   [push-md-2] {
     left: 16.66667%;
   }
-
   [push-md-3] {
     left: 25%;
   }
-
   [push-md-4] {
     left: 33.33333%;
   }
-
   [push-md-5] {
     left: 41.66667%;
   }
-
   [push-md-6] {
     left: 50%;
   }
-
   [push-md-7] {
     left: 58.33333%;
   }
-
   [push-md-8] {
     left: 66.66667%;
   }
-
   [push-md-9] {
     left: 75%;
   }
-
   [push-md-10] {
     left: 83.33333%;
   }
-
   [push-md-11] {
     left: 91.66667%;
   }
-
   [push-md-12] {
     left: 100%;
   }
-
   [offset-md-0] {
     margin-left: 0%;
   }
-
   [offset-md-1] {
     margin-left: 8.33333%;
   }
-
   [offset-md-2] {
     margin-left: 16.66667%;
   }
-
   [offset-md-3] {
     margin-left: 25%;
   }
-
   [offset-md-4] {
     margin-left: 33.33333%;
   }
-
   [offset-md-5] {
     margin-left: 41.66667%;
   }
-
   [offset-md-6] {
     margin-left: 50%;
   }
-
   [offset-md-7] {
     margin-left: 58.33333%;
   }
-
   [offset-md-8] {
     margin-left: 66.66667%;
   }
-
   [offset-md-9] {
     margin-left: 75%;
   }
-
   [offset-md-10] {
     margin-left: 83.33333%;
   }
-
   [offset-md-11] {
     margin-left: 91.66667%;
   }
@@ -13255,7 +13105,6 @@ ion-fab-list[side=right] {
     flex-grow: 1;
     max-width: 100%;
   }
-
   [col-lg-auto] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -13263,7 +13112,6 @@ ion-fab-list[side=right] {
     flex: 0 0 auto;
     width: auto;
   }
-
   [col-lg-1] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 8.33333%;
@@ -13272,7 +13120,6 @@ ion-fab-list[side=right] {
     width: 8.33333%;
     max-width: 8.33333%;
   }
-
   [col-lg-2] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 16.66667%;
@@ -13281,7 +13128,6 @@ ion-fab-list[side=right] {
     width: 16.66667%;
     max-width: 16.66667%;
   }
-
   [col-lg-3] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 25%;
@@ -13290,7 +13136,6 @@ ion-fab-list[side=right] {
     width: 25%;
     max-width: 25%;
   }
-
   [col-lg-4] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 33.33333%;
@@ -13299,7 +13144,6 @@ ion-fab-list[side=right] {
     width: 33.33333%;
     max-width: 33.33333%;
   }
-
   [col-lg-5] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 41.66667%;
@@ -13308,7 +13152,6 @@ ion-fab-list[side=right] {
     width: 41.66667%;
     max-width: 41.66667%;
   }
-
   [col-lg-6] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -13317,7 +13160,6 @@ ion-fab-list[side=right] {
     width: 50%;
     max-width: 50%;
   }
-
   [col-lg-7] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 58.33333%;
@@ -13326,7 +13168,6 @@ ion-fab-list[side=right] {
     width: 58.33333%;
     max-width: 58.33333%;
   }
-
   [col-lg-8] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 66.66667%;
@@ -13335,7 +13176,6 @@ ion-fab-list[side=right] {
     width: 66.66667%;
     max-width: 66.66667%;
   }
-
   [col-lg-9] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 75%;
@@ -13344,7 +13184,6 @@ ion-fab-list[side=right] {
     width: 75%;
     max-width: 75%;
   }
-
   [col-lg-10] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 83.33333%;
@@ -13353,7 +13192,6 @@ ion-fab-list[side=right] {
     width: 83.33333%;
     max-width: 83.33333%;
   }
-
   [col-lg-11] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 91.66667%;
@@ -13362,7 +13200,6 @@ ion-fab-list[side=right] {
     width: 91.66667%;
     max-width: 91.66667%;
   }
-
   [col-lg-12] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 100%;
@@ -13371,155 +13208,117 @@ ion-fab-list[side=right] {
     width: 100%;
     max-width: 100%;
   }
-
   [pull-lg-0] {
     right: auto;
   }
-
   [pull-lg-1] {
     right: 8.33333%;
   }
-
   [pull-lg-2] {
     right: 16.66667%;
   }
-
   [pull-lg-3] {
     right: 25%;
   }
-
   [pull-lg-4] {
     right: 33.33333%;
   }
-
   [pull-lg-5] {
     right: 41.66667%;
   }
-
   [pull-lg-6] {
     right: 50%;
   }
-
   [pull-lg-7] {
     right: 58.33333%;
   }
-
   [pull-lg-8] {
     right: 66.66667%;
   }
-
   [pull-lg-9] {
     right: 75%;
   }
-
   [pull-lg-10] {
     right: 83.33333%;
   }
-
   [pull-lg-11] {
     right: 91.66667%;
   }
-
   [pull-lg-12] {
     right: 100%;
   }
-
   [push-lg-0] {
     left: auto;
   }
-
   [push-lg-1] {
     left: 8.33333%;
   }
-
   [push-lg-2] {
     left: 16.66667%;
   }
-
   [push-lg-3] {
     left: 25%;
   }
-
   [push-lg-4] {
     left: 33.33333%;
   }
-
   [push-lg-5] {
     left: 41.66667%;
   }
-
   [push-lg-6] {
     left: 50%;
   }
-
   [push-lg-7] {
     left: 58.33333%;
   }
-
   [push-lg-8] {
     left: 66.66667%;
   }
-
   [push-lg-9] {
     left: 75%;
   }
-
   [push-lg-10] {
     left: 83.33333%;
   }
-
   [push-lg-11] {
     left: 91.66667%;
   }
-
   [push-lg-12] {
     left: 100%;
   }
-
   [offset-lg-0] {
     margin-left: 0%;
   }
-
   [offset-lg-1] {
     margin-left: 8.33333%;
   }
-
   [offset-lg-2] {
     margin-left: 16.66667%;
   }
-
   [offset-lg-3] {
     margin-left: 25%;
   }
-
   [offset-lg-4] {
     margin-left: 33.33333%;
   }
-
   [offset-lg-5] {
     margin-left: 41.66667%;
   }
-
   [offset-lg-6] {
     margin-left: 50%;
   }
-
   [offset-lg-7] {
     margin-left: 58.33333%;
   }
-
   [offset-lg-8] {
     margin-left: 66.66667%;
   }
-
   [offset-lg-9] {
     margin-left: 75%;
   }
-
   [offset-lg-10] {
     margin-left: 83.33333%;
   }
-
   [offset-lg-11] {
     margin-left: 91.66667%;
   }
@@ -13900,7 +13699,6 @@ ion-fab-list[side=right] {
     flex-grow: 1;
     max-width: 100%;
   }
-
   [col-xl-auto] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 auto;
@@ -13908,7 +13706,6 @@ ion-fab-list[side=right] {
     flex: 0 0 auto;
     width: auto;
   }
-
   [col-xl-1] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 8.33333%;
@@ -13917,7 +13714,6 @@ ion-fab-list[side=right] {
     width: 8.33333%;
     max-width: 8.33333%;
   }
-
   [col-xl-2] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 16.66667%;
@@ -13926,7 +13722,6 @@ ion-fab-list[side=right] {
     width: 16.66667%;
     max-width: 16.66667%;
   }
-
   [col-xl-3] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 25%;
@@ -13935,7 +13730,6 @@ ion-fab-list[side=right] {
     width: 25%;
     max-width: 25%;
   }
-
   [col-xl-4] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 33.33333%;
@@ -13944,7 +13738,6 @@ ion-fab-list[side=right] {
     width: 33.33333%;
     max-width: 33.33333%;
   }
-
   [col-xl-5] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 41.66667%;
@@ -13953,7 +13746,6 @@ ion-fab-list[side=right] {
     width: 41.66667%;
     max-width: 41.66667%;
   }
-
   [col-xl-6] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 50%;
@@ -13962,7 +13754,6 @@ ion-fab-list[side=right] {
     width: 50%;
     max-width: 50%;
   }
-
   [col-xl-7] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 58.33333%;
@@ -13971,7 +13762,6 @@ ion-fab-list[side=right] {
     width: 58.33333%;
     max-width: 58.33333%;
   }
-
   [col-xl-8] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 66.66667%;
@@ -13980,7 +13770,6 @@ ion-fab-list[side=right] {
     width: 66.66667%;
     max-width: 66.66667%;
   }
-
   [col-xl-9] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 75%;
@@ -13989,7 +13778,6 @@ ion-fab-list[side=right] {
     width: 75%;
     max-width: 75%;
   }
-
   [col-xl-10] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 83.33333%;
@@ -13998,7 +13786,6 @@ ion-fab-list[side=right] {
     width: 83.33333%;
     max-width: 83.33333%;
   }
-
   [col-xl-11] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 91.66667%;
@@ -14007,7 +13794,6 @@ ion-fab-list[side=right] {
     width: 91.66667%;
     max-width: 91.66667%;
   }
-
   [col-xl-12] {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 100%;
@@ -14016,155 +13802,117 @@ ion-fab-list[side=right] {
     width: 100%;
     max-width: 100%;
   }
-
   [pull-xl-0] {
     right: auto;
   }
-
   [pull-xl-1] {
     right: 8.33333%;
   }
-
   [pull-xl-2] {
     right: 16.66667%;
   }
-
   [pull-xl-3] {
     right: 25%;
   }
-
   [pull-xl-4] {
     right: 33.33333%;
   }
-
   [pull-xl-5] {
     right: 41.66667%;
   }
-
   [pull-xl-6] {
     right: 50%;
   }
-
   [pull-xl-7] {
     right: 58.33333%;
   }
-
   [pull-xl-8] {
     right: 66.66667%;
   }
-
   [pull-xl-9] {
     right: 75%;
   }
-
   [pull-xl-10] {
     right: 83.33333%;
   }
-
   [pull-xl-11] {
     right: 91.66667%;
   }
-
   [pull-xl-12] {
     right: 100%;
   }
-
   [push-xl-0] {
     left: auto;
   }
-
   [push-xl-1] {
     left: 8.33333%;
   }
-
   [push-xl-2] {
     left: 16.66667%;
   }
-
   [push-xl-3] {
     left: 25%;
   }
-
   [push-xl-4] {
     left: 33.33333%;
   }
-
   [push-xl-5] {
     left: 41.66667%;
   }
-
   [push-xl-6] {
     left: 50%;
   }
-
   [push-xl-7] {
     left: 58.33333%;
   }
-
   [push-xl-8] {
     left: 66.66667%;
   }
-
   [push-xl-9] {
     left: 75%;
   }
-
   [push-xl-10] {
     left: 83.33333%;
   }
-
   [push-xl-11] {
     left: 91.66667%;
   }
-
   [push-xl-12] {
     left: 100%;
   }
-
   [offset-xl-0] {
     margin-left: 0%;
   }
-
   [offset-xl-1] {
     margin-left: 8.33333%;
   }
-
   [offset-xl-2] {
     margin-left: 16.66667%;
   }
-
   [offset-xl-3] {
     margin-left: 25%;
   }
-
   [offset-xl-4] {
     margin-left: 33.33333%;
   }
-
   [offset-xl-5] {
     margin-left: 41.66667%;
   }
-
   [offset-xl-6] {
     margin-left: 50%;
   }
-
   [offset-xl-7] {
     margin-left: 58.33333%;
   }
-
   [offset-xl-8] {
     margin-left: 66.66667%;
   }
-
   [offset-xl-9] {
     margin-left: 75%;
   }
-
   [offset-xl-10] {
     margin-left: 83.33333%;
   }
-
   [offset-xl-11] {
     margin-left: 91.66667%;
   }
@@ -14844,8 +14592,8 @@ ion-thumbnail img {
 }
 
 ion-reorder {
-  -webkit-transform: translate3d(300%, 0, 0);
-  transform: translate3d(300%, 0, 0);
+  -webkit-transform: translate3d(300%,  0,  0);
+  transform: translate3d(300%,  0,  0);
   display: none;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -14873,8 +14621,8 @@ ion-reorder {
 }
 
 .reorder-side-start ion-reorder {
-  -webkit-transform: translate3d(-300%, 0, 0);
-  transform: translate3d(-300%, 0, 0);
+  -webkit-transform: translate3d(-300%,  0,  0);
+  transform: translate3d(-300%,  0,  0);
   -webkit-box-ordinal-group: 0;
   -webkit-order: -1;
   -ms-flex-order: -1;
@@ -14893,8 +14641,8 @@ ion-reorder ion-icon {
 }
 
 .reorder-visible ion-reorder {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
 }
 
 .reorder-list-active .item,
@@ -16054,8 +15802,8 @@ ion-label[floating] {
 
 .label-ios[floating] {
   margin-bottom: 0;
-  -webkit-transform: translate3d(0, 27px, 0);
-  transform: translate3d(0, 27px, 0);
+  -webkit-transform: translate3d(0,  27px,  0);
+  transform: translate3d(0,  27px,  0);
   -webkit-transform-origin: left top;
   transform-origin: left top;
   -webkit-transition: -webkit-transform 150ms ease-in-out;
@@ -16068,8 +15816,8 @@ ion-label[floating] {
 .input-has-focus .label-ios[floating],
 .item-input-has-value .label-ios[floating],
 .input-has-value .label-ios[floating] {
-  -webkit-transform: translate3d(0, 0, 0) scale(0.8);
-  transform: translate3d(0, 0, 0) scale(0.8);
+  -webkit-transform: translate3d(0,  0,  0) scale(0.8);
+  transform: translate3d(0,  0,  0) scale(0.8);
 }
 
 .item-ios.item-label-stacked [item-right],
@@ -16149,8 +15897,8 @@ ion-label[floating] {
 }
 
 .label-md[floating] {
-  -webkit-transform: translate3d(0, 27px, 0);
-  transform: translate3d(0, 27px, 0);
+  -webkit-transform: translate3d(0,  27px,  0);
+  transform: translate3d(0,  27px,  0);
   -webkit-transform-origin: left top;
   transform-origin: left top;
   -webkit-transition: -webkit-transform 150ms ease-in-out;
@@ -16176,8 +15924,8 @@ ion-label[floating] {
 .input-has-focus .label-md[floating],
 .item-input-has-value .label-md[floating],
 .input-has-value .label-md[floating] {
-  -webkit-transform: translate3d(0, 0, 0) scale(0.8);
-  transform: translate3d(0, 0, 0) scale(0.8);
+  -webkit-transform: translate3d(0,  0,  0) scale(0.8);
+  transform: translate3d(0,  0,  0) scale(0.8);
 }
 
 .item-md.item-label-stacked [item-right],
@@ -16252,8 +16000,8 @@ ion-label[floating] {
 }
 
 .label-wp[floating] {
-  -webkit-transform: translate3d(8px, 34px, 0);
-  transform: translate3d(8px, 34px, 0);
+  -webkit-transform: translate3d(8px,  34px,  0);
+  transform: translate3d(8px,  34px,  0);
   -webkit-transform-origin: left top;
   transform-origin: left top;
 }
@@ -16275,8 +16023,8 @@ ion-label[floating] {
 .input-has-focus .label-wp[floating],
 .item-input-has-value .label-wp[floating],
 .input-has-value .label-wp[floating] {
-  -webkit-transform: translate3d(0, 0, 0) scale(0.8);
-  transform: translate3d(0, 0, 0) scale(0.8);
+  -webkit-transform: translate3d(0,  0,  0) scale(0.8);
+  transform: translate3d(0,  0,  0) scale(0.8);
 }
 
 .item-wp.item-label-stacked [item-right],
@@ -16960,8 +16708,8 @@ ion-menu.show-menu {
   right: auto;
   top: 0;
   bottom: 0;
-  -webkit-transform: translate3d(-9999px, 0, 0);
-  transform: translate3d(-9999px, 0, 0);
+  -webkit-transform: translate3d(-9999px,  0,  0);
+  transform: translate3d(-9999px,  0,  0);
   position: absolute;
   display: block;
   width: 304px;
@@ -16997,8 +16745,8 @@ ion-menu ion-backdrop {
 }
 
 .menu-content {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
 }
 
 .menu-content-open {
@@ -17024,8 +16772,8 @@ ion-menu[type=reveal] {
 }
 
 ion-menu[type=reveal].show-menu .menu-inner {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
 }
 
 ion-menu[type=overlay] {
@@ -17102,8 +16850,8 @@ ion-modal {
 
 @media only screen and (min-width: 768px) and (min-height: 600px) {
   .modal-wrapper {
-    left: calc(50% - (600px / 2));
-    top: calc(50% - (500px / 2));
+    left: calc(50% - (600px/2));
+    top: calc(50% - (500px/2));
     position: absolute;
     width: 600px;
     height: 500px;
@@ -17112,8 +16860,8 @@ ion-modal {
 
 @media only screen and (min-width: 768px) and (min-height: 768px) {
   .modal-wrapper {
-    left: calc(50% - (600px / 2));
-    top: calc(50% - (600px / 2));
+    left: calc(50% - (600px/2));
+    top: calc(50% - (600px/2));
     position: absolute;
     width: 600px;
     height: 600px;
@@ -17121,8 +16869,8 @@ ion-modal {
 }
 
 .ios .modal-wrapper {
-  -webkit-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0,  100%,  0);
+  transform: translate3d(0,  100%,  0);
 }
 
 @media only screen and (min-width: 768px) and (min-height: 600px) {
@@ -17133,8 +16881,8 @@ ion-modal {
 }
 
 .md .modal-wrapper {
-  -webkit-transform: translate3d(0, 40px, 0);
-  transform: translate3d(0, 40px, 0);
+  -webkit-transform: translate3d(0,  40px,  0);
+  transform: translate3d(0,  40px,  0);
   opacity: .01;
 }
 
@@ -17148,8 +16896,8 @@ ion-modal {
 }
 
 .wp .modal-wrapper {
-  -webkit-transform: translate3d(0, 40px, 0);
-  transform: translate3d(0, 40px, 0);
+  -webkit-transform: translate3d(0,  40px,  0);
+  transform: translate3d(0,  40px,  0);
   opacity: .01;
 }
 
@@ -17271,8 +17019,8 @@ ion-picker-cmp {
   right: 0;
   bottom: 0;
   margin: auto;
-  -webkit-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0,  100%,  0);
+  transform: translate3d(0,  100%,  0);
   position: absolute;
   z-index: 10;
   display: -webkit-box;
@@ -17492,8 +17240,8 @@ ion-picker-cmp {
 .picker-ios .picker-above-highlight {
   left: 0;
   top: 0;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 10;
   display: block;
@@ -17507,8 +17255,8 @@ ion-picker-cmp {
 .picker-ios .picker-below-highlight {
   left: 0;
   top: 115px;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 11;
   display: block;
@@ -17596,8 +17344,8 @@ ion-picker-cmp {
 .picker-md .picker-above-highlight {
   left: 0;
   top: 0;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 10;
   width: 100%;
@@ -17610,8 +17358,8 @@ ion-picker-cmp {
 .picker-md .picker-below-highlight {
   left: 0;
   top: 115px;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 11;
   width: 100%;
@@ -17714,8 +17462,8 @@ ion-picker-cmp {
 .picker-wp .picker-above-highlight {
   left: 0;
   top: 0;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 10;
   width: 100%;
@@ -17728,8 +17476,8 @@ ion-picker-cmp {
 .picker-wp .picker-below-highlight {
   left: 0;
   top: 115px;
-  -webkit-transform: translate3d(0, 0, 90px);
-  transform: translate3d(0, 0, 90px);
+  -webkit-transform: translate3d(0,  0,  90px);
+  transform: translate3d(0,  0,  90px);
   position: absolute;
   z-index: 11;
   width: 100%;
@@ -18406,8 +18154,8 @@ ion-range ion-icon {
 .range-ios .range-pin {
   text-align: center;
   border-radius: 50px;
-  -webkit-transform: translate3d(0, 28px, 0) scale(0.01);
-  transform: translate3d(0, 28px, 0) scale(0.01);
+  -webkit-transform: translate3d(0,  28px,  0) scale(0.01);
+  transform: translate3d(0,  28px,  0) scale(0.01);
   position: relative;
   top: -20px;
   display: inline-block;
@@ -18423,8 +18171,8 @@ ion-range ion-icon {
 }
 
 .range-ios .range-knob-pressed .range-pin {
-  -webkit-transform: translate3d(0, 0, 0) scale(1);
-  transform: translate3d(0, 0, 0) scale(1);
+  -webkit-transform: translate3d(0,  0,  0) scale(1);
+  transform: translate3d(0,  0,  0) scale(1);
 }
 
 .range-ios.range-disabled {
@@ -18563,8 +18311,8 @@ ion-range ion-icon {
   padding: 8px 0;
   text-align: center;
   border-radius: 50%;
-  -webkit-transform: translate3d(0, 28px, 0) scale(0.01);
-  transform: translate3d(0, 28px, 0) scale(0.01);
+  -webkit-transform: translate3d(0,  28px,  0) scale(0.01);
+  transform: translate3d(0,  28px,  0) scale(0.01);
   position: relative;
   top: -20px;
   display: inline-block;
@@ -18600,8 +18348,8 @@ ion-range ion-icon {
 }
 
 .range-md .range-knob-pressed .range-pin {
-  -webkit-transform: translate3d(0, 0, 0) scale(1);
-  transform: translate3d(0, 0, 0) scale(1);
+  -webkit-transform: translate3d(0,  0,  0) scale(1);
+  transform: translate3d(0,  0,  0) scale(1);
 }
 
 .range-md:not(.range-has-pin) .range-knob-pressed .range-knob {
@@ -18841,8 +18589,8 @@ ion-range ion-icon {
 .range-wp .range-pin {
   text-align: center;
   border-radius: 50px;
-  -webkit-transform: translate3d(0, 28px, 0) scale(0.01);
-  transform: translate3d(0, 28px, 0) scale(0.01);
+  -webkit-transform: translate3d(0,  28px,  0) scale(0.01);
+  transform: translate3d(0,  28px,  0) scale(0.01);
   position: relative;
   top: -24px;
   display: inline-block;
@@ -18858,8 +18606,8 @@ ion-range ion-icon {
 }
 
 .range-wp .range-knob-pressed .range-pin {
-  -webkit-transform: translate3d(0, 0, 0) scale(1);
-  transform: translate3d(0, 0, 0) scale(1);
+  -webkit-transform: translate3d(0,  0,  0) scale(1);
+  transform: translate3d(0,  0,  0) scale(1);
 }
 
 .range-wp.range-disabled {
@@ -19496,8 +19244,8 @@ ion-searchbar {
 
 .searchbar-animated .searchbar-ios-cancel {
   margin-right: -100%;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
   opacity: 0;
   -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
@@ -20455,8 +20203,8 @@ ion-select {
 
 .swiper-container-android .swiper-slide,
 .swiper-wrapper {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
 }
 
 .swiper-container-multirow > .swiper-wrapper {
@@ -20588,8 +20336,8 @@ ion-select {
 
 .swiper-pagination {
   text-align: center;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,  0,  0);
+  transform: translate3d(0,  0,  0);
   position: absolute;
   z-index: 10;
   -webkit-transition: 300ms;
@@ -20655,8 +20403,8 @@ button.swiper-pagination-bullet {
 .swiper-container-vertical > .swiper-pagination-bullets {
   right: 10px;
   top: 50%;
-  -webkit-transform: translate3d(0, -50%, 0);
-  transform: translate3d(0, -50%, 0);
+  -webkit-transform: translate3d(0,  -50%,  0);
+  transform: translate3d(0,  -50%,  0);
 }
 
 .swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
@@ -22057,25 +21805,25 @@ ion-spinner.spinner-paused svg {
 
 .tabs-md .tab-button[aria-selected=true] .tab-button-icon {
   color: #ff0280;
-  -webkit-transform: translate3d(0, -2px, 0);
-  transform: translate3d(0, -2px, 0);
+  -webkit-transform: translate3d(0,  -2px,  0);
+  transform: translate3d(0,  -2px,  0);
 }
 
 .tabs-md[tabsLayout=icon-right] .tab-button[aria-selected=true] .tab-button-icon,
 .tabs-md[tabsLayout=icon-end] .tab-button[aria-selected=true] .tab-button-icon {
-  -webkit-transform: translate3d(2px, 0, 0);
-  transform: translate3d(2px, 0, 0);
+  -webkit-transform: translate3d(2px,  0,  0);
+  transform: translate3d(2px,  0,  0);
 }
 
 .tabs-md[tabsLayout=icon-bottom] .tab-button[aria-selected=true] .tab-button-icon {
-  -webkit-transform: translate3d(0, 2px, 0);
-  transform: translate3d(0, 2px, 0);
+  -webkit-transform: translate3d(0,  2px,  0);
+  transform: translate3d(0,  2px,  0);
 }
 
 .tabs-md[tabsLayout=icon-left] .tab-button[aria-selected=true] .tab-button-icon,
 .tabs-md[tabsLayout=icon-start] .tab-button[aria-selected=true] .tab-button-icon {
-  -webkit-transform: translate3d(-2px, 0, 0);
-  transform: translate3d(-2px, 0, 0);
+  -webkit-transform: translate3d(-2px,  0,  0);
+  transform: translate3d(-2px,  0,  0);
 }
 
 .tabs-md[tabsLayout=icon-hide] .tab-button,
@@ -22485,16 +22233,16 @@ ion-toast {
 }
 
 .toast-ios .toast-wrapper.toast-top {
-  -webkit-transform: translate3d(0, -100%, 0);
-  transform: translate3d(0, -100%, 0);
+  -webkit-transform: translate3d(0,  -100%,  0);
+  transform: translate3d(0,  -100%,  0);
   margin: constant(safe-area-inset-top) auto auto;
   margin: env(safe-area-inset-top) auto auto;
   top: 0;
 }
 
 .toast-ios .toast-wrapper.toast-bottom {
-  -webkit-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0,  100%,  0);
+  transform: translate3d(0,  100%,  0);
   margin: auto auto constant(safe-area-inset-bottom);
   margin: auto auto env(safe-area-inset-bottom);
   bottom: 0;
@@ -22523,14 +22271,14 @@ ion-toast {
 }
 
 .toast-md .toast-wrapper.toast-top {
-  -webkit-transform: translate3d(0, -100%, 0);
-  transform: translate3d(0, -100%, 0);
+  -webkit-transform: translate3d(0,  -100%,  0);
+  transform: translate3d(0,  -100%,  0);
   top: 0;
 }
 
 .toast-md .toast-wrapper.toast-bottom {
-  -webkit-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0,  100%,  0);
+  transform: translate3d(0,  100%,  0);
   bottom: 0;
 }
 
@@ -22647,8 +22395,8 @@ ion-toast {
 }
 
 .toggle-ios.toggle-checked .toggle-inner {
-  -webkit-transform: translate3d(19px, 0, 0);
-  transform: translate3d(19px, 0, 0);
+  -webkit-transform: translate3d(19px,  0,  0);
+  transform: translate3d(19px,  0,  0);
 }
 
 .toggle-ios.toggle-activated.toggle-checked .toggle-inner::before {
@@ -22755,8 +22503,8 @@ ion-toast {
 }
 
 .toggle-md.toggle-checked .toggle-inner {
-  -webkit-transform: translate3d(16px, 0, 0);
-  transform: translate3d(16px, 0, 0);
+  -webkit-transform: translate3d(16px,  0,  0);
+  transform: translate3d(16px,  0,  0);
   background-color: #ff0280;
 }
 
@@ -22885,8 +22633,8 @@ ion-toast {
 }
 
 .toggle-wp.toggle-checked .toggle-inner {
-  -webkit-transform: translate3d(22px, 0, 0);
-  transform: translate3d(22px, 0, 0);
+  -webkit-transform: translate3d(22px,  0,  0);
+  transform: translate3d(22px,  0,  0);
   background-color: #fff;
 }
 
@@ -30589,20 +30337,17 @@ ion-navbar.toolbar {
     min-height: calc(44px + constant(safe-area-inset-top));
     min-height: calc(44px + env(safe-area-inset-top));
   }
-
   .ios .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child .scroll-content {
     padding-top: 20px;
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
   }
-
   .ios .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding] .scroll-content,
   .ios .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding-top] .scroll-content {
     padding-top: calc(16px + 20px);
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
   }
-
   .ios .modal-wrapper > .ion-page > ion-header > .toolbar.statusbar-padding:first-child ion-segment,
   .ios .modal-wrapper > .ion-page > ion-header > .toolbar.statusbar-padding:first-child ion-title {
     padding-top: 20px;
@@ -30684,13 +30429,11 @@ ion-navbar.toolbar {
     min-height: calc(56px + constant(safe-area-inset-top));
     min-height: calc(56px + env(safe-area-inset-top));
   }
-
   .md .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child .scroll-content {
     padding-top: 20px;
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
   }
-
   .md .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding] .scroll-content,
   .md .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding-top] .scroll-content {
     padding-top: calc(16px + 20px);
@@ -30766,13 +30509,11 @@ ion-navbar.toolbar {
     min-height: calc(46px + constant(safe-area-inset-top));
     min-height: calc(46px + env(safe-area-inset-top));
   }
-
   .wp .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child .scroll-content {
     padding-top: 20px;
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
   }
-
   .wp .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding] .scroll-content,
   .wp .modal-wrapper > .ion-page > ion-header > ion-content.statusbar-padding:first-child[padding-top] .scroll-content {
     padding-top: calc(16px + 20px);
